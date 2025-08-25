@@ -27,6 +27,22 @@ namespace AetherVisor {
             // to gain execution within the process context.
             NTSTATUS LeverageCallback(PEPROCESS pProcess, PVOID pRemoteCode);
 
+            // Creates a legitimate process in a suspended state and replaces its memory
+            // with our payload before resuming it.
+            NTSTATUS ProcessHollowing(PWCHAR pTargetPath, PVOID pPayload, SIZE_T payloadSize);
+
+            // Finds and utilizes a "code cave" (a block of unused memory) in the target
+            // process to write and execute the payload.
+            NTSTATUS CodeCaveInjection(PEPROCESS pProcess, PVOID pPayload, SIZE_T payloadSize);
+
+            // Builds a chain of existing code gadgets in the target process to execute
+            // complex operations without injecting new code (Return-Oriented Programming).
+            NTSTATUS ExecuteRopChain(PEPROCESS pProcess, PVOID pRopChain, SIZE_T chainSize);
+
+            // Executes a system call directly from kernel mode on behalf of a user process
+            // to bypass user-mode API hooks.
+            NTSTATUS ExecuteDirectSyscall(PEPROCESS pProcess, ULONG syscallIndex, PVOID pArguments);
+
             // Main function to select and perform an injection.
             // The 'method' parameter could be an enum to select one of the above.
             NTSTATUS InjectPayload(PEPROCESS pProcess, PVOID pPayload, SIZE_T payloadSize, ULONG injectionMethod);

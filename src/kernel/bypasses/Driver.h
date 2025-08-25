@@ -29,6 +29,13 @@ namespace AetherVisor {
             // Detects and detaches from common kernel debuggers.
             NTSTATUS DetachFromDebugger();
 
+            // Checks for and attempts to bypass Secure Boot policies.
+            // Note: This is extremely advanced and often hardware-dependent.
+            NTSTATUS BypassSecureBoot();
+
+            // Exploits or deactivates hypervisor-based security (e.g., VBS/HVCI).
+            NTSTATUS NeutralizeHypervisorSecurity();
+
             // Initializes all bypasses for the driver.
             NTSTATUS Initialize(PDRIVER_OBJECT pDriverObject);
         }

