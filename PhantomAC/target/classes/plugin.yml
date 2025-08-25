@@ -1,0 +1,6 @@
+name: PhantomAC
+version: 1.0-SNAPSHOT
+main: com.phantomac.PhantomAC
+api-version: '1.20'
+author: PhantomDev
+description: The world's best Minecraft AntiCheat.
