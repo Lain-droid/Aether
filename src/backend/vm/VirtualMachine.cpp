@@ -45,6 +45,48 @@ namespace AetherVisor {
                         Push(a - b);
                         break;
                     }
+                    case VMOpcode::MUL: {
+                        int32_t b = Pop();
+                        int32_t a = Pop();
+                        Push(a * b);
+                        break;
+                    }
+                    case VMOpcode::DIV: {
+                        int32_t b = Pop();
+                        int32_t a = Pop();
+                        if (b == 0) return false; // Division by zero
+                        Push(a / b);
+                        break;
+                    }
+                    case VMOpcode::AND: {
+                        int32_t b = Pop();
+                        int32_t a = Pop();
+                        Push(a & b);
+                        break;
+                    }
+                    case VMOpcode::OR: {
+                        int32_t b = Pop();
+                        int32_t a = Pop();
+                        Push(a | b);
+                        break;
+                    }
+                    case VMOpcode::NOT: {
+                        int32_t a = Pop();
+                        Push(~a);
+                        break;
+                    }
+                    case VMOpcode::CMP_EQ: {
+                        int32_t b = Pop();
+                        int32_t a = Pop();
+                        Push((a == b) ? 1 : 0);
+                        break;
+                    }
+                    case VMOpcode::CMP_GT: {
+                        int32_t b = Pop();
+                        int32_t a = Pop();
+                        Push((a > b) ? 1 : 0);
+                        break;
+                    }
                     case VMOpcode::CALL_NATIVE: {
                         // For simplicity, this assumes the name is pushed to the stack
                         // A better implementation would read it from bytecode.

@@ -1,5 +1,6 @@
 #include "Hooks.h"
 #include "EventManager.h"
+#include "security/XorStr.h"
 #include <iostream> // For placeholder logging
 
 // Assume we have a way to get the real addresses of Roblox's functions.
@@ -29,7 +30,7 @@ namespace AetherVisor {
         // Our detour function for Roblox's 'print'
         void Detour_Print(const char* message) {
             if (g_consoleCallback) {
-                g_consoleCallback(std::string("[PRINT]: ") + message);
+                g_consoleCallback(std::string(XorS("[PRINT]: ")) + message);
             }
 
             // Call the original 'print' function
@@ -42,7 +43,7 @@ namespace AetherVisor {
         // Our detour function for Roblox's 'warn'
         void Detour_Warn(const char* message) {
             if (g_consoleCallback) {
-                g_consoleCallback(std::string("[WARN]: ") + message);
+                g_consoleCallback(std::string(XorS("[WARN]: ")) + message);
             }
 
             // Call the original 'warn' function

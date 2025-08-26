@@ -4,9 +4,10 @@ namespace AetherVisor {
     namespace ML {
 
         BehavioralCloner::BehavioralCloner(int input_size, int hidden_size, int output_size) {
-            // Create a simple two-layer network
-            m_layers.emplace_back(input_size, hidden_size);
-            m_layers.emplace_back(hidden_size, output_size);
+            // Create a simple two-layer network with ReLU activation on the hidden layer.
+            m_layers.emplace_back(input_size, hidden_size, &Matrix::relu);
+            // The output layer often has no activation or a different one (e.g., linear).
+            m_layers.emplace_back(hidden_size, output_size, nullptr);
         }
 
         std::pair<double, double> BehavioralCloner::GenerateMouseMovement(const GameState& state) {

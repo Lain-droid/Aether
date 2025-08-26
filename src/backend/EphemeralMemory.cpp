@@ -1,4 +1,5 @@
 #include "EphemeralMemory.h"
+#include "security/XorStr.h"
 #include <stdexcept>
 
 namespace AetherVisor {
@@ -6,11 +7,11 @@ namespace AetherVisor {
 
         EphemeralMemory::EphemeralMemory(size_t size) : m_size(size) {
             if (size == 0) {
-                throw std::invalid_argument("Allocation size cannot be zero.");
+                throw std::invalid_argument(XorS("Allocation size cannot be zero."));
             }
             m_address = VirtualAlloc(nullptr, size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
             if (!m_address) {
-                throw std::runtime_error("Failed to allocate ephemeral memory.");
+                throw std::runtime_error(XorS("Failed to allocate ephemeral memory."));
             }
         }
 

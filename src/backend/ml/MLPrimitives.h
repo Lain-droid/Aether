@@ -20,6 +20,10 @@ namespace AetherVisor {
             // Static method for matrix multiplication
             static Matrix multiply(const Matrix& a, const Matrix& b);
 
+            // Static methods for activation functions
+            static Matrix relu(const Matrix& m);
+            static Matrix sigmoid(const Matrix& m);
+
         private:
             int m_rows;
             int m_cols;
@@ -29,7 +33,8 @@ namespace AetherVisor {
         // Represents one layer in a neural network.
         class Layer {
         public:
-            Layer(int input_size, int output_size);
+            // The activation function is now passed to the constructor.
+            Layer(int input_size, int output_size, std::function<Matrix(const Matrix&)> activation);
 
             // Performs the forward pass calculation for this layer.
             Matrix forward(const Matrix& inputs);
@@ -37,6 +42,7 @@ namespace AetherVisor {
         private:
             Matrix m_weights;
             Matrix m_biases;
+            std::function<Matrix(const Matrix&)> m_activation;
         };
 
     } // namespace ML

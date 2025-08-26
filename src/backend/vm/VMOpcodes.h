@@ -14,6 +14,17 @@ namespace AetherVisor {
             // --- Arithmetic ---
             ADD,            // Adds the top two stack values, pushes the result.
             SUB,            // Subtracts the top two stack values, pushes the result.
+            MUL,
+            DIV,
+
+            // --- Logical ---
+            AND,
+            OR,
+            NOT,
+
+            // --- Comparison ---
+            CMP_EQ,         // Pushes 1 if a == b, else 0
+            CMP_GT,         // Pushes 1 if a > b, else 0
 
             // --- Control Flow ---
             JMP,            // Unconditional jump to a new instruction pointer.

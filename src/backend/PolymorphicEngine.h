@@ -35,6 +35,9 @@ namespace AetherVisor {
 
             // Adds a sequence of random, valid-but-useless instructions to the payload.
             void AddJunkInstructions(std::vector<unsigned char>& payload);
+
+            // Substitutes common instructions with logical equivalents.
+            void SubstituteInstructions(std::vector<unsigned char>& payload);
         };
 
     } // namespace Backend
