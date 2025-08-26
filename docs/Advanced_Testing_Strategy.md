@@ -1,64 +1,40 @@
 # AetherVisor: Advanced Testing Strategy for Adaptive Systems
-**Version 2.0**
+**Version 3.0 ("Perfection" Release Candidate)**
 
-This document outlines the testing strategy for the dynamic, AI-driven, and deeply obfuscated features of the AetherVisor project. It has been updated to cover the "Evolution" phase of development.
+This document outlines the testing strategy for all systems within the AetherVisor project, including the final "Perfection" phase features.
 
 ## 1. Testing Philosophy
 
-The system is now highly non-deterministic and adaptive. Testing must focus on behavioral verification, state inspection, and component isolation. The goal is to confirm that the *logic* of the adaptive systems is working correctly, even if the exact output is different each time.
+The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and now, foundational architecture validation.
 
-## 2. Test Scenarios - Phase 1 Features (Recap)
+## 2. Test Scenarios - Phase 1 & 2 Features (Recap)
 
-- **AIController Risk Accrual/Decay:** Verified by reporting events and checking the risk score.
-- **Conditional Injection:** Verified by setting risk levels and checking which injection method is logged.
-- **Polymorphic Cleanup:** Verified by logging the randomized order of cleanup tasks.
+- **AI & Adaptation:** Risk accrual, conditional logic, and AI learning are tested via state inspection and behavioral checks.
+- **Polymorphism & Evasion:** String encryption, code mutation, signature scanning, and trampoline hooks are tested via binary analysis, logging, and stability checks.
+- **Network Mimicry:** Tested via packet sniffing and validating the buffering/shaping logic.
 
-## 3. Test Scenarios - Phase 2 (Evolution) Features
+## 3. Test Scenarios - Phase 3 ("Perfection") Foundational Features
 
-### 3.1. Advanced Polymorphism & Encryption
-- **Objective:** Verify string obfuscation and advanced code mutation.
-- **Scenario 1 (String Encryption):**
-    1. Compile the payload DLL.
-    2. Open the resulting DLL file in a hex editor or with a `strings` utility.
-    3. Search for the string "ws2_32.dll".
-    4. **Expected Result:** The string should **not** be found in plaintext.
-- **Scenario 2 (Junk Code Mutation):**
-    1. In `PolymorphicEngine.cpp`, log the size of the payload vector before and after `Mutate()` is called.
-    2. **Expected Result:** The size after mutation should be larger than the original, and the amount of increase should vary between runs.
-
-### 3.2. Dynamic Function Finding (`SignatureScanner`)
-- **Objective:** Verify that the signature scanner correctly finds function addresses.
+### 3.1. Steganography Layer (`IPC` & `StegoPacket`)
+- **Objective:** Verify that IPC communication is successfully hidden within a fake BMP structure.
 - **Scenario:**
-    1. Use a debugger (like x64dbg) to manually find the address of `ws2_32.dll!send` in a running process.
-    2. In `NetworkManager.cpp`, log the address returned by `SignatureScanner::FindPattern` for the `send` function.
-    3. **Expected Result:** The logged address must match the address found manually in the debugger.
+    1. Use a named pipe monitoring tool (or add extensive logging to the IPC server loop) to capture the raw byte stream being sent from frontend to backend.
+    2. **Expected Result 1:** The byte stream should start with the BMP magic bytes (`0x42 0x4D`). The structure should match the `FakeBMPFileHeader` and `FakeBMPInfoHeader`.
+    3. **Expected Result 2:** On the receiving end, the extracted `IpcMessage` (after deserialization and unpacking) should be identical to the original message sent. This verifies the round-trip integrity.
 
-### 3.3. Advanced Hook Engine (`EventManager` Trampoline)
-- **Objective:** Verify the integrity and stability of the new trampoline hooking mechanism.
+### 3.2. Code Virtualization Layer (`VirtualMachine`)
+- **Objective:** Verify that the VM skeleton can correctly execute a simple bytecode program.
 - **Scenario:**
-    1. Hook a function (e.g., `send`).
-    2. In the detour, call the original function via the trampoline: `original_send = eventManager.GetOriginal<send_t>(sendAddr); original_send(...)`.
-    3. Send a known piece of data.
-    4. **Expected Result:** The data should be sent successfully without crashing the application. The detour function should be hit, and the program should behave as if the original function was called correctly. This confirms the trampoline correctly executes the original code and returns.
+    1. Create a test function that constructs a simple bytecode `std::vector<uint8_t>`. Program: `PUSH_INT 5`, `PUSH_INT 10`, `ADD`, `HALT`.
+    2. Create an instance of the `VirtualMachine`.
+    3. Execute the bytecode using `vm.Run(test_program)`.
+    4. After execution, inspect the VM's stack.
+    5. **Expected Result:** The top value on the stack should be the integer `15`. This confirms the VM can correctly process opcodes and manipulate its stack.
 
-### 3.4. Advanced AI (`AIController` Learning)
-- **Objective:** Verify that the AI's risk weights are updated based on negative feedback.
+### 3.3. Behavioral Cloning Layer (`BehavioralCloner` & `MLPrimitives`)
+- **Objective:** Verify the structural integrity and data flow of the neural network skeleton.
 - **Scenario:**
-    1. Add logging in the `AIController` constructor to print the initial risk weight for `AIEventType::INJECTION_ATTEMPT`.
-    2. In your test harness, report an `INJECTION_ATTEMPT` event.
-    3. Immediately after, call `ReportNegativeFeedback(FeedbackType::KICKED_FROM_GAME)`.
-    4. Restart the application (or re-initialize the singleton) and log the new risk weight for `INJECTION_ATTEMPT`.
-    5. **Expected Result:** The new risk weight should be higher than the initial weight (e.g., increased by the 20% learning rate).
-
-### 3.5. Network Traffic Mimicry (`NetworkManager`)
-- **Objective:** Verify that the `NetworkManager` can profile and shape traffic.
-- **Scenario 1 (Profiling):**
-    1. Set `NetworkManager::SetMode(NetworkMode::PROFILING)`.
-    2. Send several packets of varying sizes and intervals.
-    3. Add a temporary "dump profile" function to log the contents of the `m_profile` struct.
-    4. **Expected Result:** The logged `avgPacketSize` and `avgPacketIntervalMs` should be a reasonable average of the traffic sent.
-- **Scenario 2 (Mimicking):**
-    1. Use a packet sniffer like Wireshark to monitor traffic from the application.
-    2. Set `NetworkManager::SetMode(NetworkMode::MIMICKING)`.
-    3. Call `send()` multiple times with small amounts of data in quick succession.
-    4. **Expected Result:** Wireshark should not show a 1:1 correspondence of small packets. It should show fewer, larger packets being sent at intervals that roughly match the learned profile, demonstrating that the internal buffer is working.
+    1. Create an instance of the `BehavioralCloner`.
+    2. Create a sample `GameState` input struct.
+    3. Call `behavioralCloner.GenerateMouseMovement(sample_state)`.
+    4. **Expected Result:** The function should execute without crashing and return a `std::pair<double, double>`. The key is to verify that the input `Matrix` is correctly propagated through the `Layer` objects and that the dimensions of the matrices are compatible at each step. A crash would indicate a flaw in the matrix multiplication or layer logic. This is a "smoke test" for the architecture.
