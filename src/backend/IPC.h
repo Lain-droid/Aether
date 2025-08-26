@@ -8,10 +8,15 @@ namespace AetherVisor {
 
         // Defines the types of messages that can be sent over IPC
         enum class MessageType {
+            // Frontend -> Backend
             ExecuteScript,
+            AnalyzeScriptRequest,
+            Shutdown,
+
+            // Backend -> Frontend
+            AnalyzeScriptResponse,
             ConsoleOutput,
-            StatusUpdate,
-            Shutdown
+            StatusUpdate
         };
 
         // Represents a message packet for IPC
@@ -24,12 +29,13 @@ namespace AetherVisor {
         public:
             // Callback for when a script execution is requested from the frontend
             using ScriptExecutionCallback = std::function<void(const std::string& script)>;
+            using ScriptAnalysisCallback = std::function<void(const std::string& script)>;
 
             IPC();
             ~IPC();
 
             // Starts the IPC server to listen for frontend connections
-            bool StartServer(ScriptExecutionCallback callback);
+            bool StartServer(ScriptExecutionCallback execCallback, ScriptAnalysisCallback analysisCallback);
 
             // Sends a message (e.g., console output) to the frontend
             bool SendMessageToFrontend(const IpcMessage& message);

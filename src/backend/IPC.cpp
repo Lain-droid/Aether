@@ -11,14 +11,10 @@ namespace AetherVisor {
         IPC::StegoPacket PackMessage(const IpcMessage& msg) {
             IPC::StegoPacket packet;
             std::vector<uint8_t> payload(msg.payload.begin(), msg.payload.end());
-
-            packet.infoHeader.width = payload.size();
             packet.infoHeader.height = static_cast<int32_t>(msg.type);
             packet.pixelData = payload;
-
             packet.fileHeader.fileSize = sizeof(packet.fileHeader) + sizeof(packet.infoHeader) + payload.size();
             packet.infoHeader.imageSize = payload.size();
-
             return packet;
         }
 
@@ -33,8 +29,8 @@ namespace AetherVisor {
         }
 
 
-        void ServerLoop(HANDLE hPipe, IPC::ScriptExecutionCallback callback, bool* isRunning) {
-            char buffer[4096];
+        void ServerLoop(HANDLE hPipe, IPC::ScriptExecutionCallback execCb, IPC::ScriptAnalysisCallback analysisCb, bool* isRunning) {
+            char buffer[8192]; // Increased buffer size
             DWORD bytesRead;
 
             while (*isRunning) {
@@ -44,9 +40,18 @@ namespace AetherVisor {
                         IPC::StegoPacket packet = IPC::StegoPacket::Deserialize(receivedData);
                         IpcMessage msg = UnpackMessage(packet);
 
-                        // For now, we only handle script execution from frontend
-                        if (msg.type == MessageType::ExecuteScript) {
-                            callback(msg.payload);
+                        switch (msg.type) {
+                            case MessageType::ExecuteScript:
+                                if (execCb) execCb(msg.payload);
+                                break;
+                            case MessageType::AnalyzeScriptRequest:
+                                if (analysisCb) analysisCb(msg.payload);
+                                break;
+                            case MessageType::Shutdown:
+                                *isRunning = false;
+                                break;
+                            default:
+                                break;
                         }
                     }
                     DisconnectNamedPipe(hPipe);
@@ -55,43 +60,29 @@ namespace AetherVisor {
         }
 
         IPC::IPC() {}
+        IPC::~IPC() { StopServer(); }
 
-        IPC::~IPC() {
-            StopServer();
-        }
-
-        bool IPC::StartServer(ScriptExecutionCallback callback) {
-            // Using a hardcoded name for simplicity. The original design mentioned a UUID.
+        bool IPC::StartServer(ScriptExecutionCallback execCallback, ScriptAnalysisCallback analysisCallback) {
             LPCSTR pipeName = "\\\\.\\pipe\\AetherVisor_Session_Pipe";
-
             m_pipeHandle = CreateNamedPipeA(
-                pipeName,
-                PIPE_ACCESS_DUPLEX,
+                pipeName, PIPE_ACCESS_DUPLEX,
                 PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
-                1, 4096, 4096, 0, NULL);
+                1, 8192, 8192, 0, NULL);
 
-            if (m_pipeHandle == INVALID_HANDLE_VALUE) {
-                return false;
-            }
+            if (m_pipeHandle == INVALID_HANDLE_VALUE) return false;
 
             m_isRunning = true;
-            std::thread serverThread(ServerLoop, m_pipeHandle, callback, &m_isRunning);
+            std::thread serverThread(ServerLoop, m_pipeHandle, execCallback, analysisCallback, &m_isRunning);
             serverThread.detach();
-
             return true;
         }
 
         bool IPC::SendMessageToFrontend(const IpcMessage& message) {
             if (m_pipeHandle == INVALID_HANDLE_VALUE) return false;
-
             IPC::StegoPacket packet = PackMessage(message);
             std::vector<uint8_t> buffer = packet.Serialize();
-
             DWORD bytesWritten;
-            if (WriteFile(m_pipeHandle, buffer.data(), buffer.size(), &bytesWritten, NULL)) {
-                return bytesWritten == buffer.size();
-            }
-            return false;
+            return WriteFile(m_pipeHandle, buffer.data(), buffer.size(), &bytesWritten, NULL) && (bytesWritten == buffer.size());
         }
 
         void IPC::StopServer() {
@@ -101,6 +92,5 @@ namespace AetherVisor {
                 m_pipeHandle = INVALID_HANDLE_VALUE;
             }
         }
-
     }
 }
