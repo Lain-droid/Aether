@@ -1,5 +1,7 @@
 #include "Core.h"
 #include "AIController.h"
+#include "PolymorphicEngine.h"
+#include <vector>
 #include "../kernel/bypasses/Injection.h" // Assuming access to kernel headers for enums/structs
 #include <stdexcept>
 
@@ -62,9 +64,6 @@ namespace AetherVisor {
                 injectionMethod = 0; // Corresponds to QueueUserApc
             }
 
-#include "PolymorphicEngine.h"
-#include <vector>
-
             // This is where the PolymorphicEngine is used.
             // 1. In a real scenario, read the payload DLL from disk. For now, use a dummy.
             char dummyDllContent[] = "PAYLOAD_DLL_CONTENT";
@@ -94,15 +93,6 @@ namespace AetherVisor {
 
             return false;
         }
-
-#include "EventManager.h"
-#include "NetworkManager.h"
-#include "MemoryPatcher.h"
-#include <vector>
-#include <functional>
-#include <random>
-#include <chrono>
-#include <algorithm>
 
         void Core::Cleanup() {
             // Implements "Multi-Level Polymorphic Cleanup".

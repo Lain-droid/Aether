@@ -32,6 +32,9 @@ namespace AetherVisor {
 
             // Adds a random number of NOP instructions to the end of the payload.
             void AppendNopSled(std::vector<unsigned char>& payload);
+
+            // Adds a sequence of random, valid-but-useless instructions to the payload.
+            void AddJunkInstructions(std::vector<unsigned char>& payload);
         };
 
     } // namespace Backend

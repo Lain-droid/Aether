@@ -11,9 +11,10 @@ namespace AetherVisor {
 
         // Represents a single installed hook.
         struct HookInfo {
-            void* targetFunc;      // The original function that is hooked.
-            void* detourFunc;      // Our function that the target jumps to.
-            std::vector<BYTE> originalBytes; // The original bytes overwritten at the target.
+            void* targetFunc;               // The original function that is hooked.
+            void* detourFunc;               // Our function that the target jumps to.
+            void* trampolineFunc;           // Pointer to the executable trampoline block.
+            std::vector<BYTE> originalBytes;    // The original bytes overwritten at the target.
         };
 
         /**

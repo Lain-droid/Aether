@@ -1,7 +1,16 @@
 #pragma once
 
+#include <chrono>
+#include <vector>
+
 namespace AetherVisor {
     namespace Payload {
+
+        enum class NetworkMode {
+            PASSTHROUGH, // Default mode, does nothing but hook.
+            PROFILING,   // Gathers statistics about network traffic.
+            MIMICKING    // Alters traffic to match the gathered profile.
+        };
 
         /**
          * @class NetworkManager
@@ -24,6 +33,25 @@ namespace AetherVisor {
              * @brief Removes all installed network hooks.
              */
             static void Uninstall();
+
+            /**
+             * @brief Sets the operational mode of the NetworkManager.
+             * @param newMode The mode to switch to (Profiling or Mimicking).
+             */
+            static void SetMode(NetworkMode newMode);
+
+        private:
+            // --- Traffic Mimicry Internals ---
+            struct TrafficProfile {
+                double avgPacketSize = 1024.0;
+                double avgPacketIntervalMs = 50.0;
+                long packetCount = 0;
+            };
+
+            static NetworkMode m_mode;
+            static TrafficProfile m_profile;
+            static std::chrono::steady_clock::time_point m_lastSendTime;
+            static std::vector<char> m_sendBuffer;
         };
 
     } // namespace Payload

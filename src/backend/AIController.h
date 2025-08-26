@@ -15,6 +15,13 @@ namespace AetherVisor {
         };
 
         // An identifier for the type of event being reported to the AI system.
+        enum class FeedbackType {
+            NONE,
+            KICKED_FROM_GAME,
+            HIGH_LATENCY_DETECTED,
+            FUNCTION_CALL_FAILED
+        };
+
         enum class AIEventType {
             // Execution Events
             INJECTION_ATTEMPT,
@@ -68,20 +75,32 @@ namespace AetherVisor {
              */
             bool ShouldPerformAction(RiskLevel requiredLevel) const;
 
+            /**
+             * @brief Reports negative feedback to the AI to adjust its learning.
+             * @param type The type of negative feedback received.
+             */
+            void ReportNegativeFeedback(FeedbackType type);
+
         private:
-            AIController() = default;
+            // Constructor initializes the risk weights.
+            AIController();
             ~AIController() = default;
             AIController(const AIController&) = delete;
             AIController& operator=(const AIController&) = delete;
 
             // The current risk score. A higher value means higher risk.
-            // This will be adjusted by ReportEvent.
             double m_riskScore = 0.0;
-
             RiskLevel m_currentRiskLevel = RiskLevel::NONE;
+
+            // Data structures for learning
+            std::map<AIEventType, double> m_riskWeights;
+            std::vector<AIEventType> m_recentEvents;
+            static const size_t MAX_HISTORY_SIZE = 10;
 
             // Updates the m_currentRiskLevel based on m_riskScore.
             void UpdateRiskLevel();
+            // Adds an event to the history queue.
+            void AddEventToHistory(AIEventType eventType);
         };
 
     } // namespace Backend
