@@ -1,7 +1,6 @@
-using AetherVisor.Backend; // Assuming we have a shared reference to the backend's enums
 using System;
-using System.IO.Pipes;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace AetherVisor.Frontend.Services
@@ -9,98 +8,85 @@ namespace AetherVisor.Frontend.Services
     public interface IIpcClientService
     {
         event Action<string> OnConsoleOutputReceived;
-        event Action<string> OnStatusUpdated;
-        event Action<string> OnAnalysisResultReceived;
-        Task ConnectAndInject();
-        void ExecuteScript(string script);
-        void AnalyzeScript(string script);
+        void LaunchBackend(string arguments);
+        void StartLogMonitoring(string logFilePath);
     }
 
     public class IpcClientService : IIpcClientService
     {
         public event Action<string> OnConsoleOutputReceived;
-        public event Action<string> OnStatusUpdated;
-        public event Action<string> OnAnalysisResultReceived;
+        private FileSystemWatcher _logWatcher;
+        private long _lastReadPosition = 0;
 
-        private NamedPipeClientStream _pipeClient;
-        private Task _listenerTask;
-
-        public IpcClientService()
-        {
-            _pipeClient = new NamedPipeClientStream(".", "AetherVisor_Session_Pipe", PipeDirection.InOut, PipeOptions.Asynchronous);
-        }
-
-        public async Task ConnectAndInject()
+        public void LaunchBackend(string arguments)
         {
             try
             {
-                await _pipeClient.ConnectAsync(5000);
-                OnStatusUpdated?.Invoke("Connected. Injecting...");
-                // In a real app, we'd send an inject message. For now, we'll assume it's injected.
-                OnStatusUpdated?.Invoke("Injected");
-                _listenerTask = Task.Run(ListenForMessages);
+                // Assuming the backend executable is in a known location
+                string backendPath = "AetherVisor.Backend.exe";
+                Process.Start(backendPath, arguments);
             }
             catch (Exception ex)
             {
-                OnStatusUpdated?.Invoke($"Connection failed: {ex.Message}");
+                OnConsoleOutputReceived?.Invoke($"Error launching backend: {ex.Message}");
             }
         }
 
-        public void ExecuteScript(string script)
+        public void StartLogMonitoring(string logFilePath)
         {
-            var message = new IpcMessage { Type = MessageType.ExecuteScript, Payload = script };
-            SendMessage(message);
-        }
-
-        public void AnalyzeScript(string script)
-        {
-            var message = new IpcMessage { Type = MessageType.AnalyzeScriptRequest, Payload = script };
-            SendMessage(message);
-        }
-
-        private void SendMessage(IpcMessage message)
-        {
-            if (!_pipeClient.IsConnected) return;
-            // This needs to use the same StegoPacket serialization as the backend.
-            // For simplicity, we send raw bytes here.
-            // var stegoPacket = PackMessage(message);
-            // var buffer = stegoPacket.Serialize();
-            var buffer = Encoding.UTF8.GetBytes($"{message.Type}:{message.Payload}"); // Simplified protocol
-            _pipeClient.Write(buffer, 0, buffer.Length);
-        }
-
-        private async void ListenForMessages()
-        {
-            var buffer = new byte[8192];
-            while (_pipeClient.IsConnected)
+            // Ensure the log file exists before watching it
+            if (!File.Exists(logFilePath))
             {
-                try
-                {
-                    var bytesRead = await _pipeClient.ReadAsync(buffer, 0, buffer.Length);
-                    if (bytesRead > 0)
-                    {
-                        // Here we would deserialize the StegoPacket.
-                        // For simplicity, we parse the simplified protocol.
-                        var rawMessage = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        var parts = rawMessage.Split(new[] { ':' }, 2);
-                        var messageType = (MessageType)Enum.Parse(typeof(MessageType), parts[0]);
-                        var payload = parts[1];
+                File.Create(logFilePath).Close();
+            }
 
-                        switch (messageType)
+            _logWatcher = new FileSystemWatcher
+            {
+                Path = Path.GetDirectoryName(logFilePath),
+                Filter = Path.GetFileName(logFilePath),
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size
+            };
+
+            _logWatcher.Changed += OnLogFileChanged;
+            _logWatcher.EnableRaisingEvents = true;
+            ReadNewLogEntries(logFilePath); // Read any existing content
+        }
+
+        private void OnLogFileChanged(object sender, FileSystemEventArgs e)
+        {
+            ReadNewLogEntries(e.FullPath);
+        }
+
+        private void ReadNewLogEntries(string logFilePath)
+        {
+            try
+            {
+                using (var fs = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    if (fs.Length > _lastReadPosition)
+                    {
+                        fs.Seek(_lastReadPosition, SeekOrigin.Begin);
+                        using (var reader = new StreamReader(fs))
                         {
-                            case MessageType.ConsoleOutput:
-                                OnConsoleOutputReceived?.Invoke(payload);
-                                break;
-                            case MessageType.StatusUpdate:
-                                OnStatusUpdated?.Invoke(payload);
-                                break;
-                            case MessageType.AnalyzeScriptResponse:
-                                OnAnalysisResultReceived?.Invoke(payload);
-                                break;
+                            string newContent = reader.ReadToEnd();
+                            if (!string.IsNullOrEmpty(newContent))
+                            {
+                                // Split into lines and send them one by one
+                                var lines = newContent.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                                foreach (var line in lines)
+                                {
+                                    App.Current.Dispatcher.Invoke(() => OnConsoleOutputReceived?.Invoke(line));
+                                }
+                            }
                         }
+                        _lastReadPosition = fs.Position;
                     }
                 }
-                catch { /* Pipe closed or error */ break; }
+            }
+            catch (Exception ex)
+            {
+                // Log errors silently or to a different channel
+                Debug.WriteLine($"Error reading log file: {ex.Message}");
             }
         }
     }

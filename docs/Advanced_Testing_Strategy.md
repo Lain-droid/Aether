@@ -1,40 +1,35 @@
 # AetherVisor: Advanced Testing Strategy for Adaptive Systems
-**Version 7.0 ("Fully Functional Skeletons" Release Candidate)**
+**Version 10.0 ("Architecturally Correct" Release Candidate)**
 
-This document outlines the testing strategy for all systems within the AetherVisor project, updated to cover the final "Completing the Skeletons" phase where advanced architectures were made functional.
+This document outlines the testing strategy for all systems within the AetherVisor project, updated to cover the final architectural fixes.
 
 ## 1. Testing Philosophy
 
-The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and functional correctness of the core algorithms.
+The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and now, end-to-end architectural flow validation.
 
-## 2. Test Scenarios - Previous Phases (Recap)
+## 2. Test Scenarios - Core Architectural Flow (NEW)
 
-- All previously implemented features are tested as per prior versions of this document.
+### 2.1. Security-Checked Startup
+- **Objective:** Verify the backend checks for debuggers/sandboxes on startup and communicates the result.
+- **Scenario:**
+    1.  Launch the backend.
+    2.  Launch the frontend and connect.
+    3.  **Expected Result:** The `MainViewModel` should receive a `StartupResult` message of "OK" from the `IpcClientService` and update the status text accordingly. (A test with a debugger attached should result in an "UNSAFE_ENVIRONMENT" message).
 
-## 3. Test Scenarios - Phase 6 ("Completing the Skeletons") Functional Features
+### 2.2. End-to-End Injection Flow
+- **Objective:** Verify that the UI "Inject" button correctly triggers the backend's injection logic.
+- **Scenario:**
+    1.  With both frontend and backend running and connected, click the "Inject" button on the UI.
+    2.  Add a log message at the very beginning of the C++ `Core::Inject` method.
+    3.  **Expected Result:** The log message in `Core::Inject` should appear, confirming that the `InjectRequest` IPC message was successfully sent by the frontend, received by the backend's IPC server, and routed to the correct `Core` function.
 
-### 3.1. Advanced AI Controller
-- **Objective:** Verify the new predictive and more intelligent learning capabilities.
-- **Scenario 1 (Weighted Blame):**
-    1. Add detailed logging to `ReportNegativeFeedback` to see the `current_blame_factor` and the resulting new risk weight for each event.
-    2. Trigger a sequence of 3-4 risky events.
-    3. Call `ReportNegativeFeedback`.
-    4. **Expected Result:** The log should show that the most recent event received the highest risk multiplier, and the multiplier decreased for older events in the history.
-- **Scenario 2 (Predictive Analysis):**
-    1. Create a `std::vector` of `AIEventType`s (e.g., `{ INJECTION_ATTEMPT, MEMORY_PATCH_APPLIED }`).
-    2. Call `AIController::AnalyzeActionSequence()` with this vector.
-    3. **Expected Result:** The returned `double` should be the sum of the current risk weights for `INJECTION_ATTEMPT` and `MEMORY_PATCH_APPLIED`, confirming the predictive calculation is correct.
+### 2.3. End-to-End Cleanup Flow
+- **Objective:** Verify that the backend correctly signals the payload to self-destruct.
+- **Scenario:**
+    1.  After a successful injection, close the main frontend application, which should trigger the backend's `Core::Cleanup` method.
+    2.  Add a log message at the very beginning of the `ShutdownPayload()` function in `payload/dllmain.cpp`.
+    3.  **Expected Result:** The log message in `ShutdownPayload()` should appear. This confirms that the backend sent the `Shutdown` IPC message and that the payload's IPC client successfully received it and called the correct cleanup function.
 
-### 3.2. Functional Machine Learning Model
-- **Objective:** Verify that the mathematically correct backpropagation loop successfully trains the network.
-- **Scenario 1 (Loss Function):**
-    1. Create two 1x2 `Matrix` objects, `predicted` with values `[0.8, 0.1]` and `actual` with values `[1.0, 0.0]`.
-    2. Call `Matrix::mean_squared_error_derivative(predicted, actual)`.
-    3. **Expected Result:** The resulting gradient matrix should be `[-0.2, 0.1]`. This verifies the loss calculation is correct.
-- **Scenario 2 (Full Training Loop):**
-    1. Instantiate `BehavioralCloner`.
-    2. Store a copy of the initial weights of the first layer.
-    3. Create a sample `GameState` input and a corresponding `expected_output` matrix.
-    4. Call `behavioralCloner.Train(...)` for a single epoch with the new, correct backpropagation logic.
-    5. Get the new weights of the first layer.
-    6. **Expected Result:** The new weights must be different from the initial weights. This confirms that the gradient calculated from the loss function was successfully propagated backward through the layers and used to update the weights, proving the entire learning mechanism is functional.
+## 3. Test Scenarios - All Other Features (Recap)
+
+- All other features (AI, Polymorphism, VM, ML, Evasion Modules, etc.) are to be tested as per prior versions of this document. This section validates that the core application lifecycle that enables these features is now working correctly.

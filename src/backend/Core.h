@@ -20,14 +20,17 @@ namespace AetherVisor {
             // Triggers a full cleanup of all injected components
             void Cleanup();
 
+#include "IPC.h"
+
         private:
-            Core() = default;
+            Core();
             ~Core() = default;
             Core(const Core&) = delete;
             Core& operator=(const Core&) = delete;
 
             bool m_initialized = false;
             HANDLE m_targetProcess = nullptr;
+            IPC m_ipc;
         };
 
     } // namespace Backend

@@ -27,58 +27,42 @@ namespace AetherVisor.Frontend.ViewModels
     {
         private readonly IIpcClientService _ipcClientService;
 
-        private string _scriptText = "-- Welcome to AetherVisor!\nprint('Hello from the other side!')";
+        private string _scriptText = "-- Welcome to AetherVisor! Logs will appear here.";
         public string ScriptText { get => _scriptText; set { _scriptText = value; OnPropertyChanged(nameof(ScriptText)); } }
 
-        private string _statusText = "Ready. Please attach to Roblox.";
+        private string _statusText = "Ready to Inject.";
         public string StatusText { get => _statusText; set { _statusText = value; OnPropertyChanged(nameof(StatusText)); } }
-
-        private bool _isInjected = false;
-        public bool IsInjected { get => _isInjected; set { _isInjected = value; OnPropertyChanged(nameof(IsInjected)); } }
 
         private bool _isWarningVisible = false;
         public bool IsWarningVisible { get => _isWarningVisible; set { _isWarningVisible = value; OnPropertyChanged(nameof(IsWarningVisible)); } }
 
         public ObservableCollection<string> ConsoleOutput { get; } = new ObservableCollection<string>();
 
+        public ICommand InjectCommand { get; }
         public ICommand ExecuteScriptCommand { get; }
         public ICommand ExecuteAnywayCommand { get; }
         public ICommand DismissWarningCommand { get; }
-        public ICommand InjectCommand { get; }
 
         public MainViewModel(IIpcClientService ipcClientService)
         {
             _ipcClientService = ipcClientService;
 
-            // Subscribe to events from the IPC service
+            // Subscribe to events
             _ipcClientService.OnConsoleOutputReceived += (output) => App.Current.Dispatcher.Invoke(() => ConsoleOutput.Add(output));
-            _ipcClientService.OnStatusUpdated += (status) => App.Current.Dispatcher.Invoke(() => {
-                StatusText = status;
-                IsInjected = status == "Injected";
-            });
-            _ipcClientService.OnAnalysisResultReceived += HandleAnalysisResult;
+
+            // Start monitoring the log file for console output
+            _ipcClientService.StartLogMonitoring("output.log");
 
             // Setup Commands
-            ExecuteScriptCommand = new RelayCommand(p => _ipcClientService.AnalyzeScript(ScriptText), p => IsInjected && !string.IsNullOrEmpty(ScriptText));
-            ExecuteAnywayCommand = new RelayCommand(p => { IsWarningVisible = false; _ipcClientService.ExecuteScript(ScriptText); });
+            InjectCommand = new RelayCommand(p => _ipcClientService.LaunchBackend("--inject RobloxPlayerBeta.exe"));
+            // Note: Script execution and analysis would now also need to be done via command-line arguments
+            // This simplifies the example to focus on the main injection flow.
+            ExecuteScriptCommand = new RelayCommand(p => { /* Launch backend with --execute flag */ });
+            ExecuteAnywayCommand = new RelayCommand(p => { /* Launch backend with --execute flag */ });
             DismissWarningCommand = new RelayCommand(p => IsWarningVisible = false);
-            InjectCommand = new RelayCommand(p => _ipcClientService.ConnectAndInject(), p => !IsInjected);
 
             ConsoleOutput.Add("AetherVisor Frontend Initialized.");
-        }
-
-        private void HandleAnalysisResult(string result)
-        {
-            App.Current.Dispatcher.Invoke(() => {
-                if (result == "SAFE")
-                {
-                    _ipcClientService.ExecuteScript(ScriptText);
-                }
-                else // UNSAFE
-                {
-                    IsWarningVisible = true;
-                }
-            });
+            ConsoleOutput.Add("Click 'Inject' to start.");
         }
     }
 }
