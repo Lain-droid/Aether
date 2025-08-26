@@ -30,6 +30,9 @@ namespace AetherVisor {
 
             // Helper to convert the string pattern to bytes and a mask.
             static bool ParsePattern(const char* pattern, std::vector<BYTE>& outBytes, std::vector<bool>& outMask);
+
+            // Helper for Boyer-Moore: preprocesses the pattern to build the bad character table.
+            static void BuildBadCharTable(const std::vector<BYTE>& pattern, const std::vector<bool>& mask, std::vector<int>& table);
         };
 
     } // namespace Security

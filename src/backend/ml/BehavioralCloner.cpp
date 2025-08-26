@@ -10,6 +10,37 @@ namespace AetherVisor {
             m_layers.emplace_back(hidden_size, output_size, nullptr);
         }
 
+        void BehavioralCloner::Train(const std::vector<GameState>& inputs, const std::vector<Matrix>& expected_outputs, double learning_rate, int epochs) {
+            for (int i = 0; i < epochs; ++i) {
+                for (size_t j = 0; j < inputs.size(); ++j) {
+                    // 1. Forward pass
+                    Matrix current_output(1, 4);
+                    current_output.at(0, 0) = inputs[j].player_x;
+                    current_output.at(0, 1) = inputs[j].player_y;
+                    current_output.at(0, 2) = inputs[j].enemy_x;
+                    current_output.at(0, 3) = inputs[j].enemy_y;
+
+                    std::vector<Matrix> layer_outputs;
+                    layer_outputs.push_back(current_output);
+
+                    for (auto& layer : m_layers) {
+                        current_output = layer.forward(current_output);
+                        layer_outputs.push_back(current_output);
+                    }
+
+                    // 2. Calculate error (gradient of the loss function)
+                    Matrix error = current_output;
+                    error.subtract(expected_outputs[j]); // prediction - actual
+
+                    // 3. Backward pass
+                    Matrix gradient = error;
+                    for (int k = m_layers.size() - 1; k >= 0; --k) {
+                        gradient = m_layers[k].backward(gradient, learning_rate);
+                    }
+                }
+            }
+        }
+
         std::pair<double, double> BehavioralCloner::GenerateMouseMovement(const GameState& state) {
             // 1. Convert the input game state into a 1xN matrix.
             Matrix inputs(1, 4);

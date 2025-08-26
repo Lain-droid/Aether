@@ -1,6 +1,9 @@
 #include "SignatureScanner.h"
 #include <sstream>
 #include <Psapi.h> // For GetModuleInformation
+#include <algorithm> // for std::max
+
+#define ALPHABET_SIZE 256
 
 namespace AetherVisor {
     namespace Security {
@@ -20,38 +23,52 @@ namespace AetherVisor {
             return !outBytes.empty();
         }
 
-        void* SignatureScanner::FindPattern(HMODULE moduleBase, const char* pattern) {
-            if (!moduleBase || !pattern) {
-                return nullptr;
+        void SignatureScanner::BuildBadCharTable(const std::vector<BYTE>& pattern, const std::vector<bool>& mask, std::vector<int>& table) {
+            table.assign(ALPHABET_SIZE, -1);
+            for (size_t i = 0; i < pattern.size(); ++i) {
+                // Only use non-wildcard characters for the bad character table
+                if (!mask[i]) {
+                    table[pattern[i]] = i;
+                }
             }
+        }
+
+        void* SignatureScanner::FindPattern(HMODULE moduleBase, const char* pattern) {
+            if (!moduleBase || !pattern) return nullptr;
 
             MODULEINFO moduleInfo;
-            if (!GetModuleInformation(GetCurrentProcess(), moduleBase, &moduleInfo, sizeof(moduleInfo))) {
-                return nullptr;
-            }
+            if (!GetModuleInformation(GetCurrentProcess(), moduleBase, &moduleInfo, sizeof(moduleInfo))) return nullptr;
 
             std::vector<BYTE> patternBytes;
             std::vector<bool> patternMask;
-            if (!ParsePattern(pattern, patternBytes, patternMask)) {
-                return nullptr;
-            }
+            if (!ParsePattern(pattern, patternBytes, patternMask)) return nullptr;
+
+            std::vector<int> badCharTable;
+            BuildBadCharTable(patternBytes, patternMask, badCharTable);
 
             const BYTE* scanStart = reinterpret_cast<const BYTE*>(moduleBase);
             const size_t scanSize = moduleInfo.SizeOfImage;
             const size_t patternSize = patternBytes.size();
 
-            for (size_t i = 0; i < scanSize - patternSize; ++i) {
-                bool found = true;
-                for (size_t j = 0; j < patternSize; ++j) {
-                    // If the mask at this position is false, we do a byte comparison.
-                    // If it's true (wildcard), we skip the check.
-                    if (!patternMask[j] && scanStart[i + j] != patternBytes[j]) {
-                        found = false;
-                        break;
-                    }
+            int shift = 0;
+            while(shift <= (scanSize - patternSize)) {
+                int j = patternSize - 1;
+
+                while(j >= 0 && (patternMask[j] || patternBytes[j] == scanStart[shift + j])) {
+                    j--;
                 }
-                if (found) {
-                    return const_cast<BYTE*>(&scanStart[i]);
+
+                if (j < 0) {
+                    // Pattern found
+                    return (void*)(scanStart + shift);
+                } else {
+                    // Mismatch occurred at scanStart[shift + j].
+                    // Calculate the shift using the bad character rule.
+                    int badCharShift = (badCharTable[scanStart[shift + j]] != -1)
+                        ? std::max(1, j - badCharTable[scanStart[shift + j]])
+                        : j + 1; // Character not in pattern, shift past it.
+
+                    shift += badCharShift;
                 }
             }
 

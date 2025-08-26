@@ -87,13 +87,31 @@ namespace AetherVisor {
                         Push((a > b) ? 1 : 0);
                         break;
                     }
+                    case VMOpcode::JMP: {
+                        int32_t offset = *(reinterpret_cast<const int32_t*>(m_ip));
+                        m_ip += offset;
+                        break;
+                    }
+                    case VMOpcode::JMP_IF_ZERO: {
+                        int32_t offset = *(reinterpret_cast<const int32_t*>(m_ip));
+                        m_ip += sizeof(int32_t); // Move past the argument first
+                        int32_t condition = Pop();
+                        if (condition == 0) {
+                            m_ip += offset;
+                        }
+                        break;
+                    }
                     case VMOpcode::CALL_NATIVE: {
-                        // For simplicity, this assumes the name is pushed to the stack
-                        // A better implementation would read it from bytecode.
-                        // This part is highly conceptual.
-                        std::string funcName = "example_func"; // Placeholder
+                        // Read the function name string directly from the bytecode stream.
+                        // The string is expected to be null-terminated.
+                        std::string funcName(reinterpret_cast<const char*>(m_ip));
+                        m_ip += funcName.length() + 1; // Advance IP past the string and its null terminator.
+
                         if (m_nativeFunctions.count(funcName)) {
                             m_nativeFunctions[funcName]();
+                        } else {
+                            // Function not found, this is a VM error.
+                            return false;
                         }
                         break;
                     }

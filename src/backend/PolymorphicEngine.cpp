@@ -26,22 +26,23 @@ namespace AetherVisor {
         }
 
         void PolymorphicEngine::SubstituteInstructions(std::vector<unsigned char>& payload) {
-            // This is a naive implementation for demonstration. A real one would need
-            // a full disassembler engine to safely replace instructions without
-            // corrupting relative offsets.
+            // Optimized version: build a new vector instead of inserting in-place.
+            std::vector<unsigned char> newPayload;
+            newPayload.reserve(payload.size() * 1.1); // Reserve a bit more space to avoid reallocations.
+
             for (size_t i = 0; i < payload.size(); ++i) {
                 // Look for 'inc eax' (opcode 0x40)
                 if (payload[i] == 0x40) {
-                    // Replace with 'add eax, 1' (0x83 0xC0 0x01). This changes the length.
-                    // To avoid corruption in this simplified demo, we will replace it
-                    // with a 3-byte NOP (0x0F 0x1F 0x00) which has the same effect
-                    // of changing the code signature and length without breaking things.
-                    payload[i] = 0x0F;
-                    payload.insert(payload.begin() + i + 1, {0x1F, 0x00});
-                    // Advance past the newly inserted bytes
-                    i += 2;
+                    // Replace with a 3-byte NOP (0x0F 0x1F 0x00)
+                    newPayload.push_back(0x0F);
+                    newPayload.push_back(0x1F);
+                    newPayload.push_back(0x00);
+                } else {
+                    newPayload.push_back(payload[i]);
                 }
             }
+            // Swap the original payload with the new, mutated one.
+            payload.swap(newPayload);
         }
 
         void PolymorphicEngine::AddJunkInstructions(std::vector<unsigned char>& payload) {

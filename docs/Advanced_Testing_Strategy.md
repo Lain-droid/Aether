@@ -1,43 +1,41 @@
 # AetherVisor: Advanced Testing Strategy for Adaptive Systems
-**Version 4.0 ("Detailed" Release Candidate)**
+**Version 5.0 ("Fully Detailed" Release Candidate)**
 
-This document outlines the testing strategy for all systems within the AetherVisor project, updated to cover the final "Detailing" phase of development.
+This document outlines the testing strategy for all systems within the AetherVisor project, updated to cover the final "Focused Detailing" phase of development where architectural skeletons were fleshed out into functional components.
 
 ## 1. Testing Philosophy
 
-The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and foundational architecture validation.
+The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and functional correctness of the core algorithms.
 
 ## 2. Test Scenarios - Previous Phases (Recap)
 
 - AI, Polymorphism, Network Mimicry, Signature Scanning, Trampoline Hooks, Steganography, and foundational VM/ML skeletons have been tested per previous versions of this document.
 
-## 3. Test Scenarios - Phase 4 ("Detailing") Features
+## 3. Test Scenarios - Phase 5 ("Focused Detailing") Functional Features
 
-### 3.1. Maximum Polymorphism (`PolymorphicEngine`)
-- **Objective:** Verify the new, more advanced code mutation techniques.
-- **Scenario 1 (Instruction Substitution):**
-    1. Create a sample byte vector containing the `inc eax` opcode (`0x40`).
-    2. Pass this vector to the `PolymorphicEngine::SubstituteInstructions` method.
-    3. **Expected Result:** The original `0x40` byte should be replaced by the 3-byte NOP sequence (`0x0F 0x1F 0x00`), and the vector's size should increase by 2. This confirms the find-and-replace logic is working.
-- **Scenario 2 (Full String Encryption):**
-    1. After compiling the final DLL, run a `strings` utility or use a hex editor on the binary.
-    2. Search for any of the previously hardcoded strings (e.g., `"[PRINT]: "`, `"Matrix access out of bounds"`).
-    3. **Expected Result:** None of these strings should appear in plaintext in the final binary.
-
-### 3.2. Functional Virtual Machine (`VirtualMachine` & `Compiler`)
-- **Objective:** Verify that the simple compiler can generate correct bytecode and the VM can execute it.
-- **Scenario:**
-    1. Create an instance of the `Compiler` and the `VirtualMachine`.
-    2. Call `compiler.Compile("5 + 10")`.
+### 3.1. Functional VM & Compiler
+- **Objective:** Verify that the compiler correctly translates complex expressions and the VM executes them, including control flow.
+- **Scenario 1 (Compiler Correctness):**
+    1. Create an instance of the `Compiler` and `VirtualMachine`.
+    2. Call `compiler.Compile("10 * (5 - 2)")`. The expected RPN is `10 5 2 - *`. The expected bytecode is `PUSH 10, PUSH 5, PUSH 2, SUB, MUL, HALT`.
     3. Pass the resulting bytecode to `vm.Run()`.
-    4. After execution, inspect the VM's stack.
-    5. **Expected Result:** The top value on the stack should be the integer `15`. This verifies the entire compiler-VM pipeline for a simple case.
+    4. **Expected Result:** The top value on the VM's stack should be `30`.
+- **Scenario 2 (VM Control Flow):**
+    1. Manually construct bytecode for a program like: `PUSH 0, JMP_IF_ZERO <offset_to_end>, PUSH 10, HALT, <end_label>: PUSH 20, HALT`.
+    2. Run this on the VM.
+    3. **Expected Result:** The final value on the stack should be `20`, proving the jump was taken.
+    4. Repeat with `PUSH 1` at the start. The final value should be `10`, proving the jump was not taken.
+- **Scenario 3 (Native Call):**
+    1. Register a simple C++ lambda `[] { ... }` with the VM using `RegisterNativeFunction("test_func")`.
+    2. Compile and run bytecode for `CALL_NATIVE "test_func"`.
+    3. **Expected Result:** The C++ lambda should be executed.
 
-### 3.3. Realistic Behavioral Cloner (`Layer`)
-- **Objective:** Verify that the non-linear activation functions are correctly applied.
+### 3.2. Functional Behavioral Cloner (`Layer` & `BehavioralCloner`)
+- **Objective:** Verify that the `Train` method correctly modifies the network's weights.
 - **Scenario:**
-    1. Create a `Layer` instance, passing `&Matrix::relu` as the activation function.
-    2. Create a 1x2 input `Matrix` with values `[10.0, -5.0]`.
-    3. Call the `layer.forward(input)` method.
-    4. Inspect the output matrix.
-    5. **Expected Result:** The output matrix (before weight multiplication) should be `[10.0, 0.0]`, as `relu` changes negative values to zero. This confirms the activation function is being correctly called and applied.
+    1. Create a `BehavioralCloner` instance.
+    2. Store a copy of the initial weights of the first layer.
+    3. Create a sample `GameState` input and a corresponding `expected_output` matrix.
+    4. Call `behavioralCloner.Train(...)` for a single epoch.
+    5. Get the new weights of the first layer.
+    6. **Expected Result:** The new weights should be different from the initial weights. This confirms that the backpropagation algorithm is correctly calculating gradients and updating the weights, demonstrating that the learning mechanism is functional.

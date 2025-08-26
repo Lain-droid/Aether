@@ -19,10 +19,17 @@ namespace AetherVisor {
 
             // Static method for matrix multiplication
             static Matrix multiply(const Matrix& a, const Matrix& b);
+            static Matrix add(const Matrix& a, const Matrix& b);
 
             // Static methods for activation functions
             static Matrix relu(const Matrix& m);
             static Matrix sigmoid(const Matrix& m);
+
+            // Other matrix operations needed for backpropagation
+            Matrix transpose() const;
+            static Matrix multiply_elementwise(const Matrix& a, const Matrix& b);
+            void subtract(const Matrix& other);
+
 
         private:
             int m_rows;
@@ -39,7 +46,11 @@ namespace AetherVisor {
             // Performs the forward pass calculation for this layer.
             Matrix forward(const Matrix& inputs);
 
+            // Performs the backward pass (backpropagation) to update weights.
+            Matrix backward(const Matrix& output_gradient, double learning_rate);
+
         private:
+            Matrix m_inputs; // Need to store inputs for backpropagation
             Matrix m_weights;
             Matrix m_biases;
             std::function<Matrix(const Matrix&)> m_activation;
