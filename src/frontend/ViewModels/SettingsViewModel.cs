@@ -57,6 +57,13 @@ namespace AetherVisor.Frontend.ViewModels
             set { _selectedInjectionMethod = value; OnPropertyChanged(nameof(SelectedInjectionMethod)); }
         }
 
+        private string _logFilePath;
+        public string LogFilePath
+        {
+            get => _logFilePath;
+            set { _logFilePath = value; OnPropertyChanged(nameof(LogFilePath)); }
+        }
+
         public ICommand SaveSettingsCommand { get; }
 
         public SettingsViewModel()
@@ -65,6 +72,7 @@ namespace AetherVisor.Frontend.ViewModels
             SelectedTheme = Theme.Dark;
             IsAutoInjectEnabled = true;
             SelectedInjectionMethod = InjectionMethod.CreateRemoteThread;
+            LogFilePath = "output.log";
 
             SaveSettingsCommand = new RelayCommand(p => SaveSettings());
         }
@@ -73,10 +81,11 @@ namespace AetherVisor.Frontend.ViewModels
         {
             // In a real app, this would save to a config file.
             // For now, we can just log it.
-            Console.WriteLine("Settings saved!");
+            Console.WriteLine("Settings Saved!");
             Console.WriteLine($"- Theme: {SelectedTheme}");
             Console.WriteLine($"- Auto-Inject: {IsAutoInjectEnabled}");
             Console.WriteLine($"- Injection Method: {SelectedInjectionMethod}");
+            Console.WriteLine($"- Log File Path: {LogFilePath}");
         }
     }
 }
