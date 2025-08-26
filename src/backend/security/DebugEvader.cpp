@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <chrono>
 #include <winternl.h> // For PEB structures
+#include <vector>
+#include <string>
 
 namespace AetherVisor {
     namespace Security {
@@ -12,13 +14,12 @@ namespace AetherVisor {
             if (TimingCheck()) return true;
             if (CheckHardwareBreakpoints()) return true;
             if (CheckNtGlobalFlag()) return true;
+            if (CheckForLoadedModules()) return true;
 
             return false;
         }
 
-        bool DebugEvader::IsDebuggerPresentCheck() {
-            return IsDebuggerPresent();
-        }
+        bool DebugEvader::IsDebuggerPresentCheck() { return IsDebuggerPresent(); }
 
         bool DebugEvader::CheckRemoteDebuggerPresentCheck() {
             BOOL isDebugging = FALSE;
@@ -39,27 +40,28 @@ namespace AetherVisor {
         bool DebugEvader::CheckHardwareBreakpoints() {
             CONTEXT ctx = {};
             ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
-
-            HANDLE hThread = GetCurrentThread();
-            if (GetThreadContext(hThread, &ctx)) {
-                if (ctx.Dr0 != 0 || ctx.Dr1 != 0 || ctx.Dr2 != 0 || ctx.Dr3 != 0) {
-                    return true;
-                }
+            if (GetThreadContext(GetCurrentThread(), &ctx)) {
+                if (ctx.Dr0 != 0 || ctx.Dr1 != 0 || ctx.Dr2 != 0 || ctx.Dr3 != 0) return true;
             }
             return false;
         }
 
         bool DebugEvader::CheckNtGlobalFlag() {
-            // This method is architecture-specific.
             #ifdef _WIN64
             PEB* pPeb = (PEB*)__readgsqword(0x60);
             #else
             PEB* pPeb = (PEB*)__readfsdword(0x30);
             #endif
+            if (pPeb->NtGlobalFlag & 0x70) return true;
+            return false;
+        }
 
-            // Check for debugger flags
-            if (pPeb->NtGlobalFlag & 0x70) {
-                return true;
+        bool DebugEvader::CheckForLoadedModules() {
+            const std::vector<std::string> badModules = { "x64dbg.dll", "Scylla.dll", "TitanHide.dll" };
+            for (const auto& moduleName : badModules) {
+                if (GetModuleHandleA(moduleName.c_str()) != NULL) {
+                    return true;
+                }
             }
             return false;
         }

@@ -5,15 +5,21 @@
 #include <fstream>
 #include <string>
 
-// Finds the addresses of Roblox functions using signature scanning.
+// Typedef for CreateProcessW so we can cast the original function pointer
+typedef BOOL(WINAPI* CreateProcessW_t)(LPCWSTR, LPWSTR, LPSECURITY_ATTRIBUTES, LPSECURITY_ATTRIBUTES, BOOL, DWORD, LPVOID, LPCWSTR, LPSTARTUPINFOW, LPPROCESS_INFORMATION);
+
+// Finds the addresses of functions.
 void* GetRobloxPrintAddress() {
     const char* pattern = "55 8B EC 6A ?? 68 ?? ?? ?? ?? 64 A1 ?? ?? ?? ?? 50 83 EC ?? 53 56 57 A1";
     return AetherVisor::Security::SignatureScanner::FindPattern(GetModuleHandle(NULL), pattern);
 }
-
 void* GetRobloxWarnAddress() {
     const char* pattern = "55 8B EC 83 E4 F8 83 EC ?? 56 8B F1 E8 ?? ?? ?? ?? 8B C8";
     return AetherVisor::Security::SignatureScanner::FindPattern(GetModuleHandle(NULL), pattern);
+}
+void* GetCreateProcessAddress() {
+    // Using GetProcAddress for stable system APIs is fine.
+    return GetProcAddress(GetModuleHandleA(XorS("kernel32.dll")), XorS("CreateProcessW"));
 }
 
 namespace AetherVisor {
@@ -21,8 +27,8 @@ namespace AetherVisor {
 
         static void* g_printAddress = nullptr;
         static void* g_warnAddress = nullptr;
+        static void* g_createProcessAddress = nullptr;
 
-        // Helper to write to the log file.
         void WriteToLog(const std::string& message) {
             std::ofstream logfile("output.log", std::ios::app);
             if (logfile.is_open()) {
@@ -42,27 +48,35 @@ namespace AetherVisor {
             if (originalWarn) originalWarn(message);
         }
 
-        bool Hooks::Install() { // Removed callback parameter
+        BOOL WINAPI Detour_CreateProcessW(LPCWSTR app, LPWSTR cmd, LPSECURITY_ATTRIBUTES pAttr, LPSECURITY_ATTRIBUTES tAttr, BOOL inherit, DWORD flags, LPVOID env, LPCWSTR dir, LPSTARTUPINFOW si, LPPROCESS_INFORMATION pi) {
+            WriteToLog(std::string(XorS("[HOOK]: CreateProcessW was called.")));
+            auto originalFunc = EventManager::GetInstance().GetOriginal<CreateProcessW_t>(g_createProcessAddress);
+            return originalFunc(app, cmd, pAttr, tAttr, inherit, flags, env, dir, si, pi);
+        }
+
+        bool Hooks::Install() {
             auto& eventManager = EventManager::GetInstance();
 
             g_printAddress = GetRobloxPrintAddress();
             g_warnAddress = GetRobloxWarnAddress();
+            g_createProcessAddress = GetCreateProcessAddress();
 
-            if (!g_printAddress || !g_warnAddress) {
-                WriteToLog("Error: Could not find function addresses for hooks.");
-                return false;
+            bool success = true;
+            if (g_printAddress) { success &= eventManager.Install(g_printAddress, (void*)Detour_Print); }
+            if (g_warnAddress) { success &= eventManager.Install(g_warnAddress, (void*)Detour_Warn); }
+            if (g_createProcessAddress) { success &= eventManager.Install(g_createProcessAddress, (void*)Detour_CreateProcessW); }
+
+            if (!success) {
+                WriteToLog("Error: Failed to install one or more hooks.");
             }
-
-            bool printHooked = eventManager.Install(g_printAddress, (void*)Detour_Print);
-            bool warnHooked = eventManager.Install(g_warnAddress, (void*)Detour_Warn);
-
-            return printHooked && warnHooked;
+            return success;
         }
 
         void Hooks::Uninstall() {
             auto& eventManager = EventManager::GetInstance();
             if (g_printAddress) eventManager.Uninstall(g_printAddress);
             if (g_warnAddress) eventManager.Uninstall(g_warnAddress);
+            if (g_createProcessAddress) eventManager.Uninstall(g_createProcessAddress);
         }
 
     } // namespace Payload

@@ -24,6 +24,9 @@ namespace AetherVisor {
 
             // Checks the PEB's NtGlobalFlag.
             static bool CheckNtGlobalFlag();
+
+            // Checks for common reverse engineering tools loaded in the process.
+            static bool CheckForLoadedModules();
         };
 
     } // namespace Security

@@ -24,6 +24,9 @@ namespace AetherVisor {
 
             // Checks if system uptime is suspiciously low.
             static bool CheckUptime();
+
+            // Checks for common VM MAC addresses.
+            static bool CheckMACAddress();
         };
 
     } // namespace Security
