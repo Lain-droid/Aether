@@ -1,35 +1,44 @@
 # AetherVisor: Advanced Testing Strategy for Adaptive Systems
-**Version 10.0 ("Architecturally Correct" Release Candidate)**
+**Version 11.0 ("Maximum Protection" Release Candidate)**
 
-This document outlines the testing strategy for all systems within the AetherVisor project, updated to cover the final architectural fixes.
+This document outlines the testing strategy for all systems within the AetherVisor project, updated to cover the final "Maximum Protection" features.
 
 ## 1. Testing Philosophy
 
-The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and now, end-to-end architectural flow validation.
+The system is a complex, non-deterministic, adaptive, and deeply obfuscated application. Testing requires a multi-faceted approach focusing on behavioral verification, state inspection, component isolation, and functional correctness of the core algorithms.
 
-## 2. Test Scenarios - Core Architectural Flow (NEW)
+## 2. Test Scenarios - Previous Phases (Recap)
 
-### 2.1. Security-Checked Startup
-- **Objective:** Verify the backend checks for debuggers/sandboxes on startup and communicates the result.
+- All previously implemented features are tested as per prior versions of this document.
+
+## 3. Test Scenarios - Phase 8 ("Maximum Protection") Features
+
+### 3.1. Advanced `ManualMapper`
+- **Objective:** Verify the mapper can handle complex DLLs.
 - **Scenario:**
-    1.  Launch the backend.
-    2.  Launch the frontend and connect.
-    3.  **Expected Result:** The `MainViewModel` should receive a `StartupResult` message of "OK" from the `IpcClientService` and update the status text accordingly. (A test with a debugger attached should result in an "UNSAFE_ENVIRONMENT" message).
+    1.  Create a test DLL that uses Thread Local Storage (TLS) callbacks.
+    2.  Inject this DLL using the `ManualMapper`.
+    3.  **Expected Result:** The injection should succeed, and logs should confirm that the TLS callbacks were executed correctly.
 
-### 2.2. End-to-End Injection Flow
-- **Objective:** Verify that the UI "Inject" button correctly triggers the backend's injection logic.
+### 3.2. Maximum Polymorphism (Function Encryption)
+- **Objective:** Verify that the function encryption concept works.
 - **Scenario:**
-    1.  With both frontend and backend running and connected, click the "Inject" button on the UI.
-    2.  Add a log message at the very beginning of the C++ `Core::Inject` method.
-    3.  **Expected Result:** The log message in `Core::Inject` should appear, confirming that the `InjectRequest` IPC message was successfully sent by the frontend, received by the backend's IPC server, and routed to the correct `Core` function.
+    1.  This feature is a conceptual placeholder. A test would involve creating a payload with an exported function, e.g., `MyFunction`.
+    2.  Run the `PolymorphicEngine`'s `EncryptFunction` on this payload.
+    3.  Inspect the resulting byte buffer in a disassembler.
+    4.  **Expected Result:** The original assembly for `MyFunction` should be replaced with encrypted bytes, and a small decryption stub should be present at the function's original entry point.
 
-### 2.3. End-to-End Cleanup Flow
-- **Objective:** Verify that the backend correctly signals the payload to self-destruct.
-- **Scenario:**
-    1.  After a successful injection, close the main frontend application, which should trigger the backend's `Core::Cleanup` method.
-    2.  Add a log message at the very beginning of the `ShutdownPayload()` function in `payload/dllmain.cpp`.
-    3.  **Expected Result:** The log message in `ShutdownPayload()` should appear. This confirms that the backend sent the `Shutdown` IPC message and that the payload's IPC client successfully received it and called the correct cleanup function.
-
-## 3. Test Scenarios - All Other Features (Recap)
-
-- All other features (AI, Polymorphism, VM, ML, Evasion Modules, etc.) are to be tested as per prior versions of this document. This section validates that the core application lifecycle that enables these features is now working correctly.
+### 3.3. Comprehensive Evasion Modules
+- **Objective:** Verify the new, advanced evasion checks work as intended.
+- **Scenario 1 (Hardware Breakpoints):**
+    1.  Launch the backend and set a hardware breakpoint on a function using a debugger.
+    2.  Call `DebugEvader::IsDebugging()`.
+    3.  **Expected Result:** The function should return `true`.
+- **Scenario 2 (Suspicious Uptime):**
+    1.  On a VM that has been running for less than 10 minutes, launch the backend.
+    2.  Call `SandboxDetector::IsInSandbox()`.
+    3.  **Expected Result:** The function should return `true`.
+- **Scenario 3 (Suspicious Username):**
+    1.  Change the local username to "Sandbox".
+    2.  Launch the backend and call `SandboxDetector::IsInSandbox()`.
+    3.  **Expected Result:** The function should return `true`.

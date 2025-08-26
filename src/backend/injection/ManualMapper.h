@@ -20,6 +20,8 @@ namespace AetherVisor {
             bool ResolveImports(HANDLE hProcess, PIMAGE_NT_HEADERS ntHeaders, const BYTE* pSrcData);
             bool FixRelocations(HANDLE hProcess, PIMAGE_NT_HEADERS ntHeaders, ULONG_PTR delta);
             bool SetPageProtections(HANDLE hProcess, PIMAGE_NT_HEADERS ntHeaders);
+            bool ProcessTLS(HANDLE hProcess, PIMAGE_NT_HEADERS ntHeaders);
+            bool RegisterSEH(HANDLE hProcess, PIMAGE_NT_HEADERS ntHeaders);
             bool CallEntryPoint(HANDLE hProcess, PIMAGE_NT_HEADERS ntHeaders);
 
             // A handle to the allocated memory block in the target process.

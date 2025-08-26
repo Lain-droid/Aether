@@ -18,6 +18,12 @@ namespace AetherVisor {
 
             // Checks for tell-tale signs of VirtualBox.
             static bool CheckForVirtualBox();
+
+            // Checks for common sandbox usernames.
+            static bool CheckUsername();
+
+            // Checks if system uptime is suspiciously low.
+            static bool CheckUptime();
         };
 
     } // namespace Security

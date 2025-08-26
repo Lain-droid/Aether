@@ -38,6 +38,9 @@ namespace AetherVisor {
 
             // Substitutes common instructions with logical equivalents.
             void SubstituteInstructions(std::vector<unsigned char>& payload);
+
+            // Encrypts the body of a specified function within the payload.
+            void EncryptFunction(std::vector<unsigned char>& payload, const std::string& functionName);
         };
 
     } // namespace Backend

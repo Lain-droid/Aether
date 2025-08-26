@@ -18,6 +18,12 @@ namespace AetherVisor {
 
             // A simple timing check to detect debugger overhead.
             static bool TimingCheck();
+
+            // Checks for hardware breakpoints in debug registers.
+            static bool CheckHardwareBreakpoints();
+
+            // Checks the PEB's NtGlobalFlag.
+            static bool CheckNtGlobalFlag();
         };
 
     } // namespace Security
