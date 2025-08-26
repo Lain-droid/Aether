@@ -104,6 +104,28 @@ namespace AetherVisor {
             return result;
         }
 
+        double Matrix::mean_squared_error(const Matrix& predicted, const Matrix& actual) {
+            if (predicted.getRows() != actual.getRows() || predicted.getCols() != actual.getCols()) throw std::invalid_argument("Matrix dimensions must match for MSE");
+            double error = 0.0;
+            for (int i = 0; i < predicted.getRows(); ++i) {
+                for (int j = 0; j < predicted.getCols(); ++j) {
+                    error += std::pow(predicted.at(i, j) - actual.at(i, j), 2);
+                }
+            }
+            return error / (predicted.getRows() * predicted.getCols());
+        }
+
+        Matrix Matrix::mean_squared_error_derivative(const Matrix& predicted, const Matrix& actual) {
+            if (predicted.getRows() != actual.getRows() || predicted.getCols() != actual.getCols()) throw std::invalid_argument("Matrix dimensions must match for MSE derivative");
+            Matrix result(predicted.getRows(), predicted.getCols());
+            for (int i = 0; i < predicted.getRows(); ++i) {
+                for (int j = 0; j < predicted.getCols(); ++j) {
+                    result.at(i, j) = predicted.at(i, j) - actual.at(i, j);
+                }
+            }
+            return result;
+        }
+
 
         // --- Layer Implementation ---
         Layer::Layer(int input_size, int output_size, std::function<Matrix(const Matrix&)> activation)

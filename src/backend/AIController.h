@@ -81,6 +81,13 @@ namespace AetherVisor {
              */
             void ReportNegativeFeedback(FeedbackType type);
 
+            /**
+             * @brief Analyzes a potential sequence of actions to predict its total risk.
+             * @param sequence A vector of event types representing the proposed actions.
+             * @return A cumulative risk score for the sequence.
+             */
+            double AnalyzeActionSequence(const std::vector<AIEventType>& sequence) const;
+
         private:
             // Constructor initializes the risk weights.
             AIController();

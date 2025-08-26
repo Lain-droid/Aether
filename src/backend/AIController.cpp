@@ -44,14 +44,37 @@ namespace AetherVisor {
         }
 
         void AIController::ReportNegativeFeedback(FeedbackType type) {
-            if (type == FeedbackType::NONE) return;
+            if (type == FeedbackType::NONE || m_recentEvents.empty()) return;
 
-            // Learn from the feedback by increasing the risk weight of recent actions.
-            for (const auto& eventType : m_recentEvents) {
-                m_riskWeights[eventType] *= FEEDBACK_LEARNING_RATE;
+            // Learn from the feedback by applying a decaying weighted blame to recent actions.
+            // The most recent events are considered more likely to be the cause.
+            double current_blame_factor = FEEDBACK_LEARNING_RATE; // e.g., 1.20
+            double blame_decay = 0.05; // blame decreases for older events
+
+            for (int i = m_recentEvents.size() - 1; i >= 0; --i) {
+                AIEventType eventType = m_recentEvents[i];
+                if (m_riskWeights.count(eventType)) {
+                    m_riskWeights[eventType] *= current_blame_factor;
+                }
+
+                // Decrease the blame for the next event in history.
+                if (current_blame_factor > 1.0 + blame_decay) {
+                    current_blame_factor -= blame_decay;
+                }
             }
+
             // Clear history after learning from it.
             m_recentEvents.clear();
+        }
+
+        double AIController::AnalyzeActionSequence(const std::vector<AIEventType>& sequence) const {
+            double cumulativeRisk = 0.0;
+            for (const auto& eventType : sequence) {
+                if (m_riskWeights.count(eventType)) {
+                    cumulativeRisk += m_riskWeights.at(eventType);
+                }
+            }
+            return cumulativeRisk;
         }
 
         RiskLevel AIController::GetCurrentRiskLevel() const {

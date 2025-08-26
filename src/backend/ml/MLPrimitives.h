@@ -30,6 +30,10 @@ namespace AetherVisor {
             static Matrix multiply_elementwise(const Matrix& a, const Matrix& b);
             void subtract(const Matrix& other);
 
+            // Static methods for loss calculation
+            static double mean_squared_error(const Matrix& predicted, const Matrix& actual);
+            static Matrix mean_squared_error_derivative(const Matrix& predicted, const Matrix& actual);
+
 
         private:
             int m_rows;

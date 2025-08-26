@@ -28,12 +28,11 @@ namespace AetherVisor {
                         layer_outputs.push_back(current_output);
                     }
 
-                    // 2. Calculate error (gradient of the loss function)
-                    Matrix error = current_output;
-                    error.subtract(expected_outputs[j]); // prediction - actual
+                    // 2. Calculate error using the loss function's derivative
+                    // This is the initial gradient that will be propagated backward.
+                    Matrix gradient = Matrix::mean_squared_error_derivative(current_output, expected_outputs[j]);
 
                     // 3. Backward pass
-                    Matrix gradient = error;
                     for (int k = m_layers.size() - 1; k >= 0; --k) {
                         gradient = m_layers[k].backward(gradient, learning_rate);
                     }
