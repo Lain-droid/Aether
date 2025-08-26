@@ -16,11 +16,6 @@ namespace AetherVisor {
 
             // Removes all installed hooks
             static void Uninstall();
-
-        private:
-            // Pointers to the original Roblox functions
-            static void* m_originalPrintFunc;
-            static void* m_originalWarnFunc;
         };
 
     } // namespace Payload
