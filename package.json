@@ -1,0 +1,47 @@
+{
+  "name": "@app/ai-adaptive-backend",
+  "version": "0.1.0",
+  "description": "**Sürüm:** 1.0.0 (Tasarım ve Mimari Belgesi) **Platform:** Windows 10/11 (x64/x86) **Hedef:** Roblox (Hyperion/Byfron Anti-Cheat)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lain-droid/PhantomAC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lain-droid/PhantomAC/issues"
+  },
+  "homepage": "https://github.com/Lain-droid/PhantomAC#readme",
+  "type": "module",
+  "engines": {
+    "node": "\""
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "async-retry": "^1.3.3",
+    "fastify": "^5.5.0",
+    "fastify-plugin": "^5.0.1",
+    "nanoid": "^5.1.5",
+    "pino": "^9.9.0",
+    "pino-pretty": "^13.1.1",
+    "prom-client": "^15.1.3",
+    "tinybench": "^5.0.1",
+    "undici": "^7.15.0",
+    "zod": "^4.1.3"
+  }
+}
