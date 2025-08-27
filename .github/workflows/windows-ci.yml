@@ -25,8 +25,9 @@ jobs:
       - name: Restore and Build WPF Frontend (x64)
         working-directory: src/frontend
         run: |
-          dotnet restore Aether.Frontend.csproj
-          dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend
+          mkdir ..\..\artifacts\logs 2>$null
+          dotnet restore Aether.Frontend.csproj > ..\..\artifacts\logs\frontend-restore.log 2>&1
+          dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend > ..\..\artifacts\logs\frontend-publish.log 2>&1
 
       - name: Optional Code Signing (EXE)
         if: ${{ github.event_name != 'pull_request' }}
@@ -47,8 +48,9 @@ jobs:
       - name: Build Backend (CMake x64)
         shell: pwsh
         run: |
-          cmake -S . -B build -A x64
-          cmake --build build --config Release
+          mkdir artifacts\logs -ea 0
+          cmake -S . -B build -A x64 *> artifacts\logs\backend-cmake-configure.log
+          cmake --build build --config Release *> artifacts\logs\backend-build.log
           mkdir artifacts\backend
           Copy-Item build\src\backend\Release\aether_backend.lib artifacts\backend -ErrorAction SilentlyContinue
 
@@ -73,6 +75,7 @@ jobs:
             artifacts/backend
             artifacts/Aether-frontend-win-x64.zip
             artifacts/installer
+            artifacts/logs
 
       - name: ClickOnce Publish (FileSystem)
         working-directory: src/frontend
