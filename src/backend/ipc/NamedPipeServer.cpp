@@ -67,6 +67,7 @@ namespace AetherVisor {
                     if (msg.empty()) break;
                     uint8_t op = static_cast<uint8_t>(msg[0]);
                     bool ok = false;
+                    std::string outMsg;
                     if (op == 1 && m_on_inject) {
                         // payload is utf16le wchar string after the first byte
                         if (msg.size() >= 2) {
@@ -75,11 +76,14 @@ namespace AetherVisor {
                             size_t len_wchars = len_bytes / sizeof(wchar_t);
                             std::wstring proc(w, w + len_wchars);
                             ok = m_on_inject(proc);
+                            outMsg = ok ? "OK: Inject " : "ERR: Inject ";
+                            outMsg += std::string(proc.begin(), proc.end());
                         }
                     } else if (op == 2 && m_on_execute) {
                         if (msg.size() > 1) {
                             std::string script(msg.begin() + 1, msg.end());
                             ok = m_on_execute(script);
+                            outMsg = ok ? "OK: Execute" : "ERR: Execute";
                         }
                     } else if (op == 3) {
                         // AI sensitivity config (double)
@@ -88,13 +92,20 @@ namespace AetherVisor {
                             std::memcpy(&value, msg.data() + 1, sizeof(double));
                             // store globally via handler if desired later; acknowledge
                             ok = true;
+                            outMsg = "OK: Config";
                         }
                     } else if (op == 4) {
                         // Start bypass modules (user-mode simulation)
                         ok = true;
+                        outMsg = "OK: Bypass started";
                     }
-                    std::vector<char> resp(1, ok ? 1 : 0);
-                    if (!WriteMessage(m_pipeHandle, resp)) break;
+                    if (outMsg.empty()) {
+                        std::vector<char> resp(1, ok ? 1 : 0);
+                        if (!WriteMessage(m_pipeHandle, resp)) break;
+                    } else {
+                        std::vector<char> resp(outMsg.begin(), outMsg.end());
+                        if (!WriteMessage(m_pipeHandle, resp)) break;
+                    }
                 }
 
                 DisconnectNamedPipe(m_pipeHandle);
