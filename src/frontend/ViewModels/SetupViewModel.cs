@@ -43,6 +43,7 @@ namespace AetherVisor.Frontend.ViewModels
             await Step("Inject başlatılıyor", 90);
             await SendInjectAsync("RobloxPlayerBeta.exe");
             await Step("Bypass modülleri başlatılıyor", 95);
+            await SendStartBypassAsync();
             await Step("Tamamlandı", 100);
             InjectCompleted = true;
 
@@ -107,6 +108,27 @@ namespace AetherVisor.Frontend.ViewModels
                         "Roblox", "Versions", "RobloxPlayerBeta.exe");
                     System.Diagnostics.Process.Start(path);
                 } catch { }
+            }
+        }
+
+        private async Task SendStartBypassAsync()
+        {
+            if (!(_ipc is IpcClientService concrete) || concrete == null)
+            {
+                return;
+            }
+            var field = typeof(IpcClientService).GetField("_pipe", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var pipe = field?.GetValue(concrete) as System.IO.Pipes.NamedPipeClientStream;
+            if (pipe == null || !pipe.IsConnected) return;
+            using (var ms = new System.IO.MemoryStream())
+            using (var bw = new System.IO.BinaryWriter(ms))
+            {
+                bw.Write((uint)1);
+                bw.Write((byte)4); // op=4 start bypass
+                bw.Flush();
+                var buffer = ms.ToArray();
+                await pipe.WriteAsync(buffer, 0, buffer.Length);
+                await pipe.FlushAsync();
             }
         }
     }

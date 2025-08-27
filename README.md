@@ -1,95 +1,81 @@
-# Proje: "AetherVisor" - Gelişmiş Roblox Executor Platformu
+# Project: "Aether" - Advanced Luau Scripting Environment (User-Mode)
 
-**Sürüm:** 1.0.0 (Tasarım ve Mimari Belgesi)
+**Version:** 1.0.0 (Architecture and Usage Guide)
 **Platform:** Windows 10/11 (x64/x86)
-**Hedef:** Roblox (Hyperion/Byfron Anti-Cheat)
+**Target:** Roblox (User-Mode, Educational)
 
 ---
 
-**UYARI:** Bu proje, yalnızca Roblox platformunda yazılım geliştirme ve tersine mühendislik alanında eğitim ve araştırma amacıyla tasarlanmıştır. Aracın kötüye kullanılması, hile veya oyun kurallarının ihlali gibi amaçlarla kullanılması kesinlikle yasaktır ve tüm yasal sorumluluk kullanıcıya aittir. Geliştiriciler, projenin yasa dışı kullanımından sorumlu tutulamaz.
+**DISCLAIMER:** This project is for education and research only. Do not use for cheating or violating platform rules. You are solely responsible for your use.
 
 ---
 
-## 1. Proje Özeti
+## 1. Overview
 
-AetherVisor, Windows platformları için geliştirilmiş, Roblox'un en güncel anti-cheat sistemleri olan Hyperion ve Byfron'u atlatmayı hedefleyen, yüksek performanslı ve modüler bir Luau script executor projesidir. Proje, %0 ban riski ve tam güvenlik hedefleriyle tasarlanmıştır. Kullanıcıya modern bir arayüz üzerinden gelişmiş bir script editörü ve canlı konsol takibi imkanı sunar.
+"Aether" is a modern, user-mode Luau scripting environment featuring a VSCode-like editor (monochrome theme), real-time console, and a guided setup flow. Kernel components have been removed.
 
 Projenin temel amacı, geliştiricilere ve araştırmacılara, Roblox'un çalışma zamanı (runtime) ortamıyla güvenli ve kontrollü bir şekilde etkileşim kurma olanağı sağlamaktır.
 
-## 2. Sistem Mimarisi ve Tasarım
+## 2. Architecture
 
-AetherVisor, yeniden düzenlenmiş mimaride iki ana katmandan oluşur: **User-Mode Backend** ve **User-Interface Frontend**. Kernel katmanı kaldırılmıştır. Katmanlar arası iletişim, güvenli ve yüksek performanslı IPC (Inter-Process Communication) mekanizmaları üzerinden sağlanır.
+Two layers: **User-Mode Backend (C++)** and **Frontend (C# WPF)**, communicating over a secure IPC (Named Pipes). No kernel drivers.
 
-### 2.1. Mimarinin Şematik Gösterimi
+### 2.1. Diagram
 
 ```
-[ KULLANICI ARAYÜZÜ (FRONTEND - C# WPF) ]
- |    - Gelişmiş Luau Script Editörü
- |    - Canlı Console Görüntüleyici
- |    - İşlem Paneli (Inject/Execute)
+[ FRONTEND (C# WPF) ]
+ |    - VSCode-like editor (sidebar, center editor, bottom terminal)
+ |    - Setup flow (risk acceptance, inject, Go to Roblox)
+ |    - Settings (editor font/autocomplete, AI sensitivity)
  |
- <--- [ Güvenli IPC Kanalı (Named Pipes / Shared Memory) ] --->
+ <--- [ Secure IPC (Named Pipes) ] --->
  |
-[ USER-MODE BACKEND (C++) ]
- |    - Ana Kontrol Mantığı
- |    - IPC Sunucusu
- |    - Script Yürütme Motoru (Luau)
- |    - Güvenlik ve Bütünlük Kontrolleri
-
-(Not: Kernel katmanı kaldırıldı)
+[ BACKEND (C++) ]
+ |    - IPC server (Inject op=1, Execute op=2, Config op=3, Bypass op=4)
+ |    - Luau VM compile/execute
+ |    - AI controller (risk + sensitivity)
 ```
 
-### 2.2. Modüller ve Veri Akışı
+### 2.2. Flow
 
-1.  **Başlatma ve Injection:**
-    *   Kullanıcı, AetherVisor frontend uygulamasını çalıştırır.
-    *   Frontend, backend prosesini (headless) başlatır.
-    *   Backend, user-mode mimaride gerekli izinleri ve IPC kanalını hazırlar.
-    *   Kernel sürücüsü yüklenmez; yasal ve güvenli kullanıcı modu sınırları içinde çalışır.
-    *   Backend, hedef modülle iletişim için user-mode yöntemler kullanır.
-    *   **Başarısızlık Durumu:** Eğer bu adımlardan herhangi biri başarısız olursa, `Cleanup` süreci tetiklenir. Sürücü sistemden kaldırılır, enjekte edilen tüm bileşenler bellekten silinir ve kullanıcıya detaylı bir hata raporu sunulur.
+1.  Startup & Inject:
+    - Start the app; Setup window appears.
+    - Accept risks; click Inject. Frontend sends inject and starts bypass (op=1, op=4) via IPC.
+    - Click "Go to Roblox" to open the Roblox client.
 
-2.  **Script Yürütme:**
-    *   Kullanıcı, frontend'deki Luau editörüne script'ini yazar.
-    *   "Execute" butonuna tıklandığında, script metni güvenli IPC kanalı üzerinden backend'e gönderilir.
-    *   Backend, bu script'i Roblox'a enjekte edilmiş olan DLL'e iletir.
-    *   DLL içerisindeki yürütme motoru, Luau script'ini Roblox'un kendi Lua sanal makinesi içinde çalıştırır.
+2.  Script Execution:
+    - Write Luau script in the editor; click Execute.
+    - Script is sent over IPC (op=2) and executed by the VM.
 
-3.  **Console Çıktısı:**
-    *   Roblox'a enjekte edilen DLL, oyunun konsol fonksiyonlarını (örneğin `print`, `warn`) hook'lar.
-    *   Bu fonksiyonlardan gelen çıktılar (mesajlar, hatalar, uyarılar) yakalanır ve IPC kanalı üzerinden backend'e, oradan da anlık olarak frontend'deki canlı konsol paneline iletilir.
+3.  Terminal:
+    - Realtime messages appear in the bottom terminal. Filters/search can be added.
 
-## 3. Kurulum ve Kullanım
+## 3. Setup & Usage
 
-### 3.1. Gerekli Sistem Yapılandırması
-- Windows 10/11 (x64).
-- Secure Boot'un kapalı olması (Test-signing modunun aktif edilmesi gerekebilir).
-- Yönetici (Administrator) yetkileri.
+### 3.1. Requirements
+- Windows 10/11 (x64)
+- Admin privileges recommended
 
-### 3.2. Kurulum Adımları
-1.  **AetherVisor'ı Başlatma:** `AetherVisor.exe` uygulamasını yönetici olarak çalıştırın.
-2.  **Otomatik Kurulum:** Uygulama ilk açıldığında "Kurulum Kontrolü" ekranı görünür.
-    *   Bu ekranda, backend kernel sürücüsünün (`AetherVisor.sys`) sisteme yüklenmesini başlatır.
-    *   Sürücü başarıyla yüklendikten sonra, uygulama Roblox prosesini tespit etmeye çalışır.
-3.  **Injection:** Roblox çalıştığında, "Inject" butonuna basın.
-    *   Backend, user-mode DLL'i Roblox prosesine enjekte eder.
-    *   Injection başarılı olursa, ana menü (Script Editörü ve Console) görünür hale gelir.
-    *   Başarısız olursa, bir hata mesajı gösterilir ve `Cleanup` işlemi otomatik olarak çalışır.
+### 3.2. Steps
+1. Launch `Aether.exe` (as Administrator recommended)
+2. In Setup, accept risks and click Inject
+3. Click "Go to Roblox" to open the client
+4. Use the editor (left Explorer, center editor, bottom terminal)
 
-### 3.3. Cleanup (Temizleme) Süreci
+### 3.3. Cleanup
 Cleanup işlemi, sistemin kararlılığını korumak için kritik öneme sahiptir. Aşağıdaki durumlarda otomatik olarak tetiklenir:
 - Injection işlemi başarısız olduğunda.
 - Kullanıcı uygulamayı kapattığında.
 - Roblox prosesi beklenmedik bir şekilde sonlandığında.
 
 **Cleanup Adımları:**
-1.  Roblox'a enjekte edilen tüm DLL'ler ve bellek yamaları geri alınır.
-2.  Kernel sürücüsü bulunmadığından, yalnızca user-mode kaynakları serbest bırakılır.
-3.  Tüm IPC kanalları ve diğer kaynaklar serbest bırakılır.
+1. Release all user-mode resources
+2. Stop IPC
+3. Clear state
 
-## 4. Özelliklerin Kullanımı
+## 4. Features
 
-### 4.1. Script Editörü
+### 4.1. Editor
 - **Dil Desteği:** Tam Luau dil desteği.
 - **Özellikler:**
     - **Syntax Highlighting:** Kodun okunabilirliğini artırmak için anahtar kelimeler, değişkenler ve fonksiyonlar renklendirilir.
@@ -98,13 +84,13 @@ Cleanup işlemi, sistemin kararlılığını korumak için kritik öneme sahipti
     - **Kod Katlama:** Uzun kod bloklarını (`function`, `if`, `for` döngüleri) katlayarak daha temiz bir görünüm sağlar.
     - **Temalar:** Açık (Light) ve Koyu (Dark) tema seçenekleri mevcuttur.
 
-### 4.2. Canlı Console Paneli
+### 4.2. Terminal
 - **Gerçek Zamanlı Çıktı:** Roblox'ta çalışan script'lerinizin `print()`, `warn()` gibi komutlarla ürettiği tüm çıktılar bu panelde anlık olarak görünür.
 - **Filtreleme:** "Error", "Warning", "Info" gibi seviyelere göre logları filtreleyebilirsiniz.
 - **Arama:** Konsol çıktısı içinde metin araması yapabilirsiniz.
 - **Kopyalama:** Tek bir satırı veya tüm konsol içeriğini panoya kopyalayabilirsiniz.
 
-## 5. Güvenlik ve Hata Yönetimi
+## 5. Security & Error Handling
 
 ### 5.1. Güvenlik Katmanları
 - **User-Mode Sınırları:** Kernel bileşenleri kaldırıldığı için risk yüzeyi daraltıldı.

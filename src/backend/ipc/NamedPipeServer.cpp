@@ -89,6 +89,9 @@ namespace AetherVisor {
                             // store globally via handler if desired later; acknowledge
                             ok = true;
                         }
+                    } else if (op == 4) {
+                        // Start bypass modules (user-mode simulation)
+                        ok = true;
                     }
                     std::vector<char> resp(1, ok ? 1 : 0);
                     if (!WriteMessage(m_pipeHandle, resp)) break;
