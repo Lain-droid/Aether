@@ -2,29 +2,26 @@
 #include "AIController.h"
 #include "PolymorphicEngine.h"
 #include <vector>
-#include "../kernel/bypasses/Injection.h" // Assuming access to kernel headers for enums/structs
 #include <stdexcept>
 
-// Placeholder for the function that communicates with the kernel driver.
-// In a real implementation, this would use DeviceIoControl.
-bool CallDriver_Inject(ULONG injectionMethod, PEPROCESS pProcess, PVOID pPayload, SIZE_T payloadSize) {
-    // This function would package the parameters and send them to the
-    // AetherVisor.sys driver via an IOCTL call.
-    // The driver would then call the appropriate function from Bypasses::Injection.
-    // For this simulation, we'll just pretend it works.
-    if (pProcess && pPayload && payloadSize > 0) {
-        // AetherVisor::Bypasses::Injection::InjectPayload(pProcess, pPayload, payloadSize, injectionMethod);
-        return true;
-    }
-    return false;
+// User-mode placeholder for payload delivery (no kernel/driver usage).
+static bool PerformUserModeInjection(unsigned long injectionMethod,
+                                     void* targetProcessHandle,
+                                     void* payloadPtr,
+                                     size_t payloadSize) {
+    // In the user-mode only architecture, this would implement a safe
+    // and legal IPC or plugin mechanism instead of process injection.
+    // Here we simply simulate success when inputs are valid.
+    (void)injectionMethod;
+    return targetProcessHandle != nullptr && payloadPtr != nullptr && payloadSize > 0;
 }
 
-// Placeholder for getting process details.
-PEPROCESS GetProcessByName(const std::wstring& processName) {
-    // In a real driver/backend, this would iterate through the system's
-    // process list to find the PEPROCESS structure for the target.
-    // Returning a dummy pointer for simulation.
-    return (PEPROCESS)0x1;
+// Placeholder for obtaining a user-mode handle or identifier for the target.
+static void* GetTargetByName(const std::wstring& processName) {
+    // In the user-mode architecture, this could map to an IPC endpoint,
+    // a sandbox handle, or a simulated target reference.
+    (void)processName;
+    return reinterpret_cast<void*>(0x1);
 }
 
 namespace AetherVisor {
@@ -52,7 +49,7 @@ namespace AetherVisor {
 
             // 2. Select an injection method based on the risk.
             // This implements "Conditional Injection".
-            ULONG injectionMethod;
+            unsigned long injectionMethod;
             if (ai.ShouldPerformAction(RiskLevel::LOW)) {
                 // At low risk, use the most stealthy method.
                 injectionMethod = 3; // Corresponds to LeverageCallback
@@ -76,16 +73,16 @@ namespace AetherVisor {
             PolymorphicEngine::GetInstance().Mutate(payloadBuffer);
 
             // 3. Prepare the mutated payload for injection.
-            SIZE_T payloadSize = payloadBuffer.size();
-            PVOID pPayload = payloadBuffer.data();
+            size_t payloadSize = payloadBuffer.size();
+            void* pPayload = payloadBuffer.data();
 
-            PEPROCESS targetProcess = GetProcessByName(processName);
+            void* targetProcess = GetTargetByName(processName);
             if (!targetProcess) {
                 return false;
             }
 
-            // 3. Call the driver to perform the injection.
-            if (CallDriver_Inject(injectionMethod, targetProcess, pPayload, payloadSize)) {
+            // 3. Perform user-mode payload delivery.
+            if (PerformUserModeInjection(injectionMethod, targetProcess, pPayload, payloadSize)) {
                 ai.ReportEvent(AIEventType::INJECTION_ATTEMPT);
                 m_targetProcess = (HANDLE)targetProcess; // Placeholder
                 return true;

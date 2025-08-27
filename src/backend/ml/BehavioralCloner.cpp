@@ -19,14 +19,22 @@ namespace AetherVisor {
             m_varianceNetwork.emplace_back(hidden_size / 2, output_size, &Matrix::sigmoid);
 
             // Initialize human behavior pattern
-            m_currentPattern = {
-                .reaction_time_ms = 150.0 + (rand() % 100), // 150-250ms
-                .movement_smoothness = 0.8 + (rand() % 20) / 100.0, // 0.8-1.0
-                .accuracy_variance = 0.1 + (rand() % 10) / 100.0, // 0.1-0.2
-                .input_timing_variance = 0.05 + (rand() % 5) / 100.0, // 0.05-0.1
-                .fatigue_factor = 0.0,
-                .preferred_key_sequences = {1.0, 0.8, 0.6, 0.9} // Default preferences
-            };
+            {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<> dist_react(150.0, 250.0);
+                std::uniform_real_distribution<> dist_move(0.8, 1.0);
+                std::uniform_real_distribution<> dist_acc(0.1, 0.2);
+                std::uniform_real_distribution<> dist_timing(0.05, 0.1);
+                m_currentPattern = {
+                    .reaction_time_ms = dist_react(gen),
+                    .movement_smoothness = dist_move(gen),
+                    .accuracy_variance = dist_acc(gen),
+                    .input_timing_variance = dist_timing(gen),
+                    .fatigue_factor = 0.0,
+                    .preferred_key_sequences = {1.0, 0.8, 0.6, 0.9}
+                };
+            }
 
             m_sessionStart = std::chrono::steady_clock::now();
         }
@@ -79,8 +87,11 @@ namespace AetherVisor {
 
             // Occasional intentional "mistakes" for human-like behavior
             if (ShouldMakeMistake()) {
-                final_x += (rand() % 20 - 10); // ±10 pixel error
-                final_y += (rand() % 20 - 10);
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist_err(-10, 10);
+                final_x += dist_err(gen);
+                final_y += dist_err(gen);
             }
 
             m_actionCount++;
@@ -102,18 +113,35 @@ namespace AetherVisor {
             // Generate context-appropriate inputs with human-like timing
             if (shouldMove) {
                 keyStates[0] = true; // W key
-                if (rand() % 100 < 30) keyStates[1] = true; // A key
-                if (rand() % 100 < 30) keyStates[2] = true; // D key
+                {
+                    std::random_device rd;
+                    std::mt19937 gen(rd());
+                    std::uniform_int_distribution<> dist_pct(0, 99);
+                    if (dist_pct(gen) < 30) keyStates[1] = true; // A key
+                    if (dist_pct(gen) < 30) keyStates[2] = true; // D key
+                }
             }
 
-            if (shouldAttack && (rand() % 100 < 80)) {
+            if (shouldAttack) {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist_pct(0, 99);
+                if (dist_pct(gen) < 80) {
+                    keyStates[3] = true; // Attack key
+                }
+            }
                 keyStates[3] = true; // Attack key
             }
 
             // Add human-like key combinations and preferences
-            for (size_t i = 0; i < m_currentPattern.preferred_key_sequences.size() && i < keyStates.size(); ++i) {
-                if (rand() % 100 < m_currentPattern.preferred_key_sequences[i] * 100) {
-                    keyStates[i] = true;
+            {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist_pct(0, 99);
+                for (size_t i = 0; i < m_currentPattern.preferred_key_sequences.size() && i < keyStates.size(); ++i) {
+                    if (dist_pct(gen) < static_cast<int>(m_currentPattern.preferred_key_sequences[i] * 100)) {
+                        keyStates[i] = true;
+                    }
                 }
             }
 
@@ -203,14 +231,24 @@ namespace AetherVisor {
             m_fatigueLevel = std::min(1.0, sessionDuration / 7200.0); // Max fatigue after 2 hours
             
             // Add periodic breaks to simulate natural human behavior
-            if (sessionDuration > 1800 && rand() % 1000 < 1) { // 0.1% chance per call after 30 mins
-                GenerateNaturalPauses();
+            if (sessionDuration > 1800) {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist_thousand(0, 999);
+                if (dist_thousand(gen) < 1) {
+                    GenerateNaturalPauses();
+                }
             }
         }
 
         void BehavioralCloner::GenerateNaturalPauses() {
             // Simulate natural micro-pauses in human behavior
-            std::this_thread::sleep_for(std::chrono::milliseconds(100 + rand() % 300));
+            {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist_ms(100, 399);
+                std::this_thread::sleep_for(std::chrono::milliseconds(dist_ms(gen)));
+            }
         }
 
         // Helper method implementations
@@ -289,20 +327,27 @@ namespace AetherVisor {
             std::vector<double> curve;
             
             // Generate Bezier-like curve for natural mouse movement
-            double midX = (startX + endX) / 2.0 + (rand() % 20 - 10); // Add slight randomness
-            double midY = (startY + endY) / 2.0 + (rand() % 20 - 10);
-            
-            // Simplified curve - return adjusted end point
-            curve.push_back(endX + (midX - endX) * 0.1);
-            curve.push_back(endY + (midY - endY) * 0.1);
-            
-            return curve;
+            {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dist_err(-10, 10);
+                double midX = (startX + endX) / 2.0 + dist_err(gen);
+                double midY = (startY + endY) / 2.0 + dist_err(gen);
+                // Simplified curve - return adjusted end point
+                curve.push_back(endX + (midX - endX) * 0.1);
+                curve.push_back(endY + (midY - endY) * 0.1);
+                return curve;
+            }
+            return curve; // Unreachable, retained for structure
         }
 
         bool BehavioralCloner::ShouldMakeMistake() {
             // Probability of making a mistake increases with fatigue
             double mistakeChance = 0.01 + m_fatigueLevel * 0.05; // 1-6% chance
-            return (rand() % 1000) < (mistakeChance * 1000);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> dist_thousand(0, 999);
+            return dist_thousand(gen) < static_cast<int>(mistakeChance * 1000);
         }
 
         double BehavioralCloner::CalculateContextualAccuracy(const GameState& state) {

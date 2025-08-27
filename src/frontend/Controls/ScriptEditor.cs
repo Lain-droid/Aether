@@ -17,7 +17,9 @@ namespace AetherVisor.Frontend.Controls
 
         public ScriptEditor()
         {
-            // Logic for syntax highlighting, autocomplete, etc., would be initialized here.
         }
+
+        // Placeholder for smooth caret fade animation trigger in UI layer
+        public void TriggerCaretFade() { }
     }
 }

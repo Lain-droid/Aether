@@ -24,7 +24,8 @@ namespace AetherVisor {
             if (str) {
                 size_t len = strlen(str);
                 data.string.data = new char[len + 1];
-                strcpy(data.string.data, str);
+                std::memcpy(data.string.data, str, len);
+                data.string.data[len] = '\0';
                 data.string.length = len;
             } else {
                 data.string.data = nullptr;

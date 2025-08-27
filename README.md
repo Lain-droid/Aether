@@ -18,33 +18,25 @@ Projenin temel amacı, geliştiricilere ve araştırmacılara, Roblox'un çalı�
 
 ## 2. Sistem Mimarisi ve Tasarım
 
-AetherVisor, üç ana katmandan oluşan modüler bir mimariye sahiptir: **Kernel-Mode Driver**, **User-Mode Backend** ve **User-Interface Frontend**. Bu katmanlar arasındaki iletişim, güvenli ve yüksek performanslı IPC (Inter-Process Communication) mekanizmaları üzerinden sağlanır.
+AetherVisor, yeniden düzenlenmiş mimaride iki ana katmandan oluşur: **User-Mode Backend** ve **User-Interface Frontend**. Kernel katmanı kaldırılmıştır. Katmanlar arası iletişim, güvenli ve yüksek performanslı IPC (Inter-Process Communication) mekanizmaları üzerinden sağlanır.
 
 ### 2.1. Mimarinin Şematik Gösterimi
 
 ```
 [ KULLANICI ARAYÜZÜ (FRONTEND - C# WPF) ]
  |    - Gelişmiş Luau Script Editörü
- |    - Canlı Roblox Console Görüntüleyici
- |    - Injection ve Durum Kontrol Paneli
+ |    - Canlı Console Görüntüleyici
+ |    - İşlem Paneli (Inject/Execute)
  |
  <--- [ Güvenli IPC Kanalı (Named Pipes / Shared Memory) ] --->
  |
 [ USER-MODE BACKEND (C++) ]
  |    - Ana Kontrol Mantığı
  |    - IPC Sunucusu
- |    - Yükleyici (Loader) ve Enjektör (Injector)
- |    - Script Yürütme Motoru (Luau -> Roblox)
- |    - Anti-Debug ve Anti-Tamper Teknikleri
- |
- <--- [ IOCTL (I/O Control) Arayüzü ] --->
- |
-[ KERNEL-MODE DRIVER (C++) ]
-     - Hyperion/Byfron Bypass Modülü
-     - Bellek Okuma/Yazma Primitifleri (R/W)
-     - Proses ve Thread Gizleme
-     - Sistem Gözetiminden Kaçınma (ETW, DbgPrint Engelleme)
-     - Güvenli Cleanup Mekanizması
+ |    - Script Yürütme Motoru (Luau)
+ |    - Güvenlik ve Bütünlük Kontrolleri
+
+(Not: Kernel katmanı kaldırıldı)
 ```
 
 ### 2.2. Modüller ve Veri Akışı
@@ -52,9 +44,9 @@ AetherVisor, üç ana katmandan oluşan modüler bir mimariye sahiptir: **Kernel
 1.  **Başlatma ve Injection:**
     *   Kullanıcı, AetherVisor frontend uygulamasını çalıştırır.
     *   Frontend, backend prosesini (headless) başlatır.
-    *   Backend, sistemde gerekli yetkilere sahip olup olmadığını kontrol eder ve kernel-mode sürücüyü (AetherVisor.sys) sisteme yükler.
-    *   Sürücü, Hyperion'un kernel seviyesindeki korumalarını etkisiz hale getirmek için gerekli bypass'ları uygular.
-    *   Backend, Roblox prosesini bulur ve sürücünün sağladığı primitifleri kullanarak user-mode DLL'ini (payload) Roblox'un bellek alanına güvenli bir şekilde enjekte eder.
+    *   Backend, user-mode mimaride gerekli izinleri ve IPC kanalını hazırlar.
+    *   Kernel sürücüsü yüklenmez; yasal ve güvenli kullanıcı modu sınırları içinde çalışır.
+    *   Backend, hedef modülle iletişim için user-mode yöntemler kullanır.
     *   **Başarısızlık Durumu:** Eğer bu adımlardan herhangi biri başarısız olursa, `Cleanup` süreci tetiklenir. Sürücü sistemden kaldırılır, enjekte edilen tüm bileşenler bellekten silinir ve kullanıcıya detaylı bir hata raporu sunulur.
 
 2.  **Script Yürütme:**
@@ -92,7 +84,7 @@ Cleanup işlemi, sistemin kararlılığını korumak için kritik öneme sahipti
 
 **Cleanup Adımları:**
 1.  Roblox'a enjekte edilen tüm DLL'ler ve bellek yamaları geri alınır.
-2.  Kernel-mode sürücü, tüm bypass'ları etkisiz hale getirir ve sistemden güvenli bir şekilde kaldırılır (unload).
+2.  Kernel sürücüsü bulunmadığından, yalnızca user-mode kaynakları serbest bırakılır.
 3.  Tüm IPC kanalları ve diğer kaynaklar serbest bırakılır.
 
 ## 4. Özelliklerin Kullanımı
@@ -115,9 +107,9 @@ Cleanup işlemi, sistemin kararlılığını korumak için kritik öneme sahipti
 ## 5. Güvenlik ve Hata Yönetimi
 
 ### 5.1. Güvenlik Katmanları
-- **Kernel-Mode Bypass:** Anti-cheat sistemlerinin en derin seviyedeki tespit mekanizmalarını atlatır.
-- **Signature Masking:** Enjekte edilen DLL'lerin ve sürücünün dosya ve bellek imzaları sürekli olarak maskelenir.
-- **Anti-Debug/Tamper:** AetherVisor'ın kendi proseslerinin ve Roblox'un debug edilmesini veya dışarıdan müdahale edilmesini engeller.
+- **User-Mode Sınırları:** Kernel bileşenleri kaldırıldığı için risk yüzeyi daraltıldı.
+- **Signature Masking (User-Mode):** Yalnızca user-mode bileşenlerde geçerli olacak şekilde sadeleştirildi.
+- **Anti-Debug/Tamper:** Uygulama süreçlerinde temel korumalar etkin.
 - **Güvenli IPC:** Frontend ve backend arasındaki tüm iletişim şifrelenir ve doğrulanır.
 
 ### 5.2. Hata Yönetimi

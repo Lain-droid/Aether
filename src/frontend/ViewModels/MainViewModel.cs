@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System;
 
 namespace AetherVisor.Frontend.ViewModels
 {
@@ -16,7 +17,7 @@ namespace AetherVisor.Frontend.ViewModels
 
     public class MainViewModel : ObservableObject
     {
-        private string _scriptText = "-- Welcome to AetherVisor!\nprint('Hello from the other side!')";
+        private string _scriptText = "-- Aether script here\nprint('ready')";
         public string ScriptText
         {
             get => _scriptText;
@@ -30,12 +31,26 @@ namespace AetherVisor.Frontend.ViewModels
 
         public MainViewModel()
         {
-            // In a real app, these commands would be implemented with RelayCommand or similar
-            // ExecuteScriptCommand = new RelayCommand(p => CanExecuteScript(), p => ExecuteScript());
-            // InjectCommand = new RelayCommand(p => CanInject(), p => Inject());
+            ExecuteScriptCommand = new RelayCommand(_ => CanExecuteScript(), _ => ExecuteScript());
+            InjectCommand = new RelayCommand(_ => true, _ => Inject());
 
-            ConsoleOutput.Add("AetherVisor Frontend Initialized.");
-            ConsoleOutput.Add("Waiting for injection...");
+            ConsoleOutput.Add("AetherVisor initialized");
+            ConsoleOutput.Add("Idle");
+        }
+
+        private bool CanExecuteScript()
+        {
+            return !string.IsNullOrWhiteSpace(ScriptText);
+        }
+
+        private void ExecuteScript()
+        {
+            ConsoleOutput.Add($"Execute requested at {DateTime.Now:HH:mm:ss}");
+        }
+
+        private void Inject()
+        {
+            ConsoleOutput.Add("Inject requested");
         }
     }
 }
