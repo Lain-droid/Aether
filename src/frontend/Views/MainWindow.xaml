@@ -50,7 +50,7 @@
         <Border Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource ColorGray1}" Padding="16">
             <DockPanel>
                 <TextBlock Text="Aether" FontSize="18" FontWeight="Bold" DockPanel.Dock="Left"/>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Spacing="8">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                     <Button Style="{StaticResource MonoButton}" Content="Inject" Command="{Binding InjectCommand}"/>
                     <Button Style="{StaticResource MonoButton}" Content="Execute" Command="{Binding ExecuteScriptCommand}"/>
                     <Button Style="{StaticResource MonoButton}" Content="Settings" Click="OpenSettings_Click"/>
@@ -108,7 +108,7 @@
                         </TabControl.ContentTemplate>
                     </TabControl>
                     <!-- Search/replace bar -->
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8" Spacing="6">
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8">
                         <TextBlock Text="Find" VerticalAlignment="Center"/>
                         <TextBox Width="160" x:Name="FindBox"/>
                         <TextBlock Text="Replace" VerticalAlignment="Center"/>
@@ -127,7 +127,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Terminal" Foreground="#AAA"/>
                     <TextBlock Text="Filter" Margin="12,0,0,0"/>
                     <ComboBox x:Name="TermFilter" Width="120">
@@ -136,7 +136,7 @@
                         <ComboBoxItem Content="Warning"/>
                         <ComboBoxItem Content="Error"/>
                     </ComboBox>
-                    <TextBox x:Name="TermSearch" Width="200" PlaceholderText="Search"/>
+                    <TextBox x:Name="TermSearch" Width="200"/>
                 </StackPanel>
                 <ListBox Grid.Row="1" ItemsSource="{Binding ConsoleOutput}"
                          Background="{StaticResource ColorBlack}" Foreground="{StaticResource ColorWhite}" BorderBrush="{StaticResource ColorGray3}" BorderThickness="1"/>

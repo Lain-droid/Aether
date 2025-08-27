@@ -32,9 +32,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Spacing="12">
+        <StackPanel>
             <TextBlock Text="Editor" FontWeight="Bold"/>
-            <StackPanel Orientation="Horizontal" Spacing="8">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Font Size" Width="100"/>
                 <Slider Minimum="10" Maximum="24" Value="{Binding EditorFontSize}" Width="240"/>
                 <TextBlock Text="{Binding EditorFontSize}" Width="40"/>
@@ -43,7 +43,7 @@
 
             <Separator/>
             <TextBlock Text="Backend / AI" FontWeight="Bold"/>
-            <StackPanel Orientation="Horizontal" Spacing="8">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="AI Sensitivity" Width="100"/>
                 <Slider Minimum="0" Maximum="1" Value="{Binding AiSensitivity}" Width="240"/>
                 <TextBlock Text="{Binding AiSensitivity, StringFormat=F2}" Width="40"/>

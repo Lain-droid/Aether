@@ -43,7 +43,7 @@
             </DockPanel>
         </Border>
 
-        <StackPanel Grid.Row="1" Margin="24" Spacing="12">
+        <StackPanel Grid.Row="1" Margin="24">
             <TextBlock Text="Çekirdek kontroller, IPC ve kaynak hazırlığı yapılacak." Foreground="#AAA"/>
             <CheckBox Content="Riskleri kabul ediyorum" IsChecked="{Binding AcceptRisks}"/>
             <ProgressBar Height="8" Minimum="0" Maximum="100" Value="{Binding Progress}" Background="{StaticResource ColorGray2}"/>
