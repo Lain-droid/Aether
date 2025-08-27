@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.IO.Pipes;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AetherVisor.Frontend.Services
@@ -15,25 +18,37 @@ namespace AetherVisor.Frontend.Services
     public class IpcClientService : IIpcClientService
     {
         public event Action<string> ConsoleMessageReceived;
+        private NamedPipeClientStream _pipe;
 
         public Task ConnectAsync()
         {
-            // Logic to connect to the backend's named pipe server
-            Console.WriteLine("Attempting to connect to backend...");
-            return Task.CompletedTask;
+            _pipe = new NamedPipeClientStream(".", "AetherPipe", PipeDirection.InOut, PipeOptions.Asynchronous);
+            return _pipe.ConnectAsync(1500);
         }
 
         public Task SendScriptAsync(string script)
         {
-            // Logic to serialize the script and send it to the backend
-            Console.WriteLine($"Sending script to backend: {script.Substring(0, Math.Min(script.Length, 50))}");
+            if (_pipe == null || !_pipe.IsConnected) throw new IOException("Pipe not connected");
+            // protocol: [len(uint32)][op(1)][payload]
+            byte[] payload = Encoding.UTF8.GetBytes(script ?? string.Empty);
+            using (var ms = new MemoryStream())
+            using (var bw = new BinaryWriter(ms))
+            {
+                bw.Write((uint)(1 + payload.Length));
+                bw.Write((byte)2); // Execute opcode
+                bw.Write(payload);
+                bw.Flush();
+                var buffer = ms.ToArray();
+                _pipe.Write(buffer, 0, buffer.Length);
+                _pipe.Flush();
+            }
             return Task.CompletedTask;
         }
 
         public void Disconnect()
         {
-            // Logic to close the connection
-            Console.WriteLine("Disconnecting from backend.");
+            _pipe?.Dispose();
+            _pipe = null;
         }
 
         // A private method would listen for incoming messages from the backend

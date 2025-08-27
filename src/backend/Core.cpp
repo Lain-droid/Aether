@@ -3,6 +3,7 @@
 #include "PolymorphicEngine.h"
 #include "vm/Compiler.h"
 #include "vm/VirtualMachine.h"
+#include "ipc/NamedPipeServer.h"
 #include <vector>
 #include <stdexcept>
 
@@ -34,10 +35,16 @@ namespace AetherVisor {
             return instance;
         }
 
+        static AetherVisor::IPC::NamedPipeServer g_pipe;
+
         bool Core::Initialize() {
-            // TODO: Initialize backend services like IPC, load driver, etc.
-            m_initialized = true;
-            return true;
+            if (m_initialized) return true;
+            bool ok = g_pipe.Start(L"AetherPipe",
+                [this](const std::wstring& proc){ return this->Inject(proc); },
+                [this](const std::string& script){ return this->ExecuteScript(script); }
+            );
+            m_initialized = ok;
+            return ok;
         }
 
         bool Core::Inject(const std::wstring& processName) {
@@ -123,6 +130,7 @@ namespace AetherVisor {
             // TODO: Unload driver. This should typically be the very last step.
 
             m_targetProcess = nullptr;
+            g_pipe.Stop();
             m_initialized = false;
         }
 
