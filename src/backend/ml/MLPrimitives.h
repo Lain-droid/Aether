@@ -60,14 +60,14 @@ namespace AetherVisor {
         public:
             virtual ~Optimizer() = default;
             virtual void update(Matrix& weights, const Matrix& gradients) = 0;
-            virtual void update(Matrix& biases, const Matrix& gradients) = 0;
+            // Removed duplicate overload to avoid ambiguous redefinition
         };
 
         class AdamOptimizer : public Optimizer {
         public:
             AdamOptimizer(double learning_rate = 0.001, double beta1 = 0.9, double beta2 = 0.999, double epsilon = 1e-8);
             void update(Matrix& weights, const Matrix& gradients) override;
-            void update(Matrix& biases, const Matrix& gradients) override;
+            // biases updated via same method; no separate signature
             
         private:
             double m_lr, m_beta1, m_beta2, m_epsilon;
