@@ -67,6 +67,28 @@ jobs:
             artifacts/Aether-frontend-win-x64.zip
             artifacts/installer
 
+      - name: ClickOnce Publish (FileSystem)
+        working-directory: src/frontend
+        shell: pwsh
+        run: |
+          dotnet publish Aether.Frontend.csproj -c Release -r win-x64 -p:PublishSingleFile=false -p:PublishProtocol=FileSystem -p:IsWebBootstrapper=false -p:GenerateManifests=true -p:PublishDir="..\\..\\artifacts\\clickonce\\" --self-contained false
+
+      - name: Squirrel Packaging
+        shell: pwsh
+        run: |
+          dotnet tool install --global Clowd.Squirrel --version 2.10.1
+          $env:Path += ";$env:USERPROFILE\.dotnet\tools"
+          mkdir artifacts\squirrel -ea 0
+          squirrel pack --packId Aether --packVersion 1.0.0 --packTitle "Aether" --icon scripts\installer\icon.ico --packDir artifacts\frontend --out artifacts\squirrel
+
+      - name: Upload Installers (ClickOnce & Squirrel)
+        uses: actions/upload-artifact@v4
+        with:
+          name: aether-installers
+          path: |
+            artifacts/clickonce
+            artifacts/squirrel
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
