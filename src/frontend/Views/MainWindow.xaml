@@ -54,6 +54,7 @@
                     <Button Style="{StaticResource MonoButton}" Content="Inject" Command="{Binding InjectCommand}"/>
                     <Button Style="{StaticResource MonoButton}" Content="Execute" Command="{Binding ExecuteScriptCommand}"/>
                     <Button Style="{StaticResource MonoButton}" Content="Settings" Click="OpenSettings_Click"/>
+                    <Button Style="{StaticResource MonoButton}" Content="Minimize" Click="Minimize_Click"/>
                 </StackPanel>
             </DockPanel>
         </Border>

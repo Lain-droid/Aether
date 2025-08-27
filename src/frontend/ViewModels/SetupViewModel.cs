@@ -17,11 +17,17 @@ namespace AetherVisor.Frontend.ViewModels
         public ObservableCollection<string> Steps { get; } = new ObservableCollection<string>();
 
         public ICommand InjectCommand { get; }
+        public ICommand LaunchRobloxCommand { get; }
+        private bool _acceptRisks;
+        public bool AcceptRisks { get => _acceptRisks; set { _acceptRisks = value; OnPropertyChanged(nameof(AcceptRisks)); } }
+        private bool _injectCompleted;
+        public bool InjectCompleted { get => _injectCompleted; private set { _injectCompleted = value; OnPropertyChanged(nameof(InjectCompleted)); } }
         private readonly IIpcClientService _ipc = new IpcClientService();
 
         public SetupViewModel()
         {
-            InjectCommand = new RelayCommand(_ => true, _ => _ = RunSetupAsync());
+            InjectCommand = new RelayCommand(_ => AcceptRisks, _ => _ = RunSetupAsync());
+            LaunchRobloxCommand = new RelayCommand(_ => InjectCompleted, _ => LaunchRoblox());
         }
 
         private async Task RunSetupAsync()
@@ -36,7 +42,9 @@ namespace AetherVisor.Frontend.ViewModels
             // Inject isteği: opcode=1 + process adı (utf16)
             await Step("Inject başlatılıyor", 90);
             await SendInjectAsync("RobloxPlayerBeta.exe");
+            await Step("Bypass modülleri başlatılıyor", 95);
             await Step("Tamamlandı", 100);
+            InjectCompleted = true;
 
             // Başarılı ise ana pencereye geç
             Application.Current.Dispatcher.Invoke(() =>
@@ -85,5 +93,21 @@ namespace AetherVisor.Frontend.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        private void LaunchRoblox()
+        {
+            try {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo {
+                    FileName = "roblox://",
+                    UseShellExecute = true
+                });
+            } catch {
+                try {
+                    var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "Roblox", "Versions", "RobloxPlayerBeta.exe");
+                    System.Diagnostics.Process.Start(path);
+                } catch { }
+            }
+        }
     }
 }

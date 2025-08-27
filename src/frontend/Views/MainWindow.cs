@@ -33,5 +33,15 @@ namespace AetherVisor.Frontend.Views
                 vm.OpenFile(node);
             }
         }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            var mini = new MiniWindow { Owner = this };
+            mini.Left = this.Left + this.Width - 120;
+            mini.Top = this.Top + 40;
+            mini.Show();
+            this.Hide();
+            mini.Closed += (s, _) => this.Show();
+        }
     }
 }

@@ -45,6 +45,7 @@
 
         <StackPanel Grid.Row="1" Margin="24" Spacing="12">
             <TextBlock Text="Çekirdek kontroller, IPC ve kaynak hazırlığı yapılacak." Foreground="#AAA"/>
+            <CheckBox Content="Riskleri kabul ediyorum" IsChecked="{Binding AcceptRisks}"/>
             <ProgressBar Height="8" Minimum="0" Maximum="100" Value="{Binding Progress}" Background="{StaticResource ColorGray2}"/>
             <ItemsControl ItemsSource="{Binding Steps}">
                 <ItemsControl.ItemTemplate>
@@ -58,6 +59,7 @@
         <Border Grid.Row="2" Background="{StaticResource ColorGray1}" Padding="16">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
                 <Button Style="{StaticResource MonoButton}" Content="Inject" Command="{Binding InjectCommand}"/>
+                <Button Style="{StaticResource MonoButton}" Content="Roblox'a Git" Command="{Binding LaunchRobloxCommand}"/>
             </StackPanel>
         </Border>
     </Grid>

@@ -1,0 +1,10 @@
+<Window x:Class="AetherVisor.Frontend.Views.MiniWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Aether" Width="100" Height="100" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Topmost="True">
+    <Border Background="#111" CornerRadius="8" BorderBrush="#333" BorderThickness="1">
+        <Grid>
+            <Image x:Name="Logo" Stretch="Uniform" Margin="8"/>
+        </Grid>
+    </Border>
+</Window>
