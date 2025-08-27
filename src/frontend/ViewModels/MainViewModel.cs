@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using System;
+using System.Windows;
 
 namespace AetherVisor.Frontend.ViewModels
 {
@@ -12,6 +13,26 @@ namespace AetherVisor.Frontend.ViewModels
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class RelayCommand : ICommand
+    {
+        private readonly Predicate<object> _canExecute;
+        private readonly Action<object> _execute;
+
+        public RelayCommand(Predicate<object> canExecute, Action<object> execute)
+        {
+            _canExecute = canExecute ?? (_ => true);
+            _execute = execute ?? (_ => { });
+        }
+
+        public bool CanExecute(object parameter) => _canExecute(parameter);
+        public void Execute(object parameter) => _execute(parameter);
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
     }
 
