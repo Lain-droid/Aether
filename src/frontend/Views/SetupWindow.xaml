@@ -57,7 +57,7 @@
         </StackPanel>
 
         <Border Grid.Row="2" Background="{StaticResource ColorGray1}" Padding="16">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource MonoButton}" Content="Inject" Command="{Binding InjectCommand}"/>
                 <Button Style="{StaticResource MonoButton}" Content="Roblox'a Git" Command="{Binding LaunchRobloxCommand}"/>
             </StackPanel>

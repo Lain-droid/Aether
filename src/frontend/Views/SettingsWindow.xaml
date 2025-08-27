@@ -50,7 +50,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{StaticResource MonoButton}" Content="Save" Command="{Binding SaveCommand}"/>
             <Button Style="{StaticResource MonoButton}" Content="Close" IsCancel="True"/>
         </StackPanel>
