@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System;
 using System.Windows;
+using AetherVisor.Frontend.Services;
 
 namespace AetherVisor.Frontend.ViewModels
 {
@@ -49,6 +50,7 @@ namespace AetherVisor.Frontend.ViewModels
 
         public ICommand ExecuteScriptCommand { get; }
         public ICommand InjectCommand { get; }
+        private readonly IIpcClientService _ipc = new IpcClientService();
 
         public MainViewModel()
         {
@@ -64,9 +66,16 @@ namespace AetherVisor.Frontend.ViewModels
             return !string.IsNullOrWhiteSpace(ScriptText);
         }
 
-        private void ExecuteScript()
+        private async void ExecuteScript()
         {
             ConsoleOutput.Add($"Execute requested at {DateTime.Now:HH:mm:ss}");
+            try {
+                await _ipc.ConnectAsync();
+                await _ipc.SendScriptAsync(ScriptText);
+                ConsoleOutput.Add("Script sent to backend");
+            } catch (Exception ex) {
+                ConsoleOutput.Add($"IPC error: {ex.Message}");
+            }
         }
 
         private void Inject()
