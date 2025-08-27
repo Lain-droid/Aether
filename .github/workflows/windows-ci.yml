@@ -1,0 +1,44 @@
+name: Windows CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore and Build WPF Frontend (x64)
+        working-directory: src/frontend
+        run: |
+          dotnet restore Aether.Frontend.csproj
+          dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend
+
+      - name: Build Backend (CMake x64)
+        shell: pwsh
+        run: |
+          cmake -S . -B build -A x64
+          cmake --build build --config Release
+          mkdir artifacts\backend
+          Copy-Item build\src\backend\Release\aether_backend.lib artifacts\backend -ErrorAction SilentlyContinue
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aether-artifacts
+          path: |
+            artifacts/frontend
+            artifacts/backend
