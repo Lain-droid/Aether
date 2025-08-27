@@ -29,15 +29,20 @@ jobs:
           dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend
 
       - name: Optional Code Signing (EXE)
-        if: ${{ secrets.CERT_PFX && secrets.CERT_PASSWORD }}
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          CERT_PFX: ${{ secrets.CERT_PFX }}
+          CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
         shell: pwsh
         run: |
-          $certPath = "$env:RUNNER_TEMP\codesign.pfx"
-          Set-Content -Path $certPath -Value ([System.Convert]::FromBase64String("${{ secrets.CERT_PFX }}")) -AsByteStream
-          $files = Get-ChildItem artifacts\frontend -Filter *.exe -Recurse
-          foreach ($f in $files) {
-            & "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe" sign /f $certPath /p "${{ secrets.CERT_PASSWORD }}" /tr http://timestamp.sectigo.com /td SHA256 /fd SHA256 $f.FullName
-          }
+          if (-not [string]::IsNullOrEmpty($env:CERT_PFX) -and -not [string]::IsNullOrEmpty($env:CERT_PASSWORD)) {
+            $certPath = "$env:RUNNER_TEMP\codesign.pfx"
+            Set-Content -Path $certPath -Value ([System.Convert]::FromBase64String($env:CERT_PFX)) -AsByteStream
+            $files = Get-ChildItem artifacts\frontend -Filter *.exe -Recurse
+            foreach ($f in $files) {
+              & "C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe" sign /f $certPath /p $env:CERT_PASSWORD /tr http://timestamp.sectigo.com /td SHA256 /fd SHA256 $f.FullName
+            }
+          } else { Write-Host "Code signing skipped: missing secrets" }
 
       - name: Build Backend (CMake x64)
         shell: pwsh
