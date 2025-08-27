@@ -50,6 +50,9 @@ namespace AetherVisor.Frontend.ViewModels
 
         public ObservableCollection<string> ConsoleOutput { get; } = new ObservableCollection<string>();
         public ObservableCollection<FileNode> Files { get; } = new ObservableCollection<FileNode>();
+        public ObservableCollection<OpenDocument> Tabs { get; } = new ObservableCollection<OpenDocument>();
+        private OpenDocument _activeTab;
+        public OpenDocument ActiveTab { get => _activeTab; set { _activeTab = value; if (value != null) ScriptText = value.Content; OnPropertyChanged(nameof(ActiveTab)); } }
         private string _currentFile;
         public string CurrentFile { get => _currentFile; set { _currentFile = value; OnPropertyChanged(nameof(CurrentFile)); } }
 
@@ -111,8 +114,12 @@ namespace AetherVisor.Frontend.ViewModels
         {
             if (node == null || node.IsDirectory) return;
             try {
-                ScriptText = File.ReadAllText(node.FullPath);
+                var content = File.ReadAllText(node.FullPath);
+                ScriptText = content;
                 CurrentFile = node.FullPath;
+                var tab = new OpenDocument { FilePath = node.FullPath, FileName = System.IO.Path.GetFileName(node.FullPath), Content = content };
+                Tabs.Add(tab);
+                ActiveTab = tab;
             } catch (Exception ex) {
                 ConsoleOutput.Add($"Open error: {ex.Message}");
             }

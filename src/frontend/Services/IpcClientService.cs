@@ -19,11 +19,12 @@ namespace AetherVisor.Frontend.Services
     {
         public event Action<string> ConsoleMessageReceived;
         private NamedPipeClientStream _pipe;
+        private bool _reading;
 
         public Task ConnectAsync()
         {
             _pipe = new NamedPipeClientStream(".", "AetherPipe", PipeDirection.InOut, PipeOptions.Asynchronous);
-            return _pipe.ConnectAsync(1500);
+            return _pipe.ConnectAsync(1500).ContinueWith(_ => StartReadLoop());
         }
 
         public Task SendScriptAsync(string script)
@@ -52,12 +53,36 @@ namespace AetherVisor.Frontend.Services
         }
 
         // A private method would listen for incoming messages from the backend
-        private void ListenForMessages()
+        private void StartReadLoop()
         {
-            // while(connected) {
-            //   var message = ReadMessageFromPipe();
-            //   ConsoleMessageReceived?.Invoke(message.Payload);
-            // }
+            if (_reading || _pipe == null) return;
+            _reading = true;
+            Task.Run(async () =>
+            {
+                try {
+                    var br = new BinaryReader(_pipe);
+                    while (_pipe != null && _pipe.IsConnected)
+                    {
+                        // Expect [len:uint32][payload bytes]
+                        byte[] lenb = new byte[4];
+                        int r = await _pipe.ReadAsync(lenb, 0, 4);
+                        if (r != 4) break;
+                        uint len = BitConverter.ToUInt32(lenb, 0);
+                        if (len == 0 || len > (1u << 20)) continue;
+                        byte[] data = new byte[len];
+                        int off = 0;
+                        while (off < len)
+                        {
+                            int n = await _pipe.ReadAsync(data, off, (int)len - off);
+                            if (n <= 0) break;
+                            off += n;
+                        }
+                        var msg = Encoding.UTF8.GetString(data);
+                        ConsoleMessageReceived?.Invoke(msg);
+                    }
+                } catch { }
+                _reading = false;
+            });
         }
     }
 }

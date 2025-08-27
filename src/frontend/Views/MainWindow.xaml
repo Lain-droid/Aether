@@ -87,15 +87,35 @@
                 </DockPanel>
             </Border>
 
-            <!-- Editor center -->
+            <!-- Editor center with tabs -->
             <Border Grid.Column="1" Margin="12" Background="{StaticResource ColorGray2}" CornerRadius="4">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Script" Margin="10,8" Foreground="#AAA"/>
-                    <local:ScriptEditor Grid.Row="1" Margin="10" Text="{Binding ScriptText, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TabControl Grid.Row="0" ItemsSource="{Binding Tabs}" SelectedItem="{Binding ActiveTab}">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FileName}"/>
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <local:ScriptEditor Text="{Binding DataContext.ScriptText, RelativeSource={RelativeSource AncestorType=TabControl}, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
+                    </TabControl>
+                    <!-- Search/replace bar -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8" Spacing="6">
+                        <TextBlock Text="Find" VerticalAlignment="Center"/>
+                        <TextBox Width="160" x:Name="FindBox"/>
+                        <TextBlock Text="Replace" VerticalAlignment="Center"/>
+                        <TextBox Width="160" x:Name="ReplaceBox"/>
+                        <Button Style="{StaticResource MonoButton}" Content="Find" Click="Find_Click"/>
+                        <Button Style="{StaticResource MonoButton}" Content="Replace" Click="Replace_Click"/>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>

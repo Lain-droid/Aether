@@ -56,6 +56,21 @@ namespace AetherVisor.Frontend.Controls
 
         private void OnKeyUpForAutocomplete(object sender, KeyEventArgs e)
         {
+            // auto-indent
+            if (e.Key == Key.Return)
+            {
+                int line = PART_TextBox.GetLineIndexFromCharacterIndex(PART_TextBox.CaretIndex);
+                if (line > 0)
+                {
+                    var prev = PART_TextBox.GetLineText(line - 1);
+                    var indent = new string(prev.TakeWhile(ch => ch == ' ' || ch == '\t').ToArray());
+                    PART_TextBox.SelectedText = indent;
+                    PART_TextBox.CaretIndex += indent.Length;
+                }
+            }
+
+            // simple bracket match visual hint could be added here (not selecting for now)
+
             if (!AutocompleteEnabled) { PART_Popup.IsOpen = false; return; }
             if (char.IsLetterOrDigit((char)KeyInterop.VirtualKeyFromKey(e.Key)) || e.Key == Key.OemPeriod)
             {
