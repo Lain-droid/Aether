@@ -6,6 +6,7 @@ using System.Windows;
 using AetherVisor.Frontend.Services;
 using AetherVisor.Frontend.Models;
 using System.IO;
+using System.Text.Json;
 
 namespace AetherVisor.Frontend.ViewModels
 {
@@ -69,6 +70,7 @@ namespace AetherVisor.Frontend.ViewModels
             ConsoleOutput.Add("Idle");
 
             LoadFiles(Environment.CurrentDirectory);
+            RestoreState();
         }
 
         private bool CanExecuteScript()
@@ -120,9 +122,52 @@ namespace AetherVisor.Frontend.ViewModels
                 var tab = new OpenDocument { FilePath = node.FullPath, FileName = System.IO.Path.GetFileName(node.FullPath), Content = content };
                 Tabs.Add(tab);
                 ActiveTab = tab;
+                SaveState();
             } catch (Exception ex) {
                 ConsoleOutput.Add($"Open error: {ex.Message}");
             }
+        }
+
+        private string StatePath => System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Aether", "state.json");
+
+        private void RestoreState()
+        {
+            try {
+                if (File.Exists(StatePath))
+                {
+                    var json = File.ReadAllText(StatePath);
+                    var state = JsonSerializer.Deserialize<AppState>(json);
+                    if (state != null)
+                    {
+                        foreach (var f in state.OpenFiles)
+                        {
+                            if (File.Exists(f))
+                            {
+                                var node = new FileNode { FullPath = f, Name = System.IO.Path.GetFileName(f), IsDirectory = false };
+                                OpenFile(node);
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(state.ActiveFile))
+                        {
+                            ActiveTab = Tabs.FirstOrDefault(t => t.FilePath == state.ActiveFile);
+                        }
+                    }
+                }
+            } catch { }
+        }
+
+        private void SaveState()
+        {
+            try {
+                var state = new AppState
+                {
+                    OpenFiles = new System.Collections.Generic.List<string>(Tabs.Select(t => t.FilePath)),
+                    ActiveFile = ActiveTab?.FilePath
+                };
+                var dir = System.IO.Path.GetDirectoryName(StatePath);
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                File.WriteAllText(StatePath, JsonSerializer.Serialize(state));
+            } catch { }
         }
     }
 }

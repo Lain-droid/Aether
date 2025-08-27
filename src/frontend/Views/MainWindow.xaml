@@ -127,7 +127,17 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Terminal" Foreground="#AAA"/>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="Terminal" Foreground="#AAA"/>
+                    <TextBlock Text="Filter" Margin="12,0,0,0"/>
+                    <ComboBox x:Name="TermFilter" Width="120">
+                        <ComboBoxItem Content="All" IsSelected="True"/>
+                        <ComboBoxItem Content="Info"/>
+                        <ComboBoxItem Content="Warning"/>
+                        <ComboBoxItem Content="Error"/>
+                    </ComboBox>
+                    <TextBox x:Name="TermSearch" Width="200" PlaceholderText="Search"/>
+                </StackPanel>
                 <ListBox Grid.Row="1" ItemsSource="{Binding ConsoleOutput}"
                          Background="{StaticResource ColorBlack}" Foreground="{StaticResource ColorWhite}" BorderBrush="{StaticResource ColorGray3}" BorderThickness="1"/>
             </Grid>
