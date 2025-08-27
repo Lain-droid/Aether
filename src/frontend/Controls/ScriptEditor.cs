@@ -39,13 +39,25 @@ namespace AetherVisor.Frontend.Controls
             UpdateLineNumbers();
         }
 
+        public static readonly DependencyProperty EditorFontSizeProperty = DependencyProperty.Register(
+            nameof(EditorFontSize), typeof(double), typeof(ScriptEditor), new PropertyMetadata(14.0, (o, e) =>
+            {
+                var c = (ScriptEditor)o;
+                c.PART_TextBox.FontSize = (double)e.NewValue;
+            }));
         public double EditorFontSize
         {
-            get { return PART_TextBox.FontSize; }
-            set { PART_TextBox.FontSize = value; }
+            get { return (double)GetValue(EditorFontSizeProperty); }
+            set { SetValue(EditorFontSizeProperty, value); }
         }
 
-        public bool AutocompleteEnabled { get; set; } = true;
+        public static readonly DependencyProperty AutocompleteEnabledProperty = DependencyProperty.Register(
+            nameof(AutocompleteEnabled), typeof(bool), typeof(ScriptEditor), new PropertyMetadata(true));
+        public bool AutocompleteEnabled
+        {
+            get { return (bool)GetValue(AutocompleteEnabledProperty); }
+            set { SetValue(AutocompleteEnabledProperty, value); }
+        }
 
         private void UpdateLineNumbers()
         {
