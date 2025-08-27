@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <string>
+#include <functional>
 
 namespace AetherVisor {
     namespace Backend {
@@ -19,6 +20,9 @@ namespace AetherVisor {
 
             // Triggers a full cleanup of all injected components
             void Cleanup();
+
+            // Executes a script payload through the VM/engine
+            bool ExecuteScript(const std::string& script);
 
         private:
             Core() = default;

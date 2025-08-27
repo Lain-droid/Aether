@@ -1,6 +1,8 @@
 #include "Core.h"
 #include "AIController.h"
 #include "PolymorphicEngine.h"
+#include "vm/Compiler.h"
+#include "vm/VirtualMachine.h"
 #include <vector>
 #include <stdexcept>
 
@@ -122,6 +124,23 @@ namespace AetherVisor {
 
             m_targetProcess = nullptr;
             m_initialized = false;
+        }
+
+        bool Core::ExecuteScript(const std::string& script) {
+            if (!m_initialized) {
+                return false;
+            }
+            using namespace AetherVisor::VM;
+            CompilationContext context;
+            Compiler compiler;
+            if (!compiler.Compile(script, context)) {
+                return false;
+            }
+            auto bytecode = compiler.GetBytecode(context);
+            VirtualMachine vm;
+            vm.Load(bytecode);
+            vm.Run();
+            return true;
         }
 
     } // namespace Backend
