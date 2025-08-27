@@ -22,12 +22,18 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Prepare logs directory
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts\logs | Out-Null
+
       - name: Restore and Build WPF Frontend (x64)
+        shell: pwsh
         working-directory: src/frontend
         run: |
-          mkdir ..\..\artifacts\logs 2>$null
-          dotnet restore Aether.Frontend.csproj > ..\..\artifacts\logs\frontend-restore.log 2>&1
-          dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend > ..\..\artifacts\logs\frontend-publish.log 2>&1
+          dotnet --info | Tee-Object -FilePath ..\..\artifacts\logs\dotnet-info.log
+          dotnet restore Aether.Frontend.csproj 2>&1 | Tee-Object -FilePath ..\..\artifacts\logs\frontend-restore.log
+          dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend 2>&1 | Tee-Object -FilePath ..\..\artifacts\logs\frontend-publish.log
 
       - name: Optional Code Signing (EXE)
         if: ${{ github.event_name != 'pull_request' }}
@@ -48,9 +54,8 @@ jobs:
       - name: Build Backend (CMake x64)
         shell: pwsh
         run: |
-          mkdir artifacts\logs -ea 0
-          cmake -S . -B build -A x64 *> artifacts\logs\backend-cmake-configure.log
-          cmake --build build --config Release *> artifacts\logs\backend-build.log
+          cmake -S . -B build -A x64 2>&1 | Tee-Object -FilePath artifacts\logs\backend-cmake-configure.log
+          cmake --build build --config Release 2>&1 | Tee-Object -FilePath artifacts\logs\backend-build.log
           mkdir artifacts\backend
           Copy-Item build\src\backend\Release\aether_backend.lib artifacts\backend -ErrorAction SilentlyContinue
 
@@ -67,6 +72,7 @@ jobs:
           options: /DSourceDir="artifacts\\frontend" /O"artifacts\\installer"
 
       - name: Upload Artifacts
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: aether-artifacts
@@ -93,6 +99,7 @@ jobs:
           squirrel pack --packId Aether --packVersion 1.0.0 --packTitle "Aether" --icon $icon --packDir artifacts\frontend --out artifacts\squirrel
 
       - name: Upload Installers (ClickOnce & Squirrel)
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: aether-installers
@@ -100,7 +107,8 @@ jobs:
             artifacts/clickonce
             artifacts/squirrel
 
-      - name: Upload Artifacts
+      - name: Upload Artifacts (frontend/backend)
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: aether-artifacts
