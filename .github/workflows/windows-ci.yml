@@ -62,7 +62,7 @@ jobs:
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.5
         with:
           path: scripts/installer/aether.iss
-          options: /DSourceDir="artifacts/frontend" /O"artifacts/installer"
+          options: /DSourceDir="artifacts\\frontend" /O"artifacts\\installer"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4

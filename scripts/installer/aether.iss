@@ -4,6 +4,10 @@
 #define MyAppPublisher "Aether Team"
 #define MyAppExeName "Aether.exe"
 
+#ifndef SourceDir
+#define SourceDir "..\\..\\artifacts\\frontend"
+#endif
+
 [Setup]
 AppId={{C8C0B1F6-2A7A-4E31-A5F7-7F3A9C6E9A77}
 AppName={#MyAppName}
