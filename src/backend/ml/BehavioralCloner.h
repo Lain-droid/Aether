@@ -2,30 +2,95 @@
 
 #include "MLPrimitives.h"
 #include <vector>
+#include <chrono>
+#include <utility>
 
 namespace AetherVisor {
     namespace ML {
 
-        // A placeholder struct for the input to our model.
+        // Advanced game state representation with temporal data
         struct GameState {
-            double player_x;
-            double player_y;
-            double enemy_x;
-            double enemy_y;
+            double player_x, player_y, player_z;
+            double enemy_x, enemy_y, enemy_z;
+            double velocity_x, velocity_y, velocity_z;
+            double camera_pitch, camera_yaw;
+            double health, stamina;
+            double time_since_last_action;
+            std::vector<double> recent_actions; // History of recent inputs
+            std::vector<double> environmental_factors; // Game-specific context
         };
 
-        // This class would use a trained model to generate human-like inputs.
+        // Human-like input patterns
+        struct HumanInputPattern {
+            double reaction_time_ms;
+            double movement_smoothness;
+            double accuracy_variance;
+            double input_timing_variance;
+            double fatigue_factor;
+            std::vector<double> preferred_key_sequences;
+        };
+
+        // Advanced human-like behavior cloning system
         class BehavioralCloner {
         public:
-            // Constructor sets up the neural network architecture.
-            BehavioralCloner(int input_size, int hidden_size, int output_size);
+            // Constructor with advanced neural architecture
+            BehavioralCloner(int input_size = 20, int hidden_size = 128, int output_size = 10);
 
-            // Generates a mouse movement target based on the current game state.
-            // Returns a pair of (delta_x, delta_y).
+            // Core behavior generation methods
             std::pair<double, double> GenerateMouseMovement(const GameState& state);
+            std::vector<bool> GenerateKeyboardInput(const GameState& state);
+            double GenerateReactionDelay(const GameState& state);
+            
+            // Advanced human-like behavior simulation
+            void LearnFromHumanData(const std::vector<GameState>& states, 
+                                  const std::vector<std::vector<double>>& humanActions);
+            void AdaptToPlayStyle(const HumanInputPattern& pattern);
+            
+            // Anti-detection behavior
+            void IntroduceHumanVariance();
+            void SimulateFatigue(double sessionDuration);
+            void GenerateNaturalPauses();
+            
+            // Pattern analysis and adaptation
+            void AnalyzePlayerBehavior(const std::vector<GameState>& recentStates);
+            HumanInputPattern DetectPlayerPattern(const std::vector<GameState>& playerHistory);
+            
+            // Advanced evasion behaviors
+            void MimicPlayerStyle(const std::vector<GameState>& playerData);
+            std::vector<double> GenerateDistractorActions(); // Generate believable "mistakes"
+            
+            // Context-aware decision making
+            bool ShouldActAggressive(const GameState& state);
+            bool ShouldActCautious(const GameState& state);
+            double CalculateOptimalAimAccuracy(const GameState& state);
 
         private:
             std::vector<Layer> m_layers;
+            std::vector<Layer> m_varianceNetwork; // For generating human-like variance
+            
+            // Human behavior modeling
+            HumanInputPattern m_currentPattern;
+            std::vector<double> m_reactionTimes;
+            std::vector<double> m_accuracyHistory;
+            std::vector<std::vector<double>> m_movementPatterns;
+            
+            // Session tracking for fatigue simulation
+            std::chrono::time_point<std::chrono::steady_clock> m_sessionStart;
+            double m_fatigueLevel = 0.0;
+            int m_actionCount = 0;
+            
+            // Learning parameters
+            double m_adaptationRate = 0.05;
+            std::vector<std::pair<GameState, std::vector<double>>> m_trainingData;
+            
+            // Helper methods
+            std::vector<double> ExtractBehavioralFeatures(const GameState& state);
+            double ApplyHumanVariance(double baseValue, double varianceAmount);
+            void UpdateFatigueLevel();
+            std::vector<double> GenerateNaturalMovementCurve(double startX, double startY, 
+                                                           double endX, double endY);
+            bool ShouldMakeMistake();
+            double CalculateContextualAccuracy(const GameState& state);
         };
 
     } // namespace ML
