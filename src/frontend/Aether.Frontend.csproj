@@ -12,8 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Include="**\*.xaml" Exclude="bin\**;obj\**" />
-    <Compile Include="**\*.cs" Exclude="bin\**;obj\**" />
     <None Include="..\..\scripts\installer\icon.ico" Pack="true" Visible="false" />
     <None Include="..\..\LICENSE" Pack="true" Visible="false" />
   </ItemGroup>
