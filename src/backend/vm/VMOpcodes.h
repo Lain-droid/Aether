@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <cstddef>
+#include <cstring>
 
 namespace AetherVisor {
     namespace VM {
@@ -166,8 +168,6 @@ namespace AetherVisor {
             VMValue(float val) : type(VMDataType::FLOAT32) { data.f32 = val; }
             VMValue(double val) : type(VMDataType::FLOAT64) { data.f64 = val; }
             VMValue(bool val) : type(VMDataType::BOOLEAN) { data.boolean = val; }
-            VMValue(const char* str);
-            ~VMValue();
         };
 
         // Function signature for the VM
