@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -52,6 +53,7 @@ jobs:
           Compress-Archive -Path artifacts\frontend\* -DestinationPath artifacts\Aether-frontend-win-x64.zip -Force
 
       - name: Setup Inno Setup
+        if: ${{ always() }}
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.5
         with:
           path: scripts/installer/aether.iss
@@ -79,7 +81,8 @@ jobs:
           dotnet tool install --global Clowd.Squirrel --version 2.10.1
           $env:Path += ";$env:USERPROFILE\.dotnet\tools"
           mkdir artifacts\squirrel -ea 0
-          squirrel pack --packId Aether --packVersion 1.0.0 --packTitle "Aether" --icon scripts\installer\icon.ico --packDir artifacts\frontend --out artifacts\squirrel
+          if (Test-Path scripts\installer\icon.ico) { $icon = "scripts\installer\icon.ico" } else { $icon = "$env:WINDIR\System32\shell32.dll" }
+          squirrel pack --packId Aether --packVersion 1.0.0 --packTitle "Aether" --icon $icon --packDir artifacts\frontend --out artifacts\squirrel
 
       - name: Upload Installers (ClickOnce & Squirrel)
         uses: actions/upload-artifact@v4
