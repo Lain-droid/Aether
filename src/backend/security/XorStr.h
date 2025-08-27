@@ -31,7 +31,7 @@ namespace AetherVisor {
 
             const T* get() const {
                 for (size_t i = 0; i < N; ++i) {
-                    m_decrypted[i] = m_encrypted[i] ^ KEY[i % (K - 1)];
+                    m_decrypted[i] = m_encrypted[i] ^ key[i % K];
                 }
                 return m_decrypted.data();
             }
@@ -39,7 +39,7 @@ namespace AetherVisor {
         private:
             mutable std::array<T, N> m_decrypted{};
             const std::array<T, N> m_encrypted;
-            static constexpr T KEY[K] = { K... };
+            const T(&key)[K];
         };
 
 // Helper macro to make usage cleaner.
