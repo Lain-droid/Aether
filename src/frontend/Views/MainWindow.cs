@@ -4,6 +4,8 @@
 using System.Windows;
 using AetherVisor.Frontend.ViewModels;
 using AetherVisor.Frontend.Views;
+using System.Windows.Controls;
+using AetherVisor.Frontend.Models;
 
 namespace AetherVisor.Frontend.Views
 {
@@ -20,6 +22,16 @@ namespace AetherVisor.Frontend.Views
             var vm = new AppSettingsViewModel();
             var dlg = new SettingsWindow(vm) { Owner = this };
             dlg.ShowDialog();
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var node = e.NewValue as FileNode;
+            if (node == null) return;
+            if (DataContext is MainViewModel vm)
+            {
+                vm.OpenFile(node);
+            }
         }
     }
 }

@@ -40,14 +40,10 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="340"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="180"/>
         </Grid.RowDefinitions>
 
         <!-- Header -->
@@ -62,18 +58,36 @@
             </DockPanel>
         </Border>
 
-        <!-- Editor -->
-        <Grid Grid.Row="1" Grid.Column="0" Background="{StaticResource ColorBlack}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="180"/>
-            </Grid.RowDefinitions>
+        <!-- Body: Sidebar + Editor + Right Panel (optional) -->
+        <Grid Grid.Row="1" Background="{StaticResource ColorBlack}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0"/>
+            </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <Storyboard x:Key="FocusGlow">
                     <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="0.6" Duration="0:0:0.20" AutoReverse="True"/>
                 </Storyboard>
             </Grid.Resources>
-            <Border Margin="12" Background="{StaticResource ColorGray2}" CornerRadius="4">
+            <!-- Sidebar (file explorer) -->
+            <Border Grid.Column="0" Margin="12" Background="{StaticResource ColorGray2}" CornerRadius="4">
+                <DockPanel>
+                    <TextBlock Text="Explorer" Margin="10,8" Foreground="#AAA"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TreeView ItemsSource="{Binding Files}" SelectedItemChanged="TreeView_SelectedItemChanged">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Name}"/>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- Editor center -->
+            <Border Grid.Column="1" Margin="12" Background="{StaticResource ColorGray2}" CornerRadius="4">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -83,48 +97,19 @@
                     <local:ScriptEditor Grid.Row="1" Margin="10" Text="{Binding ScriptText, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </Border>
-
-            <!-- Console -->
-            <Border Grid.Row="1" Margin="12" Background="{StaticResource ColorGray2}" CornerRadius="4">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Console" Margin="10,8" Foreground="#AAA"/>
-                    <ListBox Grid.Row="1" Margin="10" ItemsSource="{Binding ConsoleOutput}"
-                             Background="{StaticResource ColorBlack}" Foreground="{StaticResource ColorWhite}" BorderBrush="{StaticResource ColorGray3}" BorderThickness="1">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="Opacity" Value="0"/>
-                                <Style.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation To="1" Duration="0:0:0.20" Storyboard.TargetProperty="Opacity"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>
-                </Grid>
-            </Border>
         </Grid>
 
-        <!-- Side Panel -->
-        <Border Grid.Row="1" Grid.Column="1" Background="{StaticResource ColorGray1}" Padding="12">
-            <StackPanel>
-                <TextBlock Text="Actions" Margin="0,0,0,8"/>
-                <Button Style="{StaticResource MonoButton}" Content="Inject" Command="{Binding InjectCommand}" Margin="0,0,0,8"/>
-                <Button Style="{StaticResource MonoButton}" Content="Execute" Command="{Binding ExecuteScriptCommand}"/>
-            </StackPanel>
-        </Border>
-
-        <!-- Footer -->
-        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="{StaticResource ColorGray1}" Padding="10">
-            <TextBlock Text="Monochrome Theme • Aether" HorizontalAlignment="Right" Foreground="#888"/>
+        <!-- Bottom terminal -->
+        <Border Grid.Row="2" Background="{StaticResource ColorGray1}" Padding="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Terminal" Foreground="#AAA"/>
+                <ListBox Grid.Row="1" ItemsSource="{Binding ConsoleOutput}"
+                         Background="{StaticResource ColorBlack}" Foreground="{StaticResource ColorWhite}" BorderBrush="{StaticResource ColorGray3}" BorderThickness="1"/>
+            </Grid>
         </Border>
     </Grid>
 </Window>
