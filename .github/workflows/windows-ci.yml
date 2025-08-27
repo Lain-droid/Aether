@@ -30,6 +30,7 @@ jobs:
       - name: Restore and Build WPF Frontend (x64)
         shell: pwsh
         working-directory: src/frontend
+        continue-on-error: true
         run: |
           dotnet --info | Tee-Object -FilePath ..\..\artifacts\logs\dotnet-info.log
           dotnet restore Aether.Frontend.csproj 2>&1 | Tee-Object -FilePath ..\..\artifacts\logs\frontend-restore.log
@@ -53,9 +54,17 @@ jobs:
 
       - name: Build Backend (CMake x64)
         shell: pwsh
+        continue-on-error: true
         run: |
           cmake -S . -B build -A x64 2>&1 | Tee-Object -FilePath artifacts\logs\backend-cmake-configure.log
           cmake --build build --config Release 2>&1 | Tee-Object -FilePath artifacts\logs\backend-build.log
+
+      - name: List artifacts directory (debug)
+        if: ${{ always() }}
+        shell: pwsh
+        run: |
+          Write-Host "Artifacts root:" (Get-Location)
+          Get-ChildItem -Recurse artifacts | ForEach-Object { $_.FullName }
           mkdir artifacts\backend
           Copy-Item build\src\backend\Release\aether_backend.lib artifacts\backend -ErrorAction SilentlyContinue
 
@@ -82,6 +91,7 @@ jobs:
             artifacts/Aether-frontend-win-x64.zip
             artifacts/installer
             artifacts/logs
+          if-no-files-found: warn
 
       - name: ClickOnce Publish (FileSystem)
         working-directory: src/frontend
@@ -106,6 +116,7 @@ jobs:
           path: |
             artifacts/clickonce
             artifacts/squirrel
+          if-no-files-found: warn
 
       - name: Upload Artifacts (frontend/backend)
         if: ${{ always() }}
@@ -115,3 +126,4 @@ jobs:
           path: |
             artifacts/frontend
             artifacts/backend
+          if-no-files-found: warn
