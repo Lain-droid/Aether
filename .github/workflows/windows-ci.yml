@@ -27,6 +27,17 @@ jobs:
           dotnet restore Aether.Frontend.csproj
           dotnet publish Aether.Frontend.csproj -c Release -r win-x64 --self-contained false -o ../../artifacts/frontend
 
+      - name: Optional Code Signing (EXE)
+        if: ${{ secrets.CERT_PFX && secrets.CERT_PASSWORD }}
+        shell: pwsh
+        run: |
+          $certPath = "$env:RUNNER_TEMP\codesign.pfx"
+          Set-Content -Path $certPath -Value ([System.Convert]::FromBase64String("${{ secrets.CERT_PFX }}")) -AsByteStream
+          $files = Get-ChildItem artifacts\frontend -Filter *.exe -Recurse
+          foreach ($f in $files) {
+            & "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x64\\signtool.exe" sign /f $certPath /p "${{ secrets.CERT_PASSWORD }}" /tr http://timestamp.sectigo.com /td SHA256 /fd SHA256 $f.FullName
+          }
+
       - name: Build Backend (CMake x64)
         shell: pwsh
         run: |
@@ -34,6 +45,27 @@ jobs:
           cmake --build build --config Release
           mkdir artifacts\backend
           Copy-Item build\src\backend\Release\aether_backend.lib artifacts\backend -ErrorAction SilentlyContinue
+
+      - name: Zip frontend artifacts
+        shell: pwsh
+        run: |
+          Compress-Archive -Path artifacts\frontend\* -DestinationPath artifacts\Aether-frontend-win-x64.zip -Force
+
+      - name: Setup Inno Setup
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.5
+        with:
+          path: scripts/installer/aether.iss
+          options: /DSourceDir="artifacts/frontend" /O"artifacts/installer"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aether-artifacts
+          path: |
+            artifacts/frontend
+            artifacts/backend
+            artifacts/Aether-frontend-win-x64.zip
+            artifacts/installer
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
