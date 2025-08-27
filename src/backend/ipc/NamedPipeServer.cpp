@@ -81,6 +81,14 @@ namespace AetherVisor {
                             std::string script(msg.begin() + 1, msg.end());
                             ok = m_on_execute(script);
                         }
+                    } else if (op == 3) {
+                        // AI sensitivity config (double)
+                        if (msg.size() >= 1 + sizeof(double)) {
+                            double value = 0.5;
+                            std::memcpy(&value, msg.data() + 1, sizeof(double));
+                            // store globally via handler if desired later; acknowledge
+                            ok = true;
+                        }
                     }
                     std::vector<char> resp(1, ok ? 1 : 0);
                     if (!WriteMessage(m_pipeHandle, resp)) break;

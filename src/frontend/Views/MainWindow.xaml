@@ -57,6 +57,7 @@
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Spacing="8">
                     <Button Style="{StaticResource MonoButton}" Content="Inject" Command="{Binding InjectCommand}"/>
                     <Button Style="{StaticResource MonoButton}" Content="Execute" Command="{Binding ExecuteScriptCommand}"/>
+                    <Button Style="{StaticResource MonoButton}" Content="Settings" Click="OpenSettings_Click"/>
                 </StackPanel>
             </DockPanel>
         </Border>

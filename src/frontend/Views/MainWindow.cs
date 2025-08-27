@@ -3,6 +3,7 @@
 
 using System.Windows;
 using AetherVisor.Frontend.ViewModels;
+using AetherVisor.Frontend.Views;
 
 namespace AetherVisor.Frontend.Views
 {
@@ -12,6 +13,13 @@ namespace AetherVisor.Frontend.Views
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+        }
+
+        private void OpenSettings_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = new AppSettingsViewModel();
+            var dlg = new SettingsWindow(vm) { Owner = this };
+            dlg.ShowDialog();
         }
     }
 }

@@ -39,6 +39,14 @@ namespace AetherVisor.Frontend.Controls
             UpdateLineNumbers();
         }
 
+        public double EditorFontSize
+        {
+            get { return PART_TextBox.FontSize; }
+            set { PART_TextBox.FontSize = value; }
+        }
+
+        public bool AutocompleteEnabled { get; set; } = true;
+
         private void UpdateLineNumbers()
         {
             var lines = PART_TextBox.LineCount;
@@ -48,6 +56,7 @@ namespace AetherVisor.Frontend.Controls
 
         private void OnKeyUpForAutocomplete(object sender, KeyEventArgs e)
         {
+            if (!AutocompleteEnabled) { PART_Popup.IsOpen = false; return; }
             if (char.IsLetterOrDigit((char)KeyInterop.VirtualKeyFromKey(e.Key)) || e.Key == Key.OemPeriod)
             {
                 var caret = PART_TextBox.CaretIndex;
