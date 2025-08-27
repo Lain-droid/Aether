@@ -11,7 +11,6 @@ AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={pf64}\Aether
 DefaultGroupName=Aether
-LicenseFile=license.txt
 OutputDir=..\..\artifacts\installer
 OutputBaseFilename=Aether-Setup-x64
 ArchitecturesAllowed=x64
@@ -20,7 +19,12 @@ Compression=lzma
 SolidCompression=yes
 DisableDirPage=no
 DisableProgramGroupPage=yes
+#ifexist "license.txt"
+LicenseFile=license.txt
+#endif
+#ifexist "icon.ico"
 SetupIconFile=icon.ico
+#endif
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
