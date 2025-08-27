@@ -37,7 +37,7 @@ namespace AetherVisor {
             
             // Keywords
             IF, ELSE, WHILE, FOR, FUNCTION, RETURN, VAR, CONST,
-            TRY, CATCH, THROW, TRUE, FALSE, NULL_TOKEN,
+            TRY, CATCH, THROW, TRUE_LIT, FALSE_LIT, NULL_TOKEN,
             
             // Special
             NEWLINE, EOF_TOKEN, UNKNOWN

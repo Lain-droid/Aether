@@ -413,8 +413,8 @@ namespace AetherVisor {
                 {"if", TokenType::IF}, {"else", TokenType::ELSE}, {"while", TokenType::WHILE},
                 {"for", TokenType::FOR}, {"function", TokenType::FUNCTION}, {"return", TokenType::RETURN},
                 {"var", TokenType::VAR}, {"const", TokenType::CONST}, {"try", TokenType::TRY},
-                {"catch", TokenType::CATCH}, {"throw", TokenType::THROW}, {"true", TokenType::TRUE},
-                {"false", TokenType::FALSE}, {"null", TokenType::NULL_TOKEN}
+                {"catch", TokenType::CATCH}, {"throw", TokenType::THROW}, {"true", TokenType::TRUE_LIT},
+                {"false", TokenType::FALSE_LIT}, {"null", TokenType::NULL_TOKEN}
             };
             
             auto it = keywords.find(word);
