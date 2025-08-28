@@ -1,8 +1,8 @@
-Package: boost-winapi
+Package: boost-chrono
 Version: 1.75.0
-Depends: boost-config, boost-predef, boost-vcpkg-helpers
+Depends: boost-assert, boost-build, boost-config, boost-detail, boost-integer, boost-modular-build-helper, boost-move, boost-mpl, boost-predef, boost-ratio, boost-static-assert, boost-system, boost-throw-exception, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers, boost-winapi
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 8a94f3ef4b83a98e1ca5d9581b8b5c8f2530a5b5bc87539a990c1c45c8076ec5
-Description: Boost winapi module
+Abi: 85c187dfb2f8a8b2e4515907645c92f61a3433130bb517abee73fdf16c51251d
+Description: Boost chrono module
 Status: install ok half-installed

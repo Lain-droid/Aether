@@ -145,6 +145,7 @@ namespace AetherVisor {
         class AttentionLayer : public Layer {
         public:
             AttentionLayer(int d_model, int num_heads = 8);
+            Matrix forward(const Matrix& inputs) override;
             Matrix forward(const Matrix& query, const Matrix& key, const Matrix& value);
             Matrix multiHeadAttention(const Matrix& inputs);
             

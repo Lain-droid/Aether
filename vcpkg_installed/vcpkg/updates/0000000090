@@ -1,8 +1,0 @@
-Package: boost-unordered
-Version: 1.75.0
-Depends: boost-assert, boost-compatibility, boost-config, boost-container, boost-container-hash, boost-core, boost-detail, boost-functional, boost-move, boost-predef, boost-preprocessor, boost-smart-ptr, boost-throw-exception, boost-tuple, boost-type-traits, boost-utility, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 3731346df65671638b5f8501b0246c435e6325987bfeb25ce1c8a5c5d2865c6c
-Description: Boost unordered module
-Status: install ok half-installed

@@ -1,8 +1,6 @@
-Package: boost-static-assert
-Version: 1.75.0
-Depends: boost-config, boost-detail, boost-vcpkg-helpers
+Package: vcpkg-cmake-config
+Version: 2021-02-26
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 250ad831f51839a8ed86a5f7d1fd73d31e65a164b441a27514b6171cd9dbe1d2
-Description: Boost static_assert module
+Abi: db809b0fafee40247d52ce02970f2618f2ffd025239261a267eb2f3d4ee3ffb4
 Status: install ok installed

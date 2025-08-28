@@ -1,8 +1,0 @@
-Package: boost-filesystem
-Version: 1.75.0
-Depends: boost-assert, boost-build, boost-config, boost-core, boost-detail, boost-functional, boost-integer, boost-io, boost-iterator, boost-modular-build-helper, boost-predef, boost-smart-ptr, boost-system, boost-type-traits, boost-vcpkg-helpers, boost-winapi
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 3fd9462580c49058a14206e30334499bbe9c52e301cec738241629e7bd99ff0a
-Description: Boost filesystem module
-Status: install ok half-installed

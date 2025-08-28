@@ -64,18 +64,22 @@ CMAKE_BINARY_DIR = /workspace/build
 
 # The main recursive "all" target.
 all: src/backend/all
+all: tests/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: src/backend/codegen
+codegen: tests/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
 preinstall: src/backend/preinstall
+preinstall: tests/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: src/backend/clean
+clean: tests/clean
 .PHONY : clean
 
 #=============================================================================
@@ -98,18 +102,37 @@ src/backend/clean: src/backend/CMakeFiles/aether_backend.dir/clean
 .PHONY : src/backend/clean
 
 #=============================================================================
+# Directory level rules for directory tests
+
+# Recursive "all" directory target.
+tests/all:
+.PHONY : tests/all
+
+# Recursive "codegen" directory target.
+tests/codegen:
+.PHONY : tests/codegen
+
+# Recursive "preinstall" directory target.
+tests/preinstall:
+.PHONY : tests/preinstall
+
+# Recursive "clean" directory target.
+tests/clean:
+.PHONY : tests/clean
+
+#=============================================================================
 # Target rules for target src/backend/CMakeFiles/aether_backend.dir
 
 # All Build rule for target.
 src/backend/CMakeFiles/aether_backend.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 "Built target aether_backend"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35 "Built target aether_backend"
 .PHONY : src/backend/CMakeFiles/aether_backend.dir/all
 
 # Build rule for subdir invocation for target.
 src/backend/CMakeFiles/aether_backend.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 35
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/backend/CMakeFiles/aether_backend.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspace/build/CMakeFiles 0
 .PHONY : src/backend/CMakeFiles/aether_backend.dir/rule
@@ -121,7 +144,7 @@ aether_backend: src/backend/CMakeFiles/aether_backend.dir/rule
 # codegen rule for target.
 src/backend/CMakeFiles/aether_backend.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 "Finished codegen for target aether_backend"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspace/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35 "Finished codegen for target aether_backend"
 .PHONY : src/backend/CMakeFiles/aether_backend.dir/codegen
 
 # clean rule for target.

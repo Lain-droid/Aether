@@ -1,8 +1,0 @@
-Package: boost-container-hash
-Version: 1.75.0
-Depends: boost-assert, boost-compatibility, boost-config, boost-core, boost-detail, boost-integer, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: ce00390221a2ba097f69453e50825762c067f33286db1d978dd6dae07211414b
-Description: Boost container_hash module
-Status: install ok half-installed

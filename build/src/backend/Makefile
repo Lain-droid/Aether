@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /workspace/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
@@ -84,6 +94,51 @@ rebuild_cache:
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+.PHONY : list_install_components/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -346,6 +401,78 @@ PolymorphicEngine.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/PolymorphicEngine.cpp.s
 .PHONY : PolymorphicEngine.cpp.s
 
+ai/BehaviorRandomizer.o: ai/BehaviorRandomizer.cpp.o
+.PHONY : ai/BehaviorRandomizer.o
+
+# target to build an object file
+ai/BehaviorRandomizer.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o
+.PHONY : ai/BehaviorRandomizer.cpp.o
+
+ai/BehaviorRandomizer.i: ai/BehaviorRandomizer.cpp.i
+.PHONY : ai/BehaviorRandomizer.i
+
+# target to preprocess a source file
+ai/BehaviorRandomizer.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.i
+.PHONY : ai/BehaviorRandomizer.cpp.i
+
+ai/BehaviorRandomizer.s: ai/BehaviorRandomizer.cpp.s
+.PHONY : ai/BehaviorRandomizer.s
+
+# target to generate assembly for a file
+ai/BehaviorRandomizer.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.s
+.PHONY : ai/BehaviorRandomizer.cpp.s
+
+ai/SecurityAIOrchestrator.o: ai/SecurityAIOrchestrator.cpp.o
+.PHONY : ai/SecurityAIOrchestrator.o
+
+# target to build an object file
+ai/SecurityAIOrchestrator.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o
+.PHONY : ai/SecurityAIOrchestrator.cpp.o
+
+ai/SecurityAIOrchestrator.i: ai/SecurityAIOrchestrator.cpp.i
+.PHONY : ai/SecurityAIOrchestrator.i
+
+# target to preprocess a source file
+ai/SecurityAIOrchestrator.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.i
+.PHONY : ai/SecurityAIOrchestrator.cpp.i
+
+ai/SecurityAIOrchestrator.s: ai/SecurityAIOrchestrator.cpp.s
+.PHONY : ai/SecurityAIOrchestrator.s
+
+# target to generate assembly for a file
+ai/SecurityAIOrchestrator.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.s
+.PHONY : ai/SecurityAIOrchestrator.cpp.s
+
+ipc/EncryptedSharedMemoryIPC.o: ipc/EncryptedSharedMemoryIPC.cpp.o
+.PHONY : ipc/EncryptedSharedMemoryIPC.o
+
+# target to build an object file
+ipc/EncryptedSharedMemoryIPC.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o
+.PHONY : ipc/EncryptedSharedMemoryIPC.cpp.o
+
+ipc/EncryptedSharedMemoryIPC.i: ipc/EncryptedSharedMemoryIPC.cpp.i
+.PHONY : ipc/EncryptedSharedMemoryIPC.i
+
+# target to preprocess a source file
+ipc/EncryptedSharedMemoryIPC.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.i
+.PHONY : ipc/EncryptedSharedMemoryIPC.cpp.i
+
+ipc/EncryptedSharedMemoryIPC.s: ipc/EncryptedSharedMemoryIPC.cpp.s
+.PHONY : ipc/EncryptedSharedMemoryIPC.s
+
+# target to generate assembly for a file
+ipc/EncryptedSharedMemoryIPC.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.s
+.PHONY : ipc/EncryptedSharedMemoryIPC.cpp.s
+
 ipc/NamedPipeServer.o: ipc/NamedPipeServer.cpp.o
 .PHONY : ipc/NamedPipeServer.o
 
@@ -393,6 +520,30 @@ ipc/Steganography.s: ipc/Steganography.cpp.s
 ipc/Steganography.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.s
 .PHONY : ipc/Steganography.cpp.s
+
+loader/SelfDeletingLoader.o: loader/SelfDeletingLoader.cpp.o
+.PHONY : loader/SelfDeletingLoader.o
+
+# target to build an object file
+loader/SelfDeletingLoader.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o
+.PHONY : loader/SelfDeletingLoader.cpp.o
+
+loader/SelfDeletingLoader.i: loader/SelfDeletingLoader.cpp.i
+.PHONY : loader/SelfDeletingLoader.i
+
+# target to preprocess a source file
+loader/SelfDeletingLoader.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.i
+.PHONY : loader/SelfDeletingLoader.cpp.i
+
+loader/SelfDeletingLoader.s: loader/SelfDeletingLoader.cpp.s
+.PHONY : loader/SelfDeletingLoader.s
+
+# target to generate assembly for a file
+loader/SelfDeletingLoader.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.s
+.PHONY : loader/SelfDeletingLoader.cpp.s
 
 ml/BehavioralCloner.o: ml/BehavioralCloner.cpp.o
 .PHONY : ml/BehavioralCloner.o
@@ -490,6 +641,198 @@ ml/PatternDetector.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.s
 .PHONY : ml/PatternDetector.cpp.s
 
+mutation/RuntimeBinaryMutator.o: mutation/RuntimeBinaryMutator.cpp.o
+.PHONY : mutation/RuntimeBinaryMutator.o
+
+# target to build an object file
+mutation/RuntimeBinaryMutator.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o
+.PHONY : mutation/RuntimeBinaryMutator.cpp.o
+
+mutation/RuntimeBinaryMutator.i: mutation/RuntimeBinaryMutator.cpp.i
+.PHONY : mutation/RuntimeBinaryMutator.i
+
+# target to preprocess a source file
+mutation/RuntimeBinaryMutator.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.i
+.PHONY : mutation/RuntimeBinaryMutator.cpp.i
+
+mutation/RuntimeBinaryMutator.s: mutation/RuntimeBinaryMutator.cpp.s
+.PHONY : mutation/RuntimeBinaryMutator.s
+
+# target to generate assembly for a file
+mutation/RuntimeBinaryMutator.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.s
+.PHONY : mutation/RuntimeBinaryMutator.cpp.s
+
+security/AdvancedAntiDetection.o: security/AdvancedAntiDetection.cpp.o
+.PHONY : security/AdvancedAntiDetection.o
+
+# target to build an object file
+security/AdvancedAntiDetection.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o
+.PHONY : security/AdvancedAntiDetection.cpp.o
+
+security/AdvancedAntiDetection.i: security/AdvancedAntiDetection.cpp.i
+.PHONY : security/AdvancedAntiDetection.i
+
+# target to preprocess a source file
+security/AdvancedAntiDetection.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.i
+.PHONY : security/AdvancedAntiDetection.cpp.i
+
+security/AdvancedAntiDetection.s: security/AdvancedAntiDetection.cpp.s
+.PHONY : security/AdvancedAntiDetection.s
+
+# target to generate assembly for a file
+security/AdvancedAntiDetection.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.s
+.PHONY : security/AdvancedAntiDetection.cpp.s
+
+security/DecoyLayerSystem.o: security/DecoyLayerSystem.cpp.o
+.PHONY : security/DecoyLayerSystem.o
+
+# target to build an object file
+security/DecoyLayerSystem.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o
+.PHONY : security/DecoyLayerSystem.cpp.o
+
+security/DecoyLayerSystem.i: security/DecoyLayerSystem.cpp.i
+.PHONY : security/DecoyLayerSystem.i
+
+# target to preprocess a source file
+security/DecoyLayerSystem.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.i
+.PHONY : security/DecoyLayerSystem.cpp.i
+
+security/DecoyLayerSystem.s: security/DecoyLayerSystem.cpp.s
+.PHONY : security/DecoyLayerSystem.s
+
+# target to generate assembly for a file
+security/DecoyLayerSystem.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.s
+.PHONY : security/DecoyLayerSystem.cpp.s
+
+security/EncryptionManager.o: security/EncryptionManager.cpp.o
+.PHONY : security/EncryptionManager.o
+
+# target to build an object file
+security/EncryptionManager.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o
+.PHONY : security/EncryptionManager.cpp.o
+
+security/EncryptionManager.i: security/EncryptionManager.cpp.i
+.PHONY : security/EncryptionManager.i
+
+# target to preprocess a source file
+security/EncryptionManager.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.i
+.PHONY : security/EncryptionManager.cpp.i
+
+security/EncryptionManager.s: security/EncryptionManager.cpp.s
+.PHONY : security/EncryptionManager.s
+
+# target to generate assembly for a file
+security/EncryptionManager.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.s
+.PHONY : security/EncryptionManager.cpp.s
+
+security/HardwareFingerprintSpoofer.o: security/HardwareFingerprintSpoofer.cpp.o
+.PHONY : security/HardwareFingerprintSpoofer.o
+
+# target to build an object file
+security/HardwareFingerprintSpoofer.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o
+.PHONY : security/HardwareFingerprintSpoofer.cpp.o
+
+security/HardwareFingerprintSpoofer.i: security/HardwareFingerprintSpoofer.cpp.i
+.PHONY : security/HardwareFingerprintSpoofer.i
+
+# target to preprocess a source file
+security/HardwareFingerprintSpoofer.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.i
+.PHONY : security/HardwareFingerprintSpoofer.cpp.i
+
+security/HardwareFingerprintSpoofer.s: security/HardwareFingerprintSpoofer.cpp.s
+.PHONY : security/HardwareFingerprintSpoofer.s
+
+# target to generate assembly for a file
+security/HardwareFingerprintSpoofer.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.s
+.PHONY : security/HardwareFingerprintSpoofer.cpp.s
+
+security/HyperionHookMonitor.o: security/HyperionHookMonitor.cpp.o
+.PHONY : security/HyperionHookMonitor.o
+
+# target to build an object file
+security/HyperionHookMonitor.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o
+.PHONY : security/HyperionHookMonitor.cpp.o
+
+security/HyperionHookMonitor.i: security/HyperionHookMonitor.cpp.i
+.PHONY : security/HyperionHookMonitor.i
+
+# target to preprocess a source file
+security/HyperionHookMonitor.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.i
+.PHONY : security/HyperionHookMonitor.cpp.i
+
+security/HyperionHookMonitor.s: security/HyperionHookMonitor.cpp.s
+.PHONY : security/HyperionHookMonitor.s
+
+# target to generate assembly for a file
+security/HyperionHookMonitor.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.s
+.PHONY : security/HyperionHookMonitor.cpp.s
+
+security/MemoryCloakingEngine.o: security/MemoryCloakingEngine.cpp.o
+.PHONY : security/MemoryCloakingEngine.o
+
+# target to build an object file
+security/MemoryCloakingEngine.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o
+.PHONY : security/MemoryCloakingEngine.cpp.o
+
+security/MemoryCloakingEngine.i: security/MemoryCloakingEngine.cpp.i
+.PHONY : security/MemoryCloakingEngine.i
+
+# target to preprocess a source file
+security/MemoryCloakingEngine.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.i
+.PHONY : security/MemoryCloakingEngine.cpp.i
+
+security/MemoryCloakingEngine.s: security/MemoryCloakingEngine.cpp.s
+.PHONY : security/MemoryCloakingEngine.s
+
+# target to generate assembly for a file
+security/MemoryCloakingEngine.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.s
+.PHONY : security/MemoryCloakingEngine.cpp.s
+
+security/SecurityAudit.o: security/SecurityAudit.cpp.o
+.PHONY : security/SecurityAudit.o
+
+# target to build an object file
+security/SecurityAudit.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o
+.PHONY : security/SecurityAudit.cpp.o
+
+security/SecurityAudit.i: security/SecurityAudit.cpp.i
+.PHONY : security/SecurityAudit.i
+
+# target to preprocess a source file
+security/SecurityAudit.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.i
+.PHONY : security/SecurityAudit.cpp.i
+
+security/SecurityAudit.s: security/SecurityAudit.cpp.s
+.PHONY : security/SecurityAudit.s
+
+# target to generate assembly for a file
+security/SecurityAudit.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.s
+.PHONY : security/SecurityAudit.cpp.s
+
 security/SecurityHardening.o: security/SecurityHardening.cpp.o
 .PHONY : security/SecurityHardening.o
 
@@ -537,6 +880,30 @@ security/SignatureScanner.s: security/SignatureScanner.cpp.s
 security/SignatureScanner.cpp.s:
 	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.s
 .PHONY : security/SignatureScanner.cpp.s
+
+virtualization/PolymorphicVirtualMachine.o: virtualization/PolymorphicVirtualMachine.cpp.o
+.PHONY : virtualization/PolymorphicVirtualMachine.o
+
+# target to build an object file
+virtualization/PolymorphicVirtualMachine.cpp.o:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o
+.PHONY : virtualization/PolymorphicVirtualMachine.cpp.o
+
+virtualization/PolymorphicVirtualMachine.i: virtualization/PolymorphicVirtualMachine.cpp.i
+.PHONY : virtualization/PolymorphicVirtualMachine.i
+
+# target to preprocess a source file
+virtualization/PolymorphicVirtualMachine.cpp.i:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.i
+.PHONY : virtualization/PolymorphicVirtualMachine.cpp.i
+
+virtualization/PolymorphicVirtualMachine.s: virtualization/PolymorphicVirtualMachine.cpp.s
+.PHONY : virtualization/PolymorphicVirtualMachine.s
+
+# target to generate assembly for a file
+virtualization/PolymorphicVirtualMachine.cpp.s:
+	cd /workspace/build && $(MAKE) $(MAKESILENT) -f src/backend/CMakeFiles/aether_backend.dir/build.make src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.s
+.PHONY : virtualization/PolymorphicVirtualMachine.cpp.s
 
 vm/BytecodeOptimizer.o: vm/BytecodeOptimizer.cpp.o
 .PHONY : vm/BytecodeOptimizer.o
@@ -641,7 +1008,12 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... aether_backend"
 	@echo "... AIController.o"
 	@echo "... AIController.i"
@@ -670,12 +1042,24 @@ help:
 	@echo "... PolymorphicEngine.o"
 	@echo "... PolymorphicEngine.i"
 	@echo "... PolymorphicEngine.s"
+	@echo "... ai/BehaviorRandomizer.o"
+	@echo "... ai/BehaviorRandomizer.i"
+	@echo "... ai/BehaviorRandomizer.s"
+	@echo "... ai/SecurityAIOrchestrator.o"
+	@echo "... ai/SecurityAIOrchestrator.i"
+	@echo "... ai/SecurityAIOrchestrator.s"
+	@echo "... ipc/EncryptedSharedMemoryIPC.o"
+	@echo "... ipc/EncryptedSharedMemoryIPC.i"
+	@echo "... ipc/EncryptedSharedMemoryIPC.s"
 	@echo "... ipc/NamedPipeServer.o"
 	@echo "... ipc/NamedPipeServer.i"
 	@echo "... ipc/NamedPipeServer.s"
 	@echo "... ipc/Steganography.o"
 	@echo "... ipc/Steganography.i"
 	@echo "... ipc/Steganography.s"
+	@echo "... loader/SelfDeletingLoader.o"
+	@echo "... loader/SelfDeletingLoader.i"
+	@echo "... loader/SelfDeletingLoader.s"
 	@echo "... ml/BehavioralCloner.o"
 	@echo "... ml/BehavioralCloner.i"
 	@echo "... ml/BehavioralCloner.s"
@@ -688,12 +1072,39 @@ help:
 	@echo "... ml/PatternDetector.o"
 	@echo "... ml/PatternDetector.i"
 	@echo "... ml/PatternDetector.s"
+	@echo "... mutation/RuntimeBinaryMutator.o"
+	@echo "... mutation/RuntimeBinaryMutator.i"
+	@echo "... mutation/RuntimeBinaryMutator.s"
+	@echo "... security/AdvancedAntiDetection.o"
+	@echo "... security/AdvancedAntiDetection.i"
+	@echo "... security/AdvancedAntiDetection.s"
+	@echo "... security/DecoyLayerSystem.o"
+	@echo "... security/DecoyLayerSystem.i"
+	@echo "... security/DecoyLayerSystem.s"
+	@echo "... security/EncryptionManager.o"
+	@echo "... security/EncryptionManager.i"
+	@echo "... security/EncryptionManager.s"
+	@echo "... security/HardwareFingerprintSpoofer.o"
+	@echo "... security/HardwareFingerprintSpoofer.i"
+	@echo "... security/HardwareFingerprintSpoofer.s"
+	@echo "... security/HyperionHookMonitor.o"
+	@echo "... security/HyperionHookMonitor.i"
+	@echo "... security/HyperionHookMonitor.s"
+	@echo "... security/MemoryCloakingEngine.o"
+	@echo "... security/MemoryCloakingEngine.i"
+	@echo "... security/MemoryCloakingEngine.s"
+	@echo "... security/SecurityAudit.o"
+	@echo "... security/SecurityAudit.i"
+	@echo "... security/SecurityAudit.s"
 	@echo "... security/SecurityHardening.o"
 	@echo "... security/SecurityHardening.i"
 	@echo "... security/SecurityHardening.s"
 	@echo "... security/SignatureScanner.o"
 	@echo "... security/SignatureScanner.i"
 	@echo "... security/SignatureScanner.s"
+	@echo "... virtualization/PolymorphicVirtualMachine.o"
+	@echo "... virtualization/PolymorphicVirtualMachine.i"
+	@echo "... virtualization/PolymorphicVirtualMachine.s"
 	@echo "... vm/BytecodeOptimizer.o"
 	@echo "... vm/BytecodeOptimizer.i"
 	@echo "... vm/BytecodeOptimizer.s"

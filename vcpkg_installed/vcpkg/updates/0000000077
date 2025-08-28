@@ -1,8 +1,0 @@
-Package: boost-intrusive
-Version: 1.75.0
-Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-integer, boost-move, boost-static-assert, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 534575ebe4e32badb5f3903f578d0dce1efaf01234ea7820362b9738e96d2db2
-Description: Boost intrusive module
-Status: install ok installed

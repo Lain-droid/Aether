@@ -1,8 +1,0 @@
-Package: boost-utility
-Version: 1.75.0
-Depends: boost-config, boost-container-hash, boost-core, boost-detail, boost-integer, boost-io, boost-preprocessor, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 3346f60f7f48265f6a1e1ac8b11fd5576a0b42a0aca416f78c66b062da427232
-Description: Boost utility module
-Status: install ok half-installed

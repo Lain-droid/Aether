@@ -1,8 +1,0 @@
-Package: boost-system
-Version: 1.75.0
-Depends: boost-build, boost-config, boost-integer, boost-modular-build-helper, boost-vcpkg-helpers, boost-winapi
-Architecture: x64-linux
-Multi-Arch: same
-Abi: f05d5e930aded710c82b4ebe4d335c862e7e58fcbdbadedf257011ec1a2e501d
-Description: Boost system module
-Status: install ok half-installed

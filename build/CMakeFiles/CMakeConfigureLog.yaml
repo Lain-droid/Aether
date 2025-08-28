@@ -240,3 +240,43 @@ events:
       Running the CXX compiler's linker: "/usr/bin/ld" "-v"
       GNU ld (GNU Binutils for Ubuntu) 2.44
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "/usr/share/cmake-3.31/Modules/FindBoost.cmake:2174 (find_package)"
+      - "CMakeLists.txt:14 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/workspace/build/CMakeFiles/CMakeScratch/TryCompile-yUREMF"
+      binary: "/workspace/build/CMakeFiles/CMakeScratch/TryCompile-yUREMF"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-20"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/workspace/build/CMakeFiles/CMakeScratch/TryCompile-yUREMF'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c8bcf/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_c8bcf.dir/build.make CMakeFiles/cmTC_c8bcf.dir/build
+        gmake[1]: Entering directory '/workspace/build/CMakeFiles/CMakeScratch/TryCompile-yUREMF'
+        Building CXX object CMakeFiles/cmTC_c8bcf.dir/src.cxx.o
+        /usr/bin/c++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=gnu++20 -MD -MT CMakeFiles/cmTC_c8bcf.dir/src.cxx.o -MF CMakeFiles/cmTC_c8bcf.dir/src.cxx.o.d -o CMakeFiles/cmTC_c8bcf.dir/src.cxx.o -c /workspace/build/CMakeFiles/CMakeScratch/TryCompile-yUREMF/src.cxx
+        Linking CXX executable cmTC_c8bcf
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c8bcf.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_c8bcf.dir/src.cxx.o -o cmTC_c8bcf
+        gmake[1]: Leaving directory '/workspace/build/CMakeFiles/CMakeScratch/TryCompile-yUREMF'
+        
+      exitCode: 0
+...

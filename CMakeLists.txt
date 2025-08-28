@@ -9,10 +9,31 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_testing()
 
 # Find packages
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(cryptopp CONFIG REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system filesystem thread)
-find_package(spdlog CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG)
+find_package(cryptopp CONFIG)
+find_package(Boost COMPONENTS system filesystem thread)
+find_package(spdlog CONFIG)
+
+# Set up fallbacks for missing packages
+if(NOT nlohmann_json_FOUND)
+    message(WARNING "nlohmann_json not found - some features may be disabled")
+    add_compile_definitions(DISABLE_JSON)
+endif()
+
+if(NOT cryptopp_FOUND)
+    message(WARNING "cryptopp not found - encryption features will be disabled")
+    add_compile_definitions(DISABLE_CRYPTO)
+endif()
+
+if(NOT Boost_FOUND)
+    message(WARNING "Boost not found - some features may be disabled")
+    add_compile_definitions(DISABLE_BOOST)
+endif()
+
+if(NOT spdlog_FOUND)
+    message(WARNING "spdlog not found - logging will be disabled")
+    add_compile_definitions(DISABLE_LOGGING)
+endif()
 
 # Compiler-specific options
 if(MSVC)

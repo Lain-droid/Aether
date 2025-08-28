@@ -1,8 +1,0 @@
-Package: boost-move
-Version: 1.75.0
-Depends: boost-assert, boost-config, boost-core, boost-integer, boost-static-assert, boost-utility, boost-vcpkg-helpers, boost-winapi
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 31f51dceec3711f4f75234d4630230e51f4d465388adeadd0a1c4d122305b8d9
-Description: Boost move module
-Status: install ok installed

@@ -1,8 +1,8 @@
-Package: boost-preprocessor
+Package: boost-thread
 Version: 1.75.0
-Depends: boost-vcpkg-helpers
+Depends: boost-algorithm, boost-assert, boost-atomic, boost-bind, boost-build, boost-chrono, boost-concept-check, boost-config, boost-container, boost-container-hash, boost-core, boost-date-time, boost-detail, boost-exception, boost-function, boost-integer, boost-intrusive, boost-io, boost-lexical-cast, boost-math, boost-modular-build-helper, boost-move, boost-optional, boost-predef, boost-preprocessor, boost-smart-ptr, boost-static-assert, boost-system, boost-throw-exception, boost-tuple, boost-type-traits, boost-utility, boost-vcpkg-helpers, boost-winapi
 Architecture: x64-linux
 Multi-Arch: same
-Abi: f80a353ff4db7872bee5c4e96fa323987b015eb70f60bbb9a116bd33da48680c
-Description: Boost preprocessor module
+Abi: c547889c2c85c8962bb27d0215e3630395b3fb8b8752a479c49326855d5610d2
+Description: Boost thread module
 Status: install ok half-installed

@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
 # Find Catch2
-find_package(Catch2 3 REQUIRED)
+find_package(Catch2 3)
+if(NOT Catch2_FOUND)
+    message(WARNING "Catch2 not found - tests will be disabled")
+    return()
+endif()
 
 # Backend Tests
 set(BACKEND_TEST_SOURCES
@@ -19,13 +23,23 @@ add_executable(backend_tests ${BACKEND_TEST_SOURCES})
 target_link_libraries(backend_tests 
     PRIVATE 
     Catch2::Catch2WithMain
-    nlohmann_json::nlohmann_json
-    cryptopp::cryptopp
-    Boost::system
-    Boost::filesystem
-    Boost::thread
-    spdlog::spdlog
 )
+
+if(nlohmann_json_FOUND)
+    target_link_libraries(backend_tests PRIVATE nlohmann_json::nlohmann_json)
+endif()
+
+if(cryptopp_FOUND)
+    target_link_libraries(backend_tests PRIVATE cryptopp::cryptopp)
+endif()
+
+if(Boost_FOUND)
+    target_link_libraries(backend_tests PRIVATE Boost::system Boost::filesystem Boost::thread)
+endif()
+
+if(spdlog_FOUND)
+    target_link_libraries(backend_tests PRIVATE spdlog::spdlog)
+endif()
 
 target_include_directories(backend_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/backend
@@ -47,11 +61,23 @@ add_executable(performance_tests
 target_link_libraries(performance_tests 
     PRIVATE 
     Catch2::Catch2WithMain
-    nlohmann_json::nlohmann_json
-    cryptopp::cryptopp
-    Boost::system
-    spdlog::spdlog
 )
+
+if(nlohmann_json_FOUND)
+    target_link_libraries(performance_tests PRIVATE nlohmann_json::nlohmann_json)
+endif()
+
+if(cryptopp_FOUND)
+    target_link_libraries(performance_tests PRIVATE cryptopp::cryptopp)
+endif()
+
+if(Boost_FOUND)
+    target_link_libraries(performance_tests PRIVATE Boost::system)
+endif()
+
+if(spdlog_FOUND)
+    target_link_libraries(performance_tests PRIVATE spdlog::spdlog)
+endif()
 
 target_include_directories(performance_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/backend
@@ -68,11 +94,23 @@ add_executable(integration_tests
 target_link_libraries(integration_tests 
     PRIVATE 
     Catch2::Catch2WithMain
-    nlohmann_json::nlohmann_json
-    cryptopp::cryptopp
-    Boost::system
-    spdlog::spdlog
 )
+
+if(nlohmann_json_FOUND)
+    target_link_libraries(integration_tests PRIVATE nlohmann_json::nlohmann_json)
+endif()
+
+if(cryptopp_FOUND)
+    target_link_libraries(integration_tests PRIVATE cryptopp::cryptopp)
+endif()
+
+if(Boost_FOUND)
+    target_link_libraries(integration_tests PRIVATE Boost::system)
+endif()
+
+if(spdlog_FOUND)
+    target_link_libraries(integration_tests PRIVATE spdlog::spdlog)
+endif()
 
 target_include_directories(integration_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/backend

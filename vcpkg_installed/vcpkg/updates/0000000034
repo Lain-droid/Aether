@@ -1,8 +1,0 @@
-Package: boost-io
-Version: 1.75.0
-Depends: boost-config, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: a53db678bd7ec3ef51420772bc2abf3f9c18021906bf46030ab47a31e9a57900
-Description: Boost io module
-Status: install ok half-installed

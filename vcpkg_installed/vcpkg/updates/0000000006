@@ -1,8 +1,8 @@
-Package: boost-compatibility
+Package: boost-rational
 Version: 1.75.0
-Depends: boost-vcpkg-helpers
+Depends: boost-assert, boost-config, boost-integer, boost-static-assert, boost-throw-exception, boost-type-traits, boost-utility, boost-vcpkg-helpers
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 0c2720a78f5bfa490fbde3aaecb6fa2fdfbbde4999aed85f7d26b8560cb58143
-Description: Boost compatibility module
+Abi: 124308b519ff3110aa1f62bfb197da1aaf767d62ba29683ff671b4972115abbf
+Description: Boost rational module
 Status: install ok half-installed

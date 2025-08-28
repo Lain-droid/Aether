@@ -198,10 +198,52 @@ src/backend/CMakeFiles/aether_backend.dir/PolymorphicEngine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/PolymorphicEngine.cpp.s"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/PolymorphicEngine.cpp -o CMakeFiles/aether_backend.dir/PolymorphicEngine.cpp.s
 
+src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o: /workspace/src/backend/ai/BehaviorRandomizer.cpp
+src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o -MF CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o.d -o CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o -c /workspace/src/backend/ai/BehaviorRandomizer.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/ai/BehaviorRandomizer.cpp > CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/ai/BehaviorRandomizer.cpp -o CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o: /workspace/src/backend/ai/SecurityAIOrchestrator.cpp
+src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o -MF CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o.d -o CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o -c /workspace/src/backend/ai/SecurityAIOrchestrator.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/ai/SecurityAIOrchestrator.cpp > CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/ai/SecurityAIOrchestrator.cpp -o CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o: /workspace/src/backend/ipc/EncryptedSharedMemoryIPC.cpp
+src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o -MF CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o.d -o CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o -c /workspace/src/backend/ipc/EncryptedSharedMemoryIPC.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/ipc/EncryptedSharedMemoryIPC.cpp > CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/ipc/EncryptedSharedMemoryIPC.cpp -o CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.s
+
 src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o: /workspace/src/backend/ipc/NamedPipeServer.cpp
 src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o -MF CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o.d -o CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o -c /workspace/src/backend/ipc/NamedPipeServer.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.i: cmake_force
@@ -215,7 +257,7 @@ src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.s: cmake_force
 src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o: /workspace/src/backend/ipc/Steganography.cpp
 src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o -MF CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o.d -o CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o -c /workspace/src/backend/ipc/Steganography.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.i: cmake_force
@@ -226,10 +268,24 @@ src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.s"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/ipc/Steganography.cpp -o CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.s
 
+src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o: /workspace/src/backend/loader/SelfDeletingLoader.cpp
+src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o -MF CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o.d -o CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o -c /workspace/src/backend/loader/SelfDeletingLoader.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/loader/SelfDeletingLoader.cpp > CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/loader/SelfDeletingLoader.cpp -o CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.s
+
 src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o: /workspace/src/backend/ml/BehavioralCloner.cpp
 src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o -MF CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o.d -o CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o -c /workspace/src/backend/ml/BehavioralCloner.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.i: cmake_force
@@ -243,7 +299,7 @@ src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.s: cmake_force
 src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o: /workspace/src/backend/ml/MLPrimitives.cpp
 src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o -MF CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o.d -o CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o -c /workspace/src/backend/ml/MLPrimitives.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.i: cmake_force
@@ -257,7 +313,7 @@ src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.s: cmake_force
 src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o: /workspace/src/backend/ml/NeuralObfuscator.cpp
 src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o -MF CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o.d -o CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o -c /workspace/src/backend/ml/NeuralObfuscator.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.i: cmake_force
@@ -271,7 +327,7 @@ src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.s: cmake_force
 src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o: /workspace/src/backend/ml/PatternDetector.cpp
 src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o -MF CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o.d -o CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o -c /workspace/src/backend/ml/PatternDetector.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.i: cmake_force
@@ -282,10 +338,122 @@ src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.s"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/ml/PatternDetector.cpp -o CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.s
 
+src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o: /workspace/src/backend/mutation/RuntimeBinaryMutator.cpp
+src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o -MF CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o.d -o CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o -c /workspace/src/backend/mutation/RuntimeBinaryMutator.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/mutation/RuntimeBinaryMutator.cpp > CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/mutation/RuntimeBinaryMutator.cpp -o CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o: /workspace/src/backend/security/AdvancedAntiDetection.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o -MF CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o.d -o CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o -c /workspace/src/backend/security/AdvancedAntiDetection.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/AdvancedAntiDetection.cpp > CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/AdvancedAntiDetection.cpp -o CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o: /workspace/src/backend/security/DecoyLayerSystem.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o -MF CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o.d -o CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o -c /workspace/src/backend/security/DecoyLayerSystem.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/DecoyLayerSystem.cpp > CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/DecoyLayerSystem.cpp -o CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o: /workspace/src/backend/security/EncryptionManager.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o -MF CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o.d -o CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o -c /workspace/src/backend/security/EncryptionManager.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/EncryptionManager.cpp > CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/EncryptionManager.cpp -o CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o: /workspace/src/backend/security/HardwareFingerprintSpoofer.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o -MF CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o.d -o CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o -c /workspace/src/backend/security/HardwareFingerprintSpoofer.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/HardwareFingerprintSpoofer.cpp > CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/HardwareFingerprintSpoofer.cpp -o CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o: /workspace/src/backend/security/HyperionHookMonitor.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o -MF CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o.d -o CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o -c /workspace/src/backend/security/HyperionHookMonitor.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/HyperionHookMonitor.cpp > CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/HyperionHookMonitor.cpp -o CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o: /workspace/src/backend/security/MemoryCloakingEngine.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o -MF CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o.d -o CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o -c /workspace/src/backend/security/MemoryCloakingEngine.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/MemoryCloakingEngine.cpp > CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/MemoryCloakingEngine.cpp -o CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.s
+
+src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o: /workspace/src/backend/security/SecurityAudit.cpp
+src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o -MF CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o.d -o CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o -c /workspace/src/backend/security/SecurityAudit.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/security/SecurityAudit.cpp > CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/SecurityAudit.cpp -o CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.s
+
 src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o: /workspace/src/backend/security/SecurityHardening.cpp
 src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o -MF CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o.d -o CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o -c /workspace/src/backend/security/SecurityHardening.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.i: cmake_force
@@ -299,7 +467,7 @@ src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.s: cmak
 src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o: /workspace/src/backend/security/SignatureScanner.cpp
 src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o -MF CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o.d -o CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o -c /workspace/src/backend/security/SignatureScanner.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.i: cmake_force
@@ -310,10 +478,24 @@ src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.s: cmake
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.s"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/security/SignatureScanner.cpp -o CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.s
 
+src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
+src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o: /workspace/src/backend/virtualization/PolymorphicVirtualMachine.cpp
+src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o -MF CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o.d -o CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o -c /workspace/src/backend/virtualization/PolymorphicVirtualMachine.cpp
+
+src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.i"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspace/src/backend/virtualization/PolymorphicVirtualMachine.cpp > CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.i
+
+src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.s"
+	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspace/src/backend/virtualization/PolymorphicVirtualMachine.cpp -o CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.s
+
 src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o: /workspace/src/backend/vm/BytecodeOptimizer.cpp
 src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o -MF CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o.d -o CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o -c /workspace/src/backend/vm/BytecodeOptimizer.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.i: cmake_force
@@ -327,7 +509,7 @@ src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.s: cmake_forc
 src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o: /workspace/src/backend/vm/Compiler.cpp
 src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o -MF CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o.d -o CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o -c /workspace/src/backend/vm/Compiler.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.i: cmake_force
@@ -341,7 +523,7 @@ src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.s: cmake_force
 src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o: /workspace/src/backend/vm/JITCompiler.cpp
 src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o -MF CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o.d -o CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o -c /workspace/src/backend/vm/JITCompiler.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.i: cmake_force
@@ -355,7 +537,7 @@ src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.s: cmake_force
 src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: src/backend/CMakeFiles/aether_backend.dir/flags.make
 src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: /workspace/src/backend/vm/VirtualMachine.cpp
 src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: src/backend/CMakeFiles/aether_backend.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o"
 	cd /workspace/build/src/backend && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o -MF CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o.d -o CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o -c /workspace/src/backend/vm/VirtualMachine.cpp
 
 src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.i: cmake_force
@@ -377,14 +559,27 @@ aether_backend_OBJECTS = \
 "CMakeFiles/aether_backend.dir/MemoryPatcher.cpp.o" \
 "CMakeFiles/aether_backend.dir/NetworkManager.cpp.o" \
 "CMakeFiles/aether_backend.dir/PolymorphicEngine.cpp.o" \
+"CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o" \
+"CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o" \
+"CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o" \
 "CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o" \
 "CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o" \
+"CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o" \
 "CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o" \
 "CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o" \
 "CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o" \
 "CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o" \
+"CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o" \
+"CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o" \
 "CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o" \
 "CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o" \
+"CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o" \
 "CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o" \
 "CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o" \
 "CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o" \
@@ -402,21 +597,34 @@ src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/IPC.c
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/MemoryPatcher.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/NetworkManager.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/PolymorphicEngine.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ai/BehaviorRandomizer.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ai/SecurityAIOrchestrator.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ipc/EncryptedSharedMemoryIPC.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ipc/NamedPipeServer.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ipc/Steganography.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/loader/SelfDeletingLoader.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ml/BehavioralCloner.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ml/MLPrimitives.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ml/NeuralObfuscator.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/ml/PatternDetector.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/mutation/RuntimeBinaryMutator.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/AdvancedAntiDetection.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/DecoyLayerSystem.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/EncryptionManager.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/HardwareFingerprintSpoofer.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/HyperionHookMonitor.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/MemoryCloakingEngine.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/SecurityAudit.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/security/SignatureScanner.cpp.o
+src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/virtualization/PolymorphicVirtualMachine.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/vm/BytecodeOptimizer.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/vm/Compiler.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/vm/JITCompiler.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/build.make
 src/backend/libaether_backend.a: src/backend/CMakeFiles/aether_backend.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Linking CXX static library libaether_backend.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspace/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Linking CXX static library libaether_backend.a"
 	cd /workspace/build/src/backend && $(CMAKE_COMMAND) -P CMakeFiles/aether_backend.dir/cmake_clean_target.cmake
 	cd /workspace/build/src/backend && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/aether_backend.dir/link.txt --verbose=$(VERBOSE)
 

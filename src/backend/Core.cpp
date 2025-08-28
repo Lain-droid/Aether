@@ -63,7 +63,7 @@ namespace AetherVisor {
 
             // 1. Get the current risk level from the AI Controller.
             auto& ai = AIController::GetInstance();
-            RiskLevel currentRisk = ai.GetCurrentRiskLevel();
+            (void)ai.GetCurrentRiskLevel(); // Suppress unused variable warning
 
             // 2. Select an injection method based on the risk.
             // This implements "Conditional Injection".

@@ -1,8 +1,0 @@
-Package: boost-container
-Version: 1.75.0
-Depends: boost-assert, boost-build, boost-config, boost-container-hash, boost-core, boost-integer, boost-intrusive, boost-modular-build-helper, boost-move, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
-Architecture: x64-linux
-Multi-Arch: same
-Abi: 215aa6cec6fbfed99e8065e2902451cbf318504f4cd82905b1ed13040d9eb3f0
-Description: Boost container module
-Status: install ok installed

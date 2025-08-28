@@ -1,9 +1,8 @@
-Package: boost-vcpkg-helpers
-Version: 7
-Port-Version: 2
-Depends: boost-uninstall
+Package: boost-tokenizer
+Version: 1.75.0
+Depends: boost-assert, boost-config, boost-detail, boost-iterator, boost-mpl, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 12dc6786e736bdd457eea12fd1cf9a1fb5b35ed8abfb10982cb63122c05d89fa
-Description: a set of vcpkg-internal scripts used to modularize boost
+Abi: e591825c22843744cf376691eab68a7fb8c8ac4428c1771ca5bd04e139819564
+Description: Boost tokenizer module
 Status: install ok half-installed

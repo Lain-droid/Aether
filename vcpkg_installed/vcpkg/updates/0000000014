@@ -1,8 +1,7 @@
-Package: boost-detail
-Version: 1.75.0
-Depends: boost-compatibility, boost-config, boost-preprocessor, boost-vcpkg-helpers
+Package: catch2
+Version: 2.13.1
 Architecture: x64-linux
 Multi-Arch: same
-Abi: fc2adbe5ba71bfb2f41b9799b35065b9c1f90b2283196d27decc73737af830ee
-Description: Boost detail module
+Abi: 002740fbb620da1de6eeaf1f620c95b74308cc2b08f62f05c3f5ce9b92cc0fcf
+Description: A modern, header-only test framework for unit testing.
 Status: install ok half-installed
