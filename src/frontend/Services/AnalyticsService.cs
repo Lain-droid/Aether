@@ -36,7 +36,7 @@ namespace AetherVisor.Frontend.Services
         
         #region Public Methods
         
-        public void TrackEvent(string eventName, Dictionary<string, object> properties = null)
+        public void TrackEvent(string eventName, Dictionary<string, object>? properties = null)
         {
             if (!_isEnabled) return;
             
@@ -70,7 +70,7 @@ namespace AetherVisor.Frontend.Services
             TrackEvent("feature_used", properties);
         }
         
-        public void TrackScriptExecution(string scriptType, TimeSpan executionTime, bool success, string errorMessage = null)
+        public void TrackScriptExecution(string scriptType, TimeSpan executionTime, bool success, string? errorMessage = null)
         {
             var properties = new Dictionary<string, object>
             {
@@ -99,7 +99,7 @@ namespace AetherVisor.Frontend.Services
             TrackEvent("user_interaction", properties);
         }
         
-        public void TrackPerformanceMetric(string metricName, double value, string unit = null)
+        public void TrackPerformanceMetric(string metricName, double value, string? unit = null)
         {
             var properties = new Dictionary<string, object>
             {
@@ -115,7 +115,7 @@ namespace AetherVisor.Frontend.Services
             TrackEvent("performance_metric", properties);
         }
         
-        public void TrackError(Exception exception, string context = null)
+        public void TrackError(Exception exception, string? context = null)
         {
             var properties = new Dictionary<string, object>
             {

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Threading.Tasks;
 using AetherVisor.Frontend.Models;
+using AetherVisor.Frontend.Services;
 
 namespace AetherVisor.Frontend.Controls
 {
