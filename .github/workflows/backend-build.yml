@@ -22,7 +22,7 @@ jobs:
       - name: Configure (CMake - fresh build dir)
         run: |
           if exist build rmdir /s /q build
-          cmake -S . -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON
         shell: cmd
 
       - name: Build (CMake)
