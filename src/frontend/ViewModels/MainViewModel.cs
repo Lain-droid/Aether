@@ -7,6 +7,7 @@ using AetherVisor.Frontend.Services;
 using AetherVisor.Frontend.Models;
 using System.IO;
 using System.Text.Json;
+using System.Linq;
 
 namespace AetherVisor.Frontend.ViewModels
 {
@@ -42,6 +43,12 @@ namespace AetherVisor.Frontend.ViewModels
 
     public class MainViewModel : ObservableObject
     {
+        private double _editorFontSize = 14;
+        public double EditorFontSize { get => _editorFontSize; set { _editorFontSize = value; OnPropertyChanged(nameof(EditorFontSize)); SaveState(); } }
+
+        private bool _autocompleteEnabled = true;
+        public bool AutocompleteEnabled { get => _autocompleteEnabled; set { _autocompleteEnabled = value; OnPropertyChanged(nameof(AutocompleteEnabled)); SaveState(); } }
+
         private string _scriptText = "-- Aether script here\nprint('ready')";
         public string ScriptText
         {
@@ -151,6 +158,8 @@ namespace AetherVisor.Frontend.ViewModels
                         {
                             ActiveTab = Tabs.FirstOrDefault(t => t.FilePath == state.ActiveFile);
                         }
+                        if (state.EditorFontSize > 0) EditorFontSize = state.EditorFontSize;
+                        AutocompleteEnabled = state.AutocompleteEnabled;
                     }
                 }
             } catch { }
@@ -162,7 +171,9 @@ namespace AetherVisor.Frontend.ViewModels
                 var state = new AppState
                 {
                     OpenFiles = new System.Collections.Generic.List<string>(Tabs.Select(t => t.FilePath)),
-                    ActiveFile = ActiveTab?.FilePath
+                    ActiveFile = ActiveTab?.FilePath,
+                    EditorFontSize = EditorFontSize,
+                    AutocompleteEnabled = AutocompleteEnabled
                 };
                 var dir = System.IO.Path.GetDirectoryName(StatePath);
                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);

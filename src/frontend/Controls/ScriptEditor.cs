@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
+using ICSharpCode.AvalonEdit;
 
 namespace AetherVisor.Frontend.Controls
 {
@@ -29,12 +30,12 @@ namespace AetherVisor.Frontend.Controls
         public ScriptEditor()
         {
             InitializeComponent();
-            PART_TextBox.TextChanged += (s, e) =>
+            PART_Avalon.TextChanged += (s, e) =>
             {
-                Text = PART_TextBox.Text;
+                Text = PART_Avalon.Text;
                 UpdateLineNumbers();
             };
-            PART_TextBox.PreviewKeyUp += OnKeyUpForAutocomplete;
+            PART_Avalon.PreviewKeyUp += OnKeyUpForAutocomplete;
             PART_ListBox.MouseDoubleClick += (s, e) => AcceptCompletion();
             UpdateLineNumbers();
         }
@@ -43,7 +44,7 @@ namespace AetherVisor.Frontend.Controls
             nameof(EditorFontSize), typeof(double), typeof(ScriptEditor), new PropertyMetadata(14.0, (o, e) =>
             {
                 var c = (ScriptEditor)o;
-                c.PART_TextBox.FontSize = (double)e.NewValue;
+                c.PART_Avalon.FontSize = (double)e.NewValue;
             }));
         public double EditorFontSize
         {
@@ -61,7 +62,7 @@ namespace AetherVisor.Frontend.Controls
 
         private void UpdateLineNumbers()
         {
-            var lines = PART_TextBox.LineCount;
+            var lines = PART_Avalon?.Document?.LineCount ?? 1;
             var nums = string.Join("\n", Enumerable.Range(1, lines == 0 ? 1 : lines));
             PART_LineNumbers.Text = nums;
         }
@@ -71,13 +72,14 @@ namespace AetherVisor.Frontend.Controls
             // auto-indent
             if (e.Key == Key.Return)
             {
-                int line = PART_TextBox.GetLineIndexFromCharacterIndex(PART_TextBox.CaretIndex);
-                if (line > 0)
+                var caret = PART_Avalon.CaretOffset;
+                var line = PART_Avalon.Document.GetLineByOffset(caret);
+                if (line.PreviousLine != null)
                 {
-                    var prev = PART_TextBox.GetLineText(line - 1);
-                    var indent = new string(prev.TakeWhile(ch => ch == ' ' || ch == '\t').ToArray());
-                    PART_TextBox.SelectedText = indent;
-                    PART_TextBox.CaretIndex += indent.Length;
+                    var prevText = PART_Avalon.Document.GetText(line.PreviousLine);
+                    var indent = new string(prevText.TakeWhile(ch => ch == ' ' || ch == '\t').ToArray());
+                    PART_Avalon.Document.Insert(caret, indent);
+                    PART_Avalon.CaretOffset = caret + indent.Length;
                 }
             }
 
@@ -86,10 +88,11 @@ namespace AetherVisor.Frontend.Controls
             if (!AutocompleteEnabled) { PART_Popup.IsOpen = false; return; }
             if (char.IsLetterOrDigit((char)KeyInterop.VirtualKeyFromKey(e.Key)) || e.Key == Key.OemPeriod)
             {
-                var caret = PART_TextBox.CaretIndex;
+                var caret = PART_Avalon.CaretOffset;
                 var start = caret;
-                while (start > 0 && (char.IsLetterOrDigit(PART_TextBox.Text[start - 1]) || PART_TextBox.Text[start - 1] == '_')) start--;
-                var token = PART_TextBox.Text.Substring(start, caret - start);
+                var text = PART_Avalon.Text;
+                while (start > 0 && (char.IsLetterOrDigit(text[start - 1]) || text[start - 1] == '_')) start--;
+                var token = text.Substring(start, caret - start);
                 if (token.Length >= 1)
                 {
                     var suggestions = _keywords.Where(k => k.StartsWith(token)).Take(8).ToList();
@@ -108,12 +111,12 @@ namespace AetherVisor.Frontend.Controls
         {
             if (!PART_Popup.IsOpen || PART_ListBox.SelectedItem == null) return;
             var suggestion = PART_ListBox.SelectedItem.ToString();
-            var caret = PART_TextBox.CaretIndex;
+            var caret = PART_Avalon.CaretOffset;
             var start = caret;
-            while (start > 0 && (char.IsLetterOrDigit(PART_TextBox.Text[start - 1]) || PART_TextBox.Text[start - 1] == '_')) start--;
-            PART_TextBox.Select(start, caret - start);
-            PART_TextBox.SelectedText = suggestion;
-            PART_TextBox.CaretIndex = start + suggestion.Length;
+            var text = PART_Avalon.Text;
+            while (start > 0 && (char.IsLetterOrDigit(text[start - 1]) || text[start - 1] == '_')) start--;
+            PART_Avalon.Document.Replace(start, caret - start, suggestion);
+            PART_Avalon.CaretOffset = start + suggestion.Length;
             PART_Popup.IsOpen = false;
         }
 

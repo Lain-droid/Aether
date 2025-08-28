@@ -15,4 +15,8 @@
     <None Include="..\..\scripts\installer\icon.ico" Pack="true" Visible="false" />
     <None Include="..\..\LICENSE" Pack="true" Visible="false" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.0" />
+  </ItemGroup>
 </Project>
