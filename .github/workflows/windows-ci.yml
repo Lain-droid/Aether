@@ -1,0 +1,144 @@
+name: Windows CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  BUILD_CONFIGURATION: Release
+  PLATFORM: x64
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Setup CMake
+      uses: jwlawson/actions-setup-cmake@v1.13
+      with:
+        cmake-version: '3.28.0'
+        
+    - name: Setup Visual Studio
+      uses: microsoft/setup-msbuild@v1.1
+      
+    - name: Create artifacts directory
+      run: |
+        New-Item -ItemType Directory -Force -Path "artifacts"
+        New-Item -ItemType Directory -Force -Path "artifacts\logs"
+        New-Item -ItemType Directory -Force -Path "artifacts\frontend"
+        New-Item -ItemType Directory -Force -Path "artifacts\backend"
+        New-Item -ItemType Directory -Force -Path "artifacts\installer"
+        
+    - name: Build Frontend (WPF)
+      run: |
+        cd src/frontend
+        dotnet restore Aether.Frontend.csproj
+        dotnet build Aether.Frontend.csproj -c $env:BUILD_CONFIGURATION -p:Platform=$env:PLATFORM -p:TargetFramework=net8.0-windows -p:RuntimeIdentifier=win-x64 --no-restore
+        dotnet publish Aether.Frontend.csproj -c $env:BUILD_CONFIGURATION -p:Platform=$env:PLATFORM -p:TargetFramework=net8.0-windows -p:RuntimeIdentifier=win-x64 --no-build -o ../../artifacts/frontend
+      continue-on-error: false
+      
+    - name: Build Backend (C++)
+      run: |
+        if (Test-Path "build") { Remove-Item -Recurse -Force "build" }
+        cmake -S . -B build -G "Visual Studio 17 2022" -A x64 2>&1 | Tee-Object -FilePath artifacts\logs\backend-cmake-configure.log
+        cmake --build build --config $env:BUILD_CONFIGURATION --parallel 4 2>&1 | Tee-Object -FilePath artifacts\logs\backend-build.log
+        if (Test-Path "build\src\backend\$env:BUILD_CONFIGURATION") {
+          Copy-Item -Path "build\src\backend\$env:BUILD_CONFIGURATION\*" -Destination "artifacts\backend\" -Recurse -Force
+        }
+      continue-on-error: false
+      
+    - name: Code Signing (Optional)
+      if: env.CERT_PFX != '' && env.CERT_PASSWORD != ''
+      run: |
+        $cert = Get-ChildItem -Path "artifacts\frontend\*.exe" -Recurse
+        foreach ($file in $cert) {
+          Write-Host "Signing: $($file.FullName)"
+          & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" sign /f $env:CERT_PFX /p $env:CERT_PASSWORD /t http://timestamp.digicert.com /v $file.FullName
+        }
+      env:
+        CERT_PFX: ${{ secrets.CERT_PFX }}
+        CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
+      continue-on-error: true
+        
+    - name: Create Frontend Archive
+      run: |
+        Compress-Archive -Path "artifacts\frontend\*" -DestinationPath "artifacts\frontend-archive.zip" -Force
+      continue-on-error: false
+      
+    - name: Create Inno Setup Installer
+      run: |
+        $innoUrl = "https://files.jrsoftware.org/is/6/innosetup-6.2.2.exe"
+        $innoInstaller = "innosetup-installer.exe"
+        Invoke-WebRequest -Uri $innoUrl -OutFile $innoInstaller
+        Start-Process -FilePath $innoInstaller -ArgumentList "/VERYSILENT", "/NORESTART" -Wait
+        $innoPath = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+        if (Test-Path $innoPath) {
+          & $innoPath "scripts\installer\aether.iss" /DSourceDir="artifacts\frontend" /DOutputDir="artifacts\installer" /DVersion="1.0.0" 2>&1 | Tee-Object -FilePath artifacts\logs\innosetup.log
+        } else {
+          Write-Host "Inno Setup not found, skipping installer creation"
+        }
+      continue-on-error: true
+      
+    - name: Create ClickOnce Package
+      run: |
+        $clickOnceDir = "artifacts\clickonce"
+        New-Item -ItemType Directory -Force -Path $clickOnceDir
+        Copy-Item -Path "artifacts\frontend\*" -Destination $clickOnceDir -Recurse -Force
+        $manifest = '<?xml version="1.0" encoding="utf-8"?><asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.manifest.xsd" manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><assemblyIdentity version="1.0.0.0" name="Aether.Frontend"/><trustInfo xmlns="urn:schemas-microsoft-com:asm.v2"><security><requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3"><requestedExecutionLevel level="asInvoker" uiAccess="false" /></requestedPrivileges></security></trustInfo></asmv1:assembly>'
+        $manifest | Out-File -FilePath "$clickOnceDir\Aether.Frontend.manifest" -Encoding UTF8
+        Compress-Archive -Path "$clickOnceDir\*" -DestinationPath "artifacts\clickonce-package.zip" -Force
+      continue-on-error: true
+      
+    - name: Create Squirrel Package
+      run: |
+        $squirrelDir = "artifacts\squirrel"
+        New-Item -ItemType Directory -Force -Path $squirrelDir
+        Copy-Item -Path "artifacts\frontend\*" -Destination $squirrelDir -Recurse -Force
+        Compress-Archive -Path "$squirrelDir\*" -DestinationPath "artifacts\squirrel-package.zip" -Force
+      continue-on-error: true
+      
+    - name: Upload Frontend Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-files
+        path: |
+          artifacts/frontend-archive.zip
+          artifacts/clickonce-package.zip
+          artifacts/squirrel-package.zip
+        retention-days: 30
+      if: always()
+        
+    - name: Upload Backend Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: backend-files
+        path: artifacts/backend/
+        retention-days: 30
+      if: always()
+        
+    - name: Upload Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: installer
+        path: artifacts/installer/
+        retention-days: 30
+      if: always()
+        
+    - name: Upload Build Logs
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs
+        path: artifacts/logs/
+        retention-days: 30
+      if: always()

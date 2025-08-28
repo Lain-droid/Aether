@@ -1,0 +1,109 @@
+#include "NetworkManager.h"
+#include "EventManager.h"
+#include "AIController.h"
+#include "security/XorStr.h"
+#include "security/SignatureScanner.h"
+#include <numeric>
+
+#pragma comment(lib, "ws2_32.lib")
+
+typedef int (WSAAPI *send_t)(SOCKET s, const char* buf, int len, int flags);
+typedef int (WSAAPI *recv_t)(SOCKET s, char* buf, int len, int flags);
+
+send_t original_send = nullptr;
+recv_t original_recv = nullptr;
+
+namespace AetherVisor {
+    namespace Payload {
+
+        // Initialize static members
+        NetworkMode NetworkManager::m_mode = NetworkMode::PASSTHROUGH;
+        NetworkManager::TrafficProfile NetworkManager::m_profile;
+        std::chrono::steady_clock::time_point NetworkManager::m_lastSendTime = std::chrono::steady_clock::now();
+        std::vector<char> NetworkManager::m_sendBuffer;
+
+        void NetworkManager::SetMode(NetworkMode newMode) {
+            m_mode = newMode;
+            if (newMode == NetworkMode::PROFILING) {
+                // Reset profile data when starting a new profiling session
+                m_profile = {};
+            }
+        }
+
+        int WSAAPI Detour_Send(SOCKET s, const char* buf, int len, int flags) {
+            Backend::AIController::GetInstance().ReportEvent(Backend::AIEventType::NETWORK_PACKET_SENT);
+
+            switch (NetworkManager::m_mode) {
+                case NetworkMode::PROFILING: {
+                    auto now = std::chrono::steady_clock::now();
+                    auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - NetworkManager::m_lastSendTime).count();
+
+                    // Update running averages
+                    m_profile.packetCount++;
+                    m_profile.avgPacketIntervalMs = (m_profile.avgPacketIntervalMs * (m_profile.packetCount - 1) + elapsedMs) / m_profile.packetCount;
+                    m_profile.avgPacketSize = (m_profile.avgPacketSize * (m_profile.packetCount - 1) + len) / m_profile.packetCount;
+
+                    m_lastSendTime = now;
+                    return original_send(s, buf, len, flags);
+                }
+                case NetworkMode::MIMICKING: {
+                    // Buffer the outgoing data
+                    m_sendBuffer.insert(m_sendBuffer.end(), buf, buf + len);
+
+                    auto now = std::chrono::steady_clock::now();
+                    auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - NetworkManager::m_lastSendTime).count();
+
+                    // Send if buffer is full enough or enough time has passed
+                    if (m_sendBuffer.size() >= m_profile.avgPacketSize || elapsedMs >= m_profile.avgPacketIntervalMs) {
+                        int sent = original_send(s, m_sendBuffer.data(), m_sendBuffer.size(), flags);
+                        m_sendBuffer.clear();
+                        m_lastSendTime = now;
+                        return sent;
+                    }
+                    return len; // Pretend we sent the data successfully
+                }
+                case NetworkMode::PASSTHROUGH:
+                default: {
+                    return original_send(s, buf, len, flags);
+                }
+            }
+        }
+
+        int WSAAPI Detour_Recv(SOCKET s, char* buf, int len, int flags) {
+            Backend::AIController::GetInstance().ReportEvent(Backend::AIEventType::NETWORK_PACKET_RECEIVED);
+            // Recv is typically just passed through, but could also be profiled.
+            return original_recv(s, buf, len, flags);
+        }
+
+        bool NetworkManager::Install() {
+            HMODULE hModule = GetModuleHandleA(XorS("ws2_32.dll"));
+            if (!hModule) return false;
+            const char* sendPattern = "8B FF 55 8B EC 83 EC ?? 53 56 57 8B 7D";
+            const char* recvPattern = "8B FF 55 8B EC 83 EC ?? A1 ?? ?? ?? ?? 33 C5";
+            void* sendAddr = Security::SignatureScanner::FindPattern(hModule, sendPattern);
+            void* recvAddr = Security::SignatureScanner::FindPattern(hModule, recvPattern);
+            if (!sendAddr || !recvAddr) return false;
+            auto& eventManager = EventManager::GetInstance();
+            if (eventManager.Install(sendAddr, (void*)Detour_Send) && eventManager.Install(recvAddr, (void*)Detour_Recv)) {
+                original_send = eventManager.GetOriginal<send_t>(sendAddr);
+                original_recv = eventManager.GetOriginal<recv_t>(recvAddr);
+                m_lastSendTime = std::chrono::steady_clock::now();
+                return original_send && original_recv;
+            }
+            return false;
+        }
+
+        void NetworkManager::Uninstall() {
+            HMODULE hModule = GetModuleHandleA(XorS("ws2_32.dll"));
+            if (!hModule) return;
+            const char* sendPattern = "8B FF 55 8B EC 83 EC ?? 53 56 57 8B 7D";
+            const char* recvPattern = "8B FF 55 8B EC 83 EC ?? A1 ?? ?? ?? ?? 33 C5";
+            void* sendAddr = Security::SignatureScanner::FindPattern(hModule, sendPattern);
+            void* recvAddr = Security::SignatureScanner::FindPattern(hModule, recvPattern);
+            auto& eventManager = EventManager::GetInstance();
+            if (sendAddr) eventManager.Uninstall(sendAddr);
+            if (recvAddr) eventManager.Uninstall(recvAddr);
+        }
+
+    }
+}
