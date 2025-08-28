@@ -1,0 +1,8 @@
+Package: boost-preprocessor
+Version: 1.75.0
+Depends: boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: f80a353ff4db7872bee5c4e96fa323987b015eb70f60bbb9a116bd33da48680c
+Description: Boost preprocessor module
+Status: install ok installed

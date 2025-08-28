@@ -1,0 +1,9 @@
+Package: boost-vcpkg-helpers
+Version: 7
+Port-Version: 2
+Depends: boost-uninstall
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 12dc6786e736bdd457eea12fd1cf9a1fb5b35ed8abfb10982cb63122c05d89fa
+Description: a set of vcpkg-internal scripts used to modularize boost
+Status: install ok half-installed

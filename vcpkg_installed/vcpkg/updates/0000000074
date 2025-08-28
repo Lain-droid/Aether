@@ -1,0 +1,8 @@
+Package: boost-mp11
+Version: 1.75.0
+Depends: boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: c2a1a773336b47f94fd839ed2e93ef791a194376ecc93c86e574ffeb3b46f509
+Description: Boost mp11 module
+Status: install ok half-installed

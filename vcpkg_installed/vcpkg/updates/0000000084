@@ -1,0 +1,8 @@
+Package: boost-lambda
+Version: 1.75.0
+Depends: boost-bind, boost-config, boost-detail, boost-mpl, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 738e4461f272c636b618ae6f4e8f2cc76435aefe653341c5793a7c46a1ec5d2c
+Description: Boost lambda module
+Status: install ok half-installed

@@ -1,0 +1,8 @@
+Package: boost-detail
+Version: 1.75.0
+Depends: boost-compatibility, boost-config, boost-preprocessor, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: fc2adbe5ba71bfb2f41b9799b35065b9c1f90b2283196d27decc73737af830ee
+Description: Boost detail module
+Status: install ok half-installed

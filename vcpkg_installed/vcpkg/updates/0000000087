@@ -1,0 +1,8 @@
+Package: boost-align
+Version: 1.75.0
+Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 4b48d8ef0bcff8d8e67b38532ababaa02fddc2cfce3e456135ca146ae5324474
+Description: Boost align module
+Status: install ok installed

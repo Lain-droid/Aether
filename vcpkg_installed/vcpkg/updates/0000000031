@@ -1,0 +1,9 @@
+Package: boost-build
+Version: 1.75.0.beta1
+Port-Version: 1
+Depends: boost-uninstall
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 462422d4b198fe75173a7e12b1a78720be0f9c326e78e07785ba99a8e310766f
+Description: Boost.Build
+Status: install ok installed

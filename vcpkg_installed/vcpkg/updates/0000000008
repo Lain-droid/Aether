@@ -1,0 +1,8 @@
+Package: boost-config
+Version: 1.75.0
+Depends: boost-compatibility, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 94099089597ff3baa014f3c4c5e7742b7535b58491a760eef8ab58767452cb8f
+Description: Boost config module
+Status: install ok half-installed

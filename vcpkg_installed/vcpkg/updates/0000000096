@@ -1,0 +1,8 @@
+Package: boost-exception
+Version: 1.75.0
+Depends: boost-assert, boost-build, boost-config, boost-core, boost-modular-build-helper, boost-smart-ptr, boost-tuple, boost-type-traits, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: d2c68586220f209e60d6076b89d1269cf7129fa8671b675682313096038b4c81
+Description: Boost exception module
+Status: install ok half-installed

@@ -1,0 +1,8 @@
+Package: boost-array
+Version: 1.75.0
+Depends: boost-assert, boost-config, boost-core, boost-detail, boost-static-assert, boost-throw-exception, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: a2591bcb7060d529d971a670f09f2828e16c9a54952c640bae63771078c537ea
+Description: Boost array module
+Status: install ok half-installed

@@ -1,0 +1,8 @@
+Package: boost-core
+Version: 1.75.0
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 6e3b97b07854f9c2ba1689f58eed16d7c0e8d67c3a99ee54d99d12af567cdc39
+Description: Boost core module
+Status: install ok installed

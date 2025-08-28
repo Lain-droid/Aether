@@ -1,0 +1,8 @@
+Package: boost-fusion
+Version: 1.75.0
+Depends: boost-config, boost-container-hash, boost-core, boost-detail, boost-function-types, boost-mpl, boost-preprocessor, boost-static-assert, boost-tuple, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 8e09d60c77285a3e1481974741daf5726a499588cefe5d3f9ae70013495b7c0d
+Description: Boost fusion module
+Status: install ok half-installed
