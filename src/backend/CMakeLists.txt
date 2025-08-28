@@ -14,7 +14,11 @@ file(GLOB_RECURSE SRC
   *.cpp
 )
 
-add_library(aether_backend STATIC ${SRC})
+if (WIN32)
+  add_library(aether_backend SHARED ${SRC})
+else()
+  add_library(aether_backend STATIC ${SRC})
+endif()
 target_include_directories(aether_backend PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 if (WIN32)
