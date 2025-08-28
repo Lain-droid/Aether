@@ -27,7 +27,7 @@ jobs:
 
       - name: Build (CMake)
         run: |
-          cmake --build build --config Release -- -k 0
+          cmake --build build --config Release -- -k 0 > build\\build.log 2>&1
         shell: cmd
 
       - name: Archive build logs
