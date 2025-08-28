@@ -429,9 +429,9 @@ namespace AetherVisor {
         void AntiAnalysis::CorruptDebuggerMemory() {
 #ifdef _WIN32
             // Attempt to corrupt common debugger memory regions
-            const DWORD debugger_processes[] = { 0x1000, 0x2000, 0x3000, 0x4000 };
+            const uintptr_t debugger_processes[] = { 0x1000, 0x2000, 0x3000, 0x4000 };
             
-            for (DWORD addr : debugger_processes) {
+            for (uintptr_t addr : debugger_processes) {
                 __try {
                     *(volatile DWORD*)addr = 0xDEADBEEF;
                 } __except(EXCEPTION_EXECUTE_HANDLER) {

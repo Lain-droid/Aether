@@ -16,12 +16,8 @@ namespace AetherVisor {
         // Forward declarations to satisfy template usage (inline definition provided below)
         inline void SecureZeroMemory(void* ptr, size_t size) {
             if (!ptr || size == 0) return;
-#ifdef _WIN32
-            ::SecureZeroMemory(ptr, size);
-#else
             volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
-            for (size_t i = 0; i < size; ++i) p[i] = 0;
-#endif
+            for (size_t i = 0; i < size; ++i) { p[i] = 0; }
         }
         void* SecureMemcpy(void* dest, const void* src, size_t size);
         void XorEncrypt(uint8_t* data, size_t size, uint8_t key);
