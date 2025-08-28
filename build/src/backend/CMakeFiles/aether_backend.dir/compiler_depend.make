@@ -576,6 +576,7 @@ src/backend/CMakeFiles/aether_backend.dir/Core.cpp.o: /workspace/src/backend/Cor
   /usr/include/c++/14/bits/version.h \
   /usr/include/c++/14/cctype \
   /usr/include/c++/14/cerrno \
+  /usr/include/c++/14/cfloat \
   /usr/include/c++/14/charconv \
   /usr/include/c++/14/chrono \
   /usr/include/c++/14/climits \
@@ -679,6 +680,7 @@ src/backend/CMakeFiles/aether_backend.dir/Core.cpp.o: /workspace/src/backend/Cor
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/float.h \
   /usr/lib/llvm-20/lib/clang/20/include/limits.h \
   /usr/lib/llvm-20/lib/clang/20/include/sanitizer/tsan_interface.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
@@ -695,6 +697,7 @@ src/backend/CMakeFiles/aether_backend.dir/Core.cpp.o: /workspace/src/backend/Cor
   /workspace/src/backend/ml/MLPrimitives.h \
   /workspace/src/backend/ml/NeuralObfuscator.h \
   /workspace/src/backend/ml/PatternDetector.h \
+  /workspace/src/backend/security/SecurityHardening.h \
   /workspace/src/backend/vm/Compiler.h \
   /workspace/src/backend/vm/VMOpcodes.h \
   /workspace/src/backend/vm/VirtualMachine.h
@@ -6207,6 +6210,7 @@ src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: /workspace/sr
   /usr/include/c++/14/bits/version.h \
   /usr/include/c++/14/cctype \
   /usr/include/c++/14/cerrno \
+  /usr/include/c++/14/cfloat \
   /usr/include/c++/14/charconv \
   /usr/include/c++/14/chrono \
   /usr/include/c++/14/climits \
@@ -6291,11 +6295,13 @@ src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: /workspace/sr
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_ptrdiff_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_size_t.h \
   /usr/lib/llvm-20/lib/clang/20/include/__stddef_wchar_t.h \
+  /usr/lib/llvm-20/lib/clang/20/include/float.h \
   /usr/lib/llvm-20/lib/clang/20/include/limits.h \
   /usr/lib/llvm-20/lib/clang/20/include/sanitizer/tsan_interface.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdarg.h \
   /usr/lib/llvm-20/lib/clang/20/include/stddef.h \
   /usr/lib/llvm-20/lib/clang/20/include/stdint.h \
+  /workspace/src/backend/security/SecurityHardening.h \
   /workspace/src/backend/security/XorStr.h \
   /workspace/src/backend/vm/VMOpcodes.h \
   /workspace/src/backend/vm/VirtualMachine.h
@@ -6315,11 +6321,7 @@ src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: /workspace/sr
 
 /workspace/src/backend/security/SignatureScanner.cpp:
 
-/workspace/src/backend/security/SecurityHardening.h:
-
 /usr/include/c++/14/regex:
-
-/usr/include/c++/14/cfloat:
 
 /usr/include/c++/14/bits/unique_lock.h:
 
@@ -6401,6 +6403,8 @@ src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: /workspace/sr
 
 /workspace/src/backend/vm/VMOpcodes.h:
 
+/workspace/src/backend/security/SecurityHardening.h:
+
 /workspace/src/backend/ml/PatternDetector.h:
 
 /workspace/src/backend/ml/NeuralObfuscator.h:
@@ -6440,6 +6444,8 @@ src/backend/CMakeFiles/aether_backend.dir/vm/VirtualMachine.cpp.o: /workspace/sr
 /usr/include/c++/14/cstring:
 
 /usr/include/c++/14/climits:
+
+/usr/include/c++/14/cfloat:
 
 /usr/include/c++/14/bits/unordered_map.h:
 

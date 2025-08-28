@@ -149,7 +149,7 @@ namespace AetherVisor {
             size_t m_max_stack_size;
 
             // Memory management with security
-            std::map<uint32_t, Security::SecurePtr<uint8_t>> m_allocated_memory;
+            std::map<uint32_t, std::shared_ptr<Security::SecurePtr<uint8_t>>> m_allocated_memory;
             uint32_t m_next_memory_address;
             size_t m_memory_usage;
             size_t m_max_memory_usage;

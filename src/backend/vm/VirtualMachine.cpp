@@ -323,7 +323,7 @@ namespace AetherVisor {
                 return false;
             }
 
-            memcpy(it->second->Get(), data, size);
+            memcpy(it->second->get(), data, size);
             return true;
         }
 
@@ -343,13 +343,11 @@ namespace AetherVisor {
                 return false;
             }
 
-            memcpy(data, it->second->Get(), size);
+            memcpy(data, it->second->get(), size);
             return true;
         }
 
-        size_t VirtualMachine::GetMemoryUsage() const {
-            return m_memory_usage;
-        }
+        
 
         void VirtualMachine::ThrowException(VMDataType type, const std::string& message) {
             m_has_exception = true;

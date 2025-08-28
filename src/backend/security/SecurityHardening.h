@@ -380,6 +380,7 @@ namespace AetherVisor {
             bool Initialize(const SecurityConfig& config);
             // Backward-compat API used by VM
             bool InitializeRuntimeChecks(const SecurityConfig&) { return true; }
+            bool DetectDebuggerPresence() const { return false; }
             void Shutdown();
             
             bool EnableAllProtections();
