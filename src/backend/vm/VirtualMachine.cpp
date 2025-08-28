@@ -351,23 +351,10 @@ namespace AetherVisor {
 
         void VirtualMachine::ThrowException(VMDataType type, const std::string& message) {
             m_has_exception = true;
-            m_current_exception.type = type;
-            m_current_exception.message = message;
+            m_current_exception.error_type = type;
             m_current_exception.pc = m_pc;
-            m_current_exception.stack_trace.clear();
-            
-            // Add stack trace
-            for (const auto& frame : m_call_stack) {
-                m_current_exception.stack_trace.push_back(frame.return_address);
-            }
-        }
-
-        bool VirtualMachine::HasPendingException() const {
-            return m_has_exception;
-        }
-
-        VMException VirtualMachine::GetException() const {
-            return m_current_exception;
+            std::strncpy(m_current_exception.message, message.c_str(), sizeof(m_current_exception.message) - 1);
+            m_current_exception.message[sizeof(m_current_exception.message) - 1] = '\0';
         }
 
         void VirtualMachine::ClearException() {

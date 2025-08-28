@@ -11,6 +11,7 @@
 namespace AetherVisor {
     namespace ML {
 
+        static double CalculateCodeEntropy(const CodeBlock& code);
         // MetamorphicGenerator Implementation
         MetamorphicGenerator::MetamorphicGenerator() {
             // Initialize equivalence detection network
