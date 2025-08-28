@@ -344,6 +344,9 @@ src/backend/CMakeFiles/aether_backend.dir/Core.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/queue \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_queue.h \
   /workspace/src/backend/vm/VirtualMachine.h \
+  /workspace/src/backend/vm/../security/SecurityHardening.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cfloat \
+  /usr/lib/llvm-20/lib/clang/20/include/float.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/set \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_set.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_multiset.h \

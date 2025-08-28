@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VMOpcodes.h"
+#include "../security/SecurityHardening.h"
 #include <vector>
 #include <string>
 #include <map>

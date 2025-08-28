@@ -378,6 +378,8 @@ namespace AetherVisor {
             static SecurityHardening& GetInstance();
             
             bool Initialize(const SecurityConfig& config);
+            // Backward-compat API used by VM
+            bool InitializeRuntimeChecks(const SecurityConfig&) { return true; }
             void Shutdown();
             
             bool EnableAllProtections();

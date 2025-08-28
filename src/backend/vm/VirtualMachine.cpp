@@ -51,14 +51,8 @@ namespace AetherVisor {
 
             // Initialize security hardening
             Security::SecurityHardening& hardening = Security::SecurityHardening::GetInstance();
-            Security::HardeningContext context;
-            context.enable_anti_debug = security_context.enable_anti_debug;
-            context.enable_anti_vm = true;
-            context.enable_memory_encryption = true;
-            context.enable_code_integrity = true;
-            context.enable_runtime_monitoring = true;
-            context.obfuscation_trigger_threshold = 0.7;
-            hardening.InitializeRuntimeChecks(context);
+            // Use config directly via backward-compat API
+            hardening.InitializeRuntimeChecks(Security::SecurityConfig{});
 
             m_initialized = true;
             SetState(VMState::READY);
@@ -197,7 +191,7 @@ namespace AetherVisor {
                 }
 
             } catch (const std::exception& e) {
-                SetError(XorS("Runtime exception: ") + e.what());
+                SetError(std::string(XorS("Runtime exception: ")) + e.what());
                 SetState(VMState::ERROR_STATE);
                 return false;
             }
