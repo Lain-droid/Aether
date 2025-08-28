@@ -165,6 +165,7 @@ namespace AetherVisor {
 
             // Exception handling
             bool m_has_exception;
+            VMException m_current_exception;
 
             // Security and monitoring
             std::set<uint32_t> m_breakpoints;

@@ -125,7 +125,7 @@ namespace AetherVisor {
             }
 
             // Update entropy score
-            transformed.entropy_score = CalculateCodeComplexity(transformed);
+            transformed.entropy_score = CalculateCodeEntropy(transformed);
             
             return transformed;
         }
