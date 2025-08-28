@@ -6,10 +6,10 @@
 namespace AetherVisor {
     namespace Payload {
 
-        enum class NetworkMode {
-            PASS_THROUGH, // Default mode, does nothing but hook.
-            PROFILING,    // Gathers statistics about network traffic.
-            MIMICKING     // Alters traffic to match the gathered profile.
+        enum class NetworkMode : uint8_t {
+            PassThrough,   // Default mode, does nothing but hook.
+            ProfilingMode, // Gathers statistics about network traffic.
+            MimickingMode  // Alters traffic to match the gathered profile.
         };
 
         /**

@@ -24,14 +24,14 @@ namespace AetherVisor {
     namespace Payload {
 
         // Initialize static members
-        NetworkMode NetworkManager::m_mode = NetworkMode::PASS_THROUGH;
+        NetworkMode NetworkManager::m_mode = NetworkMode::PassThrough;
         NetworkManager::TrafficProfile NetworkManager::m_profile;
         std::chrono::steady_clock::time_point NetworkManager::m_lastSendTime = std::chrono::steady_clock::now();
         std::vector<char> NetworkManager::m_sendBuffer;
 
         void NetworkManager::SetMode(NetworkMode newMode) {
             m_mode = newMode;
-            if (newMode == NetworkMode::PROFILING) {
+            if (newMode == NetworkMode::ProfilingMode) {
                 // Reset profile data when starting a new profiling session
                 m_profile = {};
             }
@@ -42,7 +42,7 @@ namespace AetherVisor {
             Backend::AIController::GetInstance().ReportEvent(Backend::AIEventType::NETWORK_PACKET_SENT);
 
             switch (NetworkManager::m_mode) {
-                case NetworkMode::PROFILING: {
+                case NetworkMode::ProfilingMode: {
                     auto now = std::chrono::steady_clock::now();
                     auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - NetworkManager::m_lastSendTime).count();
 
@@ -54,7 +54,7 @@ namespace AetherVisor {
                     m_lastSendTime = now;
                     return original_send(s, buf, len, flags);
                 }
-                case NetworkMode::MIMICKING: {
+                case NetworkMode::MimickingMode: {
                     // Buffer the outgoing data
                     m_sendBuffer.insert(m_sendBuffer.end(), buf, buf + len);
 
@@ -70,7 +70,7 @@ namespace AetherVisor {
                     }
                     return len; // Pretend we sent the data successfully
                 }
-                case NetworkMode::PASS_THROUGH:
+                case NetworkMode::PassThrough:
                 default: {
                     return original_send(s, buf, len, flags);
                 }
