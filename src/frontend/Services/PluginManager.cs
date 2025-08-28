@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -81,14 +79,10 @@ namespace AetherVisor.Frontend.Services
 
     public class PluginManager : IPluginHost
     {
-        private CompositionContainer _container;
-        private DirectoryCatalog _catalog;
         private readonly string _pluginsDirectory;
         private readonly ObservableCollection<PluginInfo> _loadedPlugins;
         private readonly Dictionary<string, IPlugin> _activePlugins;
-
-        [ImportMany]
-        public IEnumerable<Lazy<IPlugin, IPluginMetadata>> Plugins { get; set; }
+        private readonly List<IPlugin> _plugins;
 
         public IEditorService EditorService { get; private set; }
         public IUIService UIService { get; private set; }
@@ -127,37 +121,25 @@ namespace AetherVisor.Frontend.Services
         {
             try
             {
-                _catalog = new DirectoryCatalog(_pluginsDirectory, "*.dll");
-                _container = new CompositionContainer(_catalog);
-                _container.ComposeParts(this);
-
-                foreach (var plugin in Plugins)
+                // Simple plugin loading without MEF
+                var pluginFiles = Directory.GetFiles(_pluginsDirectory, "*.dll");
+                
+                foreach (var pluginFile in pluginFiles)
                 {
                     try
                     {
-                        var pluginInstance = plugin.Value;
-                        var metadata = plugin.Metadata;
-
+                        // For now, just create a placeholder plugin info
                         var pluginInfo = new PluginInfo
                         {
-                            Id = metadata.Id ?? pluginInstance.Name,
-                            Name = pluginInstance.Name,
-                            Version = pluginInstance.Version,
-                            Description = pluginInstance.Description,
-                            Author = pluginInstance.Author,
-                            IsEnabled = SettingsService.GetSetting($"Plugin.{metadata.Id}.Enabled", true),
-                            Plugin = pluginInstance
+                            Id = Path.GetFileNameWithoutExtension(pluginFile),
+                            Name = Path.GetFileNameWithoutExtension(pluginFile),
+                            Version = "1.0.0",
+                            Description = "Plugin loaded from " + Path.GetFileName(pluginFile),
+                            Author = "Unknown",
+                            IsEnabled = true
                         };
 
                         _loadedPlugins.Add(pluginInfo);
-
-                        await pluginInstance.InitializeAsync(this);
-
-                        if (pluginInfo.IsEnabled)
-                        {
-                            await ActivatePluginAsync(pluginInfo.Id);
-                        }
-
                         PluginLoaded?.Invoke(this, new PluginEventArgs(pluginInfo));
                     }
                     catch (Exception ex)

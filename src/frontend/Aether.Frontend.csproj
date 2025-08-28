@@ -16,7 +16,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
-    <PackageReference Include="System.ComponentModel.Composition.AttributedModel" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
