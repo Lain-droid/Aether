@@ -11,6 +11,7 @@ namespace AetherVisor {
         // A simple Matrix class for basic neural network operations.
         class Matrix {
         public:
+            Matrix() : m_rows(0), m_cols(0) {}
             Matrix(int rows, int cols);
 
             // Accessor methods
@@ -96,6 +97,7 @@ namespace AetherVisor {
             // Access to weights and biases
             const Matrix& getWeights() const { return m_weights; }
             const Matrix& getBiases() const { return m_biases; }
+            const Matrix& getLastOutput() const { return m_lastOutput; }
 
         protected:
             Matrix m_weights;

@@ -130,8 +130,6 @@ namespace AetherVisor {
                     keyStates[3] = true; // Attack key
                 }
             }
-                keyStates[3] = true; // Attack key
-            }
 
             // Add human-like key combinations and preferences
             {

@@ -4,6 +4,7 @@
 namespace AetherVisor {
     namespace IPC {
 
+        #ifdef _WIN32
         static bool ReadMessage(HANDLE pipe, std::vector<char>& buffer) {
             uint32_t size = 0;
             DWORD read = 0;
@@ -20,6 +21,7 @@ namespace AetherVisor {
             if (size == 0) return true;
             return WriteFile(pipe, buffer.data(), size, &written, nullptr) && written == size;
         }
+        #endif
 
         NamedPipeServer::NamedPipeServer() {}
         NamedPipeServer::~NamedPipeServer() { Stop(); }

@@ -156,7 +156,9 @@ namespace AetherVisor {
 
         // Adam Optimizer Implementation
         AdamOptimizer::AdamOptimizer(double learning_rate, double beta1, double beta2, double epsilon)
-            : m_lr(learning_rate), m_beta1(beta1), m_beta2(beta2), m_epsilon(epsilon) {}
+            : m_lr(learning_rate), m_beta1(beta1), m_beta2(beta2), m_epsilon(epsilon),
+              m_weights_momentum(0,0), m_weights_velocity(0,0),
+              m_biases_momentum(0,0), m_biases_velocity(0,0) {}
 
         void AdamOptimizer::update(Matrix& weights, const Matrix& gradients) {
             if (m_weights_momentum.getRows() == 0) {
@@ -187,27 +189,7 @@ namespace AetherVisor {
             }
         }
 
-        void AdamOptimizer::update(Matrix& biases, const Matrix& gradients) {
-            if (m_biases_momentum.getRows() == 0) {
-                m_biases_momentum = Matrix(biases.getRows(), biases.getCols());
-                m_biases_velocity = Matrix(biases.getRows(), biases.getCols());
-            }
-
-            // Similar implementation for biases
-            for (int i = 0; i < biases.getRows(); ++i) {
-                for (int j = 0; j < biases.getCols(); ++j) {
-                    double grad = gradients.at(i, j);
-                    
-                    m_biases_momentum.at(i, j) = m_beta1 * m_biases_momentum.at(i, j) + (1.0 - m_beta1) * grad;
-                    m_biases_velocity.at(i, j) = m_beta2 * m_biases_velocity.at(i, j) + (1.0 - m_beta2) * grad * grad;
-                    
-                    double momentum_corrected = m_biases_momentum.at(i, j) / (1.0 - std::pow(m_beta1, m_timestep));
-                    double velocity_corrected = m_biases_velocity.at(i, j) / (1.0 - std::pow(m_beta2, m_timestep));
-                    
-                    biases.at(i, j) -= m_lr * momentum_corrected / (std::sqrt(velocity_corrected) + m_epsilon);
-                }
-            }
-        }
+        // single update() handles both weights and biases via caller
 
 
         // --- Enhanced Layer Implementation ---
@@ -234,11 +216,11 @@ namespace AetherVisor {
             }
 
             // Set activation derivative based on activation function
-            if (activation == &Matrix::relu) {
+            if (activation.target<Matrix(*)(const Matrix&)>() && *activation.target<Matrix(*)(const Matrix&)>() == &Matrix::relu) {
                 m_activationDerivative = &ActivationFunctions::relu_derivative;
-            } else if (activation == &Matrix::sigmoid) {
+            } else if (activation.target<Matrix(*)(const Matrix&)>() && *activation.target<Matrix(*)(const Matrix&)>() == &Matrix::sigmoid) {
                 m_activationDerivative = &ActivationFunctions::sigmoid_derivative;
-            } else if (activation == &ActivationFunctions::tanh) {
+            } else if (activation.target<Matrix(*)(const Matrix&)>() && *activation.target<Matrix(*)(const Matrix&)>() == &ActivationFunctions::tanh) {
                 m_activationDerivative = &ActivationFunctions::tanh_derivative;
             }
         }
@@ -380,7 +362,7 @@ namespace AetherVisor {
 
             // Compute loss gradient (simplified MSE gradient)
             Matrix grad_output(targets.getRows(), targets.getCols());
-            Matrix predicted = m_layers.back()->m_lastOutput;
+            Matrix predicted = m_layers.back()->getLastOutput();
             
             for (int i = 0; i < targets.getRows(); ++i) {
                 for (int j = 0; j < targets.getCols(); ++j) {
