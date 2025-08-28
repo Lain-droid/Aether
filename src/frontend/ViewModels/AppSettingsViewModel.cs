@@ -2,6 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using AetherVisor.Frontend.Services;
+using System.IO;
+using System.Text.Json;
+using AetherVisor.Frontend.Models;
 
 namespace AetherVisor.Frontend.ViewModels
 {
@@ -22,6 +25,7 @@ namespace AetherVisor.Frontend.ViewModels
         public AppSettingsViewModel()
         {
             SaveCommand = new RelayCommand(_ => true, _ => Save());
+            Load();
         }
 
         private async void Save()
@@ -31,6 +35,7 @@ namespace AetherVisor.Frontend.ViewModels
                 await _ipc.ConnectAsync();
                 await IpcSendAiAsync(AiSensitivity);
             } catch { }
+            Persist();
         }
 
         private async System.Threading.Tasks.Task IpcSendAiAsync(double sensitivity)
@@ -54,5 +59,31 @@ namespace AetherVisor.Frontend.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        private string SettingsPath => System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Aether", "settings.json");
+        private void Load()
+        {
+            try {
+                if (File.Exists(SettingsPath))
+                {
+                    var json = File.ReadAllText(SettingsPath);
+                    var s = JsonSerializer.Deserialize<AppState>(json);
+                    if (s != null)
+                    {
+                        if (s.EditorFontSize > 0) EditorFontSize = s.EditorFontSize;
+                        AutocompleteEnabled = s.AutocompleteEnabled;
+                    }
+                }
+            } catch { }
+        }
+        private void Persist()
+        {
+            try {
+                var state = new AppState { EditorFontSize = EditorFontSize, AutocompleteEnabled = AutocompleteEnabled };
+                var dir = System.IO.Path.GetDirectoryName(SettingsPath);
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                File.WriteAllText(SettingsPath, JsonSerializer.Serialize(state));
+            } catch { }
+        }
     }
 }

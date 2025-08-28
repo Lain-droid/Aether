@@ -103,7 +103,9 @@
                         </TabControl.ItemTemplate>
                         <TabControl.ContentTemplate>
                             <DataTemplate>
-                                <local:ScriptEditor Text="{Binding DataContext.ScriptText, RelativeSource={RelativeSource AncestorType=TabControl}, UpdateSourceTrigger=PropertyChanged}"/>
+                                <local:ScriptEditor Text="{Binding DataContext.ScriptText, RelativeSource={RelativeSource AncestorType=TabControl}, UpdateSourceTrigger=PropertyChanged}"
+                                                    EditorFontSize="{Binding DataContext.EditorFontSize, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                                                    AutocompleteEnabled="{Binding DataContext.AutocompleteEnabled, RelativeSource={RelativeSource AncestorType=TabControl}}"/>
                             </DataTemplate>
                         </TabControl.ContentTemplate>
                     </TabControl>
