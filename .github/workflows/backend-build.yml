@@ -19,8 +19,9 @@ jobs:
       - name: Setup MSVC Developer Command Prompt
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Configure (CMake)
+      - name: Configure (CMake - fresh build dir)
         run: |
+          if exist build rmdir /s /q build
           cmake -S . -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
         shell: cmd
 
