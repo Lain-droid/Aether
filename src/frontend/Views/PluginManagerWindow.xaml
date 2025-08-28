@@ -1,0 +1,263 @@
+<Window x:Class="AetherVisor.Frontend.Views.PluginManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Plugin Manager" Width="800" Height="600" WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E" Foreground="#D4D4D4">
+    
+    <Window.Resources>
+        <!-- Styles -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004578"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#404040"/>
+                                <Setter Property="Foreground" Value="#808080"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#404040"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#505050"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="#D13438"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B71C1C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Data Templates -->
+        <DataTemplate x:Key="PluginItemTemplate">
+            <Border Background="#252526" Margin="4" Padding="12" CornerRadius="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Plugin Icon -->
+                    <Border Grid.Column="0" Width="40" Height="40" Background="#404040" CornerRadius="4">
+                        <TextBlock Text="{Binding Icon, TargetNullValue='📦'}" 
+                                   FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Plugin Info -->
+                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding Version}" Foreground="#858585" Margin="8,0,0,0"/>
+                            <Border Background="{Binding Status, Converter={StaticResource StatusToBrushConverter}}" 
+                                    CornerRadius="2" Padding="4,1" Margin="8,0,0,0">
+                                <TextBlock Text="{Binding Status}" FontSize="10" Foreground="White"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Description}" Foreground="#CCCCCC" 
+                                   Margin="0,4,0,0" TextWrapping="Wrap"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                            <TextBlock Text="By:" Foreground="#858585" FontSize="11"/>
+                            <TextBlock Text="{Binding Author}" Foreground="#858585" FontSize="11" Margin="4,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Button Content="Activate" Style="{StaticResource ModernButton}"
+                                IsEnabled="{Binding CanActivate}"
+                                Click="ActivatePlugin_Click" Tag="{Binding Id}"/>
+                        <Button Content="Deactivate" Style="{StaticResource SecondaryButton}"
+                                IsEnabled="{Binding CanDeactivate}"
+                                Click="DeactivatePlugin_Click" Tag="{Binding Id}"/>
+                        <Button Content="Settings" Style="{StaticResource SecondaryButton}"
+                                Click="PluginSettings_Click" Tag="{Binding Id}"/>
+                        <Button Content="Uninstall" Style="{StaticResource DangerButton}"
+                                Click="UninstallPlugin_Click" Tag="{Binding Id}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2D2D30" Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Plugin Manager" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Manage and configure your Aether plugins" 
+                               Foreground="#CCCCCC" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="Install Plugin" Style="{StaticResource ModernButton}"
+                            Click="InstallPlugin_Click"/>
+                    <Button Content="Reload All" Style="{StaticResource SecondaryButton}"
+                            Click="ReloadPlugins_Click"/>
+                    <Button Content="Browse Online" Style="{StaticResource SecondaryButton}"
+                            Click="BrowseOnline_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="#252526" BorderThickness="0,0,1,0" BorderBrush="#464647">
+                <StackPanel Margin="8">
+                    <TextBlock Text="Categories" FontWeight="Bold" Margin="8,8,8,16"/>
+                    
+                    <Button Content="All Plugins" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="All" HorizontalAlignment="Stretch"/>
+                    <Button Content="Active" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="Active" HorizontalAlignment="Stretch"/>
+                    <Button Content="Inactive" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="Inactive" HorizontalAlignment="Stretch"/>
+                    
+                    <Separator Margin="0,16"/>
+                    
+                    <TextBlock Text="Plugin Types" FontWeight="Bold" Margin="8,8,8,16"/>
+                    <Button Content="Editor Extensions" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="Editor" HorizontalAlignment="Stretch"/>
+                    <Button Content="Script Tools" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="Tools" HorizontalAlignment="Stretch"/>
+                    <Button Content="Themes" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="Themes" HorizontalAlignment="Stretch"/>
+                    <Button Content="Utilities" Style="{StaticResource SecondaryButton}"
+                            Click="FilterCategory_Click" Tag="Utilities" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Plugin List -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Search Bar -->
+                <Border Grid.Row="0" Background="#2D2D30" Padding="16,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="SearchBox" Grid.Column="0" 
+                                 Background="#3C3C3C" Foreground="#D4D4D4" 
+                                 BorderBrush="#464647" BorderThickness="1"
+                                 Padding="8" FontSize="14"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 TextChanged="SearchBox_TextChanged">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <VisualBrush AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                        <VisualBrush.Visual>
+                                                            <TextBlock Text="Search plugins..." 
+                                                                       Foreground="#858585" Margin="8,0"/>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0">
+                            <ComboBox x:Name="SortComboBox" Width="150" Background="#3C3C3C" 
+                                      Foreground="#D4D4D4" BorderBrush="#464647"
+                                      SelectionChanged="SortComboBox_SelectionChanged">
+                                <ComboBoxItem Content="Name" IsSelected="True"/>
+                                <ComboBoxItem Content="Status"/>
+                                <ComboBoxItem Content="Author"/>
+                                <ComboBoxItem Content="Version"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Plugin List -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="PluginList" 
+                                  ItemsSource="{Binding FilteredPlugins}"
+                                  ItemTemplate="{StaticResource PluginItemTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Background="#007ACC" Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="StatusText" Grid.Column="0" 
+                           Text="{Binding StatusMessage}" Foreground="White"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="Total:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding TotalPlugins}" Foreground="White" FontWeight="Bold"/>
+                    <TextBlock Text="Active:" Foreground="White" Margin="16,0,4,0"/>
+                    <TextBlock Text="{Binding ActivePlugins}" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

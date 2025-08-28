@@ -1,0 +1,481 @@
+<Window x:Class="AetherVisor.Frontend.Views.MarketplaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Aether Marketplace" Width="1200" Height="800" WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E" Foreground="#D4D4D4">
+
+    <Window.Resources>
+        <!-- Styles -->
+        <Style x:Key="CategoryCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#007ACC"/>
+                    <Setter Property="Background" Value="#2D2D30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ItemCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#464647"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#007ACC"/>
+                    <Setter Property="Background" Value="#2D2D30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004578"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#404040"/>
+                                <Setter Property="Foreground" Value="#808080"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Data Templates -->
+        <DataTemplate x:Key="CategoryTemplate">
+            <Border Style="{StaticResource CategoryCardStyle}" Width="200" Height="120"
+                    MouseLeftButtonUp="Category_Click" Tag="{Binding Name}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{Binding Icon}" FontSize="24" 
+                               HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" 
+                                   HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="{Binding Description}" FontSize="11" Foreground="#CCCCCC" 
+                                   HorizontalAlignment="Center" TextAlignment="Center" 
+                                   TextWrapping="Wrap" Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="2" Text="{Binding ItemCount, StringFormat='{}{0} items'}" 
+                               FontSize="10" Foreground="#858585" HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ItemTemplate">
+            <Border Style="{StaticResource ItemCardStyle}" Width="280" Height="320"
+                    MouseLeftButtonUp="Item_Click" Tag="{Binding Id}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Thumbnail -->
+                    <Border Grid.Row="0" Background="#1A1A1A" CornerRadius="4" Margin="0,0,0,8">
+                        <Grid>
+                            <TextBlock Text="{Binding TypeIcon}" FontSize="48" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       Foreground="#007ACC"/>
+                            <!-- In a real implementation, this would be an Image control -->
+                        </Grid>
+                    </Border>
+
+                    <!-- Content -->
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" 
+                                   TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                        
+                        <TextBlock Text="{Binding Description}" FontSize="11" Foreground="#CCCCCC" 
+                                   TextWrapping="Wrap" TextTrimming="CharacterEllipsis" 
+                                   MaxHeight="40" Margin="0,0,0,8"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="{Binding FormattedRating}" FontSize="10" 
+                                       Foreground="#FFCC02" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding FormattedDownloads}" FontSize="10" 
+                                       Foreground="#858585"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding Author}" FontSize="10" Foreground="#858585" 
+                                   Margin="0,0,0,4"/>
+                        
+                        <TextBlock Text="{Binding FormattedPrice}" FontSize="12" FontWeight="Bold" 
+                                   Foreground="#6A9955" Margin="0,0,0,8"/>
+                    </StackPanel>
+
+                    <!-- Actions -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="❤️" Width="30" Height="24" Margin="0,0,4,0"
+                                Background="Transparent" BorderThickness="0" 
+                                Foreground="{Binding IsFavorite, Converter={StaticResource BoolToColorConverter}}"
+                                Click="ToggleFavorite_Click" Tag="{Binding}"/>
+                        
+                        <Button Content="{Binding InstallButtonText}" Style="{StaticResource ActionButtonStyle}"
+                                IsEnabled="{Binding IsInstalled, Converter={StaticResource InverseBoolConverter}}"
+                                Click="InstallItem_Click" Tag="{Binding}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2D2D30" Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Aether Marketplace" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Discover and install plugins, themes, and tools for Aether" 
+                               Foreground="#CCCCCC" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBox x:Name="SearchBox" Width="300" Height="32" Margin="8,0"
+                             Background="#3C3C3C" Foreground="#D4D4D4" BorderBrush="#464647"
+                             Padding="8" FontSize="14" VerticalAlignment="Center"
+                             KeyUp="SearchBox_KeyUp">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <VisualBrush AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                    <VisualBrush.Visual>
+                                                        <TextBlock Text="Search marketplace..." 
+                                                                   Foreground="#858585" Margin="8,0"/>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    
+                    <Button Content="Publish Item" Style="{StaticResource ActionButtonStyle}"
+                            Click="PublishItem_Click"/>
+                    <Button Content="My Items" Style="{StaticResource ActionButtonStyle}"
+                            Background="#404040" Click="MyItems_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <TabControl Background="Transparent" BorderThickness="0">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Background" Value="#2D2D30"/>
+                        <Setter Property="Foreground" Value="#D4D4D4"/>
+                        <Setter Property="Padding" Value="16,8"/>
+                        <Setter Property="Margin" Value="2,0"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#007ACC"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabControl.Resources>
+
+                <!-- Browse Tab -->
+                <TabItem Header="Browse">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="16">
+                        <StackPanel>
+                            <!-- Categories -->
+                            <TextBlock Text="Categories" FontSize="18" FontWeight="Bold" Margin="0,0,0,16"/>
+                            
+                            <ItemsControl ItemsSource="{Binding Categories}" 
+                                          ItemTemplate="{StaticResource CategoryTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+
+                            <!-- Featured Items -->
+                            <TextBlock Text="Featured" FontSize="18" FontWeight="Bold" 
+                                       Margin="0,32,0,16"/>
+                            
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding FeaturedItems}" 
+                                              ItemTemplate="{StaticResource ItemTemplate}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <!-- Popular Items -->
+                            <TextBlock Text="Popular" FontSize="18" FontWeight="Bold" 
+                                       Margin="0,32,0,16"/>
+                            
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding PopularItems}" 
+                                              ItemTemplate="{StaticResource ItemTemplate}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <!-- Recent Items -->
+                            <TextBlock Text="Recently Added" FontSize="18" FontWeight="Bold" 
+                                       Margin="0,32,0,16"/>
+                            
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding RecentItems}" 
+                                              ItemTemplate="{StaticResource ItemTemplate}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Search Results Tab -->
+                <TabItem Header="Search Results" x:Name="SearchResultsTab" Visibility="Collapsed">
+                    <Grid Margin="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Search Header -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                            <TextBlock x:Name="SearchResultsHeader" Text="Search Results" 
+                                       FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Button Content="Clear" Margin="16,0,0,0" 
+                                    Background="Transparent" BorderThickness="0" 
+                                    Foreground="#007ACC" Click="ClearSearch_Click"/>
+                        </StackPanel>
+
+                        <!-- Filters -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,16">
+                            <TextBlock Text="Filter:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            
+                            <ComboBox x:Name="TypeFilterComboBox" Width="120" Margin="4,0"
+                                      Background="#3C3C3C" Foreground="#D4D4D4" BorderBrush="#464647"
+                                      SelectionChanged="Filter_SelectionChanged">
+                                <ComboBoxItem Content="All Types" IsSelected="True"/>
+                                <ComboBoxItem Content="Plugins"/>
+                                <ComboBoxItem Content="Themes"/>
+                                <ComboBoxItem Content="Templates"/>
+                                <ComboBoxItem Content="Tools"/>
+                            </ComboBox>
+
+                            <ComboBox x:Name="PriceFilterComboBox" Width="100" Margin="4,0"
+                                      Background="#3C3C3C" Foreground="#D4D4D4" BorderBrush="#464647"
+                                      SelectionChanged="Filter_SelectionChanged">
+                                <ComboBoxItem Content="All Prices" IsSelected="True"/>
+                                <ComboBoxItem Content="Free"/>
+                                <ComboBoxItem Content="Paid"/>
+                            </ComboBox>
+
+                            <ComboBox x:Name="SortComboBox" Width="150" Margin="4,0"
+                                      Background="#3C3C3C" Foreground="#D4D4D4" BorderBrush="#464647"
+                                      SelectionChanged="Sort_SelectionChanged">
+                                <ComboBoxItem Content="Relevance" IsSelected="True"/>
+                                <ComboBoxItem Content="Name"/>
+                                <ComboBoxItem Content="Rating"/>
+                                <ComboBoxItem Content="Downloads"/>
+                                <ComboBoxItem Content="Price"/>
+                                <ComboBoxItem Content="Date Added"/>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- Results -->
+                        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding SearchResults}" 
+                                          ItemTemplate="{StaticResource ItemTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <!-- Installed Tab -->
+                <TabItem Header="Installed">
+                    <Grid Margin="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                            <TextBlock Text="Installed Items" FontSize="18" FontWeight="Bold" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding InstalledItems.Count, StringFormat='({0} items)'}" 
+                                       FontSize="14" Foreground="#858585" 
+                                       VerticalAlignment="Center" Margin="8,0,0,0"/>
+                        </StackPanel>
+
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding InstalledItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource ItemCardStyle}" Margin="0,4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Icon -->
+                                                <Border Grid.Column="0" Width="48" Height="48" 
+                                                        Background="#1A1A1A" CornerRadius="4" Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding TypeIcon}" FontSize="20" 
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                               Foreground="#007ACC"/>
+                                                </Border>
+
+                                                <!-- Content -->
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
+                                                    <TextBlock Text="{Binding Description}" FontSize="11" 
+                                                               Foreground="#CCCCCC" TextTrimming="CharacterEllipsis" 
+                                                               Margin="0,2,0,4"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Version}" FontSize="10" 
+                                                                   Foreground="#858585" Margin="0,0,16,0"/>
+                                                        <TextBlock Text="{Binding Author}" FontSize="10" 
+                                                                   Foreground="#858585"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <!-- Actions -->
+                                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                    <Button Content="Update" Width="60" Height="24" Margin="4,0"
+                                                            Background="#FFCC02" Foreground="Black" BorderThickness="0" 
+                                                            Click="UpdateItem_Click" Tag="{Binding}"/>
+                                                    <Button Content="Remove" Width="60" Height="24" Margin="4,0"
+                                                            Background="#D13438" Foreground="White" BorderThickness="0" 
+                                                            Click="UninstallItem_Click" Tag="{Binding}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <!-- Favorites Tab -->
+                <TabItem Header="Favorites">
+                    <Grid Margin="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Favorite Items" FontSize="18" FontWeight="Bold" 
+                                   Margin="0,0,0,16"/>
+
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding FavoriteItems}" 
+                                          ItemTemplate="{StaticResource ItemTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Background="#007ACC" Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="White"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="Items:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding TotalItems}" Foreground="White" FontWeight="Bold" Margin="0,0,16,0"/>
+                    
+                    <TextBlock Text="Installed:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding InstalledItems.Count}" Foreground="White" FontWeight="Bold" Margin="0,0,16,0"/>
+                    
+                    <TextBlock Text="Categories:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding Categories.Count}" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

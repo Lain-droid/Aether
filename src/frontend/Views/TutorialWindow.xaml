@@ -1,0 +1,583 @@
+<Window x:Class="AetherVisor.Frontend.Views.TutorialWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Aether Learning Center" Width="1000" Height="700" WindowStartupLocation="CenterOwner"
+        Background="#1E1E1E" Foreground="#D4D4D4">
+
+    <Window.Resources>
+        <!-- Styles -->
+        <Style x:Key="TutorialCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#464647"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#007ACC"/>
+                    <Setter Property="Background" Value="#2D2D30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StepCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="8,4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#464647"/>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#005A9E"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004578"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Data Templates -->
+        <DataTemplate x:Key="TutorialTemplate">
+            <Border Style="{StaticResource TutorialCardStyle}" Width="280" Height="200"
+                    MouseLeftButtonUp="Tutorial_Click" Tag="{Binding Id}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Title and Status -->
+                    <Grid Grid.Row="0" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" FontSize="14" 
+                                   TextTrimming="CharacterEllipsis"/>
+                        
+                        <Border Grid.Column="1" Background="{Binding DifficultyColor}" 
+                                CornerRadius="2" Padding="4,1">
+                            <TextBlock Text="{Binding DifficultyText}" FontSize="10" 
+                                       Foreground="White" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Description -->
+                    <TextBlock Grid.Row="1" Text="{Binding Description}" FontSize="11" 
+                               Foreground="#CCCCCC" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+
+                    <!-- Stats -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,4">
+                        <TextBlock Text="{Binding EstimatedDurationText}" FontSize="10" 
+                                   Foreground="#858585" Margin="0,0,12,0"/>
+                        <TextBlock Text="{Binding StepCountText}" FontSize="10" 
+                                   Foreground="#858585" Margin="0,0,12,0"/>
+                        <TextBlock Text="{Binding FormattedRating}" FontSize="10" 
+                                   Foreground="#FFCC02"/>
+                    </StackPanel>
+
+                    <!-- Actions -->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="❤️" Width="30" Height="24" Margin="0,0,4,0"
+                                Background="Transparent" BorderThickness="0" 
+                                Foreground="{Binding IsFavorite, Converter={StaticResource BoolToColorConverter}}"
+                                Click="ToggleFavorite_Click" Tag="{Binding}"/>
+                        
+                        <Button Content="{Binding IsCompleted, Converter={StaticResource CompletedToTextConverter}}" 
+                                Style="{StaticResource ActionButtonStyle}"
+                                Background="{Binding IsCompleted, Converter={StaticResource CompletedToColorConverter}}"
+                                Click="StartTutorial_Click" Tag="{Binding}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CodeExampleTemplate">
+            <Border Style="{StaticResource TutorialCardStyle}" Width="300" Height="150"
+                    MouseLeftButtonUp="CodeExample_Click" Tag="{Binding Id}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="Bold" FontSize="12" 
+                               TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" 
+                                  HorizontalScrollBarVisibility="Auto" Margin="0,0,0,8">
+                        <TextBlock Text="{Binding Code}" FontFamily="Consolas" FontSize="10" 
+                                   Background="#1A1A1A" Padding="8" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Border Background="{Binding DifficultyColor}" CornerRadius="2" Padding="4,1" Margin="0,0,8,0">
+                            <TextBlock Text="{Binding Difficulty}" FontSize="9" Foreground="White"/>
+                        </Border>
+                        <TextBlock Text="{Binding FormattedStats}" FontSize="9" Foreground="#858585"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2D2D30" Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Aether Learning Center" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Master Luau scripting with interactive tutorials and examples" 
+                               Foreground="#CCCCCC" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="Create Tutorial" Style="{StaticResource ActionButtonStyle}"
+                            Click="CreateTutorial_Click"/>
+                    <Button Content="Import Tutorial" Style="{StaticResource ActionButtonStyle}"
+                            Background="#404040" Click="ImportTutorial_Click"/>
+                    <Button Content="My Progress" Style="{StaticResource ActionButtonStyle}"
+                            Background="#6A9955" Click="MyProgress_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Background" Value="#2D2D30"/>
+                    <Setter Property="Foreground" Value="#D4D4D4"/>
+                    <Setter Property="Padding" Value="16,8"/>
+                    <Setter Property="Margin" Value="2,0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#007ACC"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Resources>
+
+            <!-- Tutorials Tab -->
+            <TabItem Header="Tutorials">
+                <Grid Margin="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search and Filter -->
+                    <Grid Grid.Row="0" Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="TutorialSearchBox" Grid.Column="0" Width="300" Height="32" 
+                                 HorizontalAlignment="Left" Background="#3C3C3C" Foreground="#D4D4D4" 
+                                 BorderBrush="#464647" Padding="8" FontSize="14"
+                                 KeyUp="TutorialSearchBox_KeyUp">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <VisualBrush AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                        <VisualBrush.Visual>
+                                                            <TextBlock Text="Search tutorials..." 
+                                                                       Foreground="#858585" Margin="8,0"/>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <ComboBox x:Name="CategoryFilterComboBox" Width="120" Margin="8,0"
+                                      Background="#3C3C3C" Foreground="#D4D4D4" BorderBrush="#464647"
+                                      SelectionChanged="CategoryFilter_SelectionChanged">
+                                <ComboBoxItem Content="All Categories" IsSelected="True"/>
+                                <ComboBoxItem Content="Basics"/>
+                                <ComboBoxItem Content="Scripting"/>
+                                <ComboBoxItem Content="Advanced"/>
+                                <ComboBoxItem Content="Debugging"/>
+                                <ComboBoxItem Content="Development"/>
+                            </ComboBox>
+
+                            <ComboBox x:Name="DifficultyFilterComboBox" Width="120" Margin="8,0"
+                                      Background="#3C3C3C" Foreground="#D4D4D4" BorderBrush="#464647"
+                                      SelectionChanged="DifficultyFilter_SelectionChanged">
+                                <ComboBoxItem Content="All Levels" IsSelected="True"/>
+                                <ComboBoxItem Content="Beginner"/>
+                                <ComboBoxItem Content="Intermediate"/>
+                                <ComboBoxItem Content="Advanced"/>
+                                <ComboBoxItem Content="Expert"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Quick Stats -->
+                    <Grid Grid.Row="1" Margin="0,0,0,16">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="#252526" CornerRadius="4" Padding="12,6" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="📚" FontSize="16" Margin="0,0,8,0"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding TotalTutorials}" FontSize="16" FontWeight="Bold"/>
+                                        <TextBlock Text="Tutorials" FontSize="10" Foreground="#858585"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Background="#252526" CornerRadius="4" Padding="12,6" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="✅" FontSize="16" Margin="0,0,8,0"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding CompletedTutorials}" FontSize="16" FontWeight="Bold"/>
+                                        <TextBlock Text="Completed" FontSize="10" Foreground="#858585"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Background="#252526" CornerRadius="4" Padding="12,6" Margin="0,0,8,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⏱️" FontSize="16" Margin="0,0,8,0"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding TotalTimeSpent}" FontSize="16" FontWeight="Bold"/>
+                                        <TextBlock Text="Time Spent" FontSize="10" Foreground="#858585"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Tutorials List -->
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Recommended Section -->
+                            <TextBlock Text="Recommended for You" FontSize="16" FontWeight="Bold" 
+                                       Margin="0,0,0,12"/>
+                            
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                          VerticalScrollBarVisibility="Disabled" Margin="0,0,0,24">
+                                <ItemsControl ItemsSource="{Binding RecommendedTutorials}" 
+                                              ItemTemplate="{StaticResource TutorialTemplate}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <!-- All Tutorials Section -->
+                            <TextBlock Text="All Tutorials" FontSize="16" FontWeight="Bold" 
+                                       Margin="0,0,0,12"/>
+                            
+                            <ItemsControl ItemsSource="{Binding FilteredTutorials}" 
+                                          ItemTemplate="{StaticResource TutorialTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- Code Examples Tab -->
+            <TabItem Header="Code Examples">
+                <Grid Margin="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Search -->
+                    <TextBox x:Name="ExampleSearchBox" Grid.Row="0" Width="300" Height="32" 
+                             HorizontalAlignment="Left" Background="#3C3C3C" Foreground="#D4D4D4" 
+                             BorderBrush="#464647" Padding="8" FontSize="14" Margin="0,0,0,16"
+                             KeyUp="ExampleSearchBox_KeyUp">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <VisualBrush AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                                    <VisualBrush.Visual>
+                                                        <TextBlock Text="Search code examples..." 
+                                                                   Foreground="#858585" Margin="8,0"/>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <!-- Examples List -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding CodeExamples}" 
+                                      ItemTemplate="{StaticResource CodeExampleTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- Learning Paths Tab -->
+            <TabItem Header="Learning Paths">
+                <Grid Margin="16">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="Structured Learning Paths" FontSize="16" FontWeight="Bold" 
+                                       Margin="0,0,0,12"/>
+                            
+                            <!-- Learning paths would be displayed here -->
+                            <Border Background="#252526" CornerRadius="4" Padding="16" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="🎯" FontSize="32" Margin="0,0,16,0"/>
+                                    
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="Beginner's Path to Luau" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="Start your journey with Luau scripting from the basics to advanced concepts" 
+                                                   FontSize="11" Foreground="#CCCCCC" Margin="0,4,0,8"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="5 tutorials" FontSize="10" Foreground="#858585" Margin="0,0,16,0"/>
+                                            <TextBlock Text="~2.5 hours" FontSize="10" Foreground="#858585" Margin="0,0,16,0"/>
+                                            <TextBlock Text="Beginner" FontSize="10" Foreground="#6A9955"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="2" Content="Start Path" Style="{StaticResource ActionButtonStyle}"/>
+                                </Grid>
+                            </Border>
+
+                            <Border Background="#252526" CornerRadius="4" Padding="16" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="🔧" FontSize="32" Margin="0,0,16,0"/>
+                                    
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="Advanced Scripting Techniques" FontWeight="Bold" FontSize="14"/>
+                                        <TextBlock Text="Master advanced patterns, optimization, and professional development practices" 
+                                                   FontSize="11" Foreground="#CCCCCC" Margin="0,4,0,8"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="8 tutorials" FontSize="10" Foreground="#858585" Margin="0,0,16,0"/>
+                                            <TextBlock Text="~4 hours" FontSize="10" Foreground="#858585" Margin="0,0,16,0"/>
+                                            <TextBlock Text="Advanced" FontSize="10" Foreground="#FF8C00"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Button Grid.Column="2" Content="Start Path" Style="{StaticResource ActionButtonStyle}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- My Progress Tab -->
+            <TabItem Header="My Progress">
+                <Grid Margin="16">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Progress Overview -->
+                            <TextBlock Text="Your Learning Progress" FontSize="16" FontWeight="Bold" 
+                                       Margin="0,0,0,16"/>
+                            
+                            <Grid Margin="0,0,0,24">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Background="#252526" CornerRadius="4" Padding="16" Margin="0,0,8,0">
+                                    <StackPanel>
+                                        <TextBlock Text="📊" FontSize="24" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding CompletionRate}" FontSize="20" FontWeight="Bold" 
+                                                   HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                        <TextBlock Text="Completion Rate" FontSize="12" Foreground="#858585" 
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="1" Background="#252526" CornerRadius="4" Padding="16" Margin="4,0">
+                                    <StackPanel>
+                                        <TextBlock Text="🕒" FontSize="24" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding TotalTimeSpent}" FontSize="20" FontWeight="Bold" 
+                                                   HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                        <TextBlock Text="Time Invested" FontSize="12" Foreground="#858585" 
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="2" Background="#252526" CornerRadius="4" Padding="16" Margin="8,0,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="🎯" FontSize="24" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding FavoriteCategory}" FontSize="20" FontWeight="Bold" 
+                                                   HorizontalAlignment="Center" Margin="0,8,0,4"/>
+                                        <TextBlock Text="Favorite Topic" FontSize="12" Foreground="#858585" 
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                            <!-- In Progress Tutorials -->
+                            <TextBlock Text="Continue Learning" FontSize="14" FontWeight="Bold" 
+                                       Margin="0,0,0,12"/>
+                            
+                            <ItemsControl ItemsSource="{Binding InProgressTutorials}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#252526" CornerRadius="4" Padding="12" Margin="0,4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding TutorialName}" FontWeight="Bold" FontSize="12"/>
+                                                    <ProgressBar Value="{Binding CompletionPercentage}" Maximum="100" 
+                                                                 Height="4" Margin="0,4,0,2" Background="#404040" 
+                                                                 Foreground="#007ACC"/>
+                                                    <TextBlock Text="{Binding StatusText}" FontSize="10" Foreground="#858585"/>
+                                                </StackPanel>
+
+                                                <TextBlock Grid.Column="1" Text="{Binding CompletionPercentage, StringFormat='{}{0:F0}%'}" 
+                                                           FontSize="12" FontWeight="Bold" VerticalAlignment="Center" 
+                                                           Margin="16,0"/>
+
+                                                <Button Grid.Column="2" Content="Continue" 
+                                                        Style="{StaticResource ActionButtonStyle}"
+                                                        Click="ContinueTutorial_Click" Tag="{Binding}"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Completed Tutorials -->
+                            <TextBlock Text="Completed Tutorials" FontSize="14" FontWeight="Bold" 
+                                       Margin="0,24,0,12"/>
+                            
+                            <ItemsControl ItemsSource="{Binding CompletedTutorials}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#252526" CornerRadius="4" Padding="12" Margin="0,4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding TutorialName}" FontWeight="Bold" FontSize="12"/>
+                                                    <TextBlock Text="{Binding CompletedAt, StringFormat='Completed on {0:MMM dd, yyyy}'}" 
+                                                               FontSize="10" Foreground="#858585"/>
+                                                </StackPanel>
+
+                                                <TextBlock Grid.Column="1" Text="✅ Completed" 
+                                                           FontSize="10" Foreground="#6A9955" 
+                                                           VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Background="#007ACC" Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding StatusMessage}" Foreground="White"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="Available:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding AvailableTutorials.Count}" Foreground="White" FontWeight="Bold" Margin="0,0,16,0"/>
+                    
+                    <TextBlock Text="Completed:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding CompletedTutorials}" Foreground="White" FontWeight="Bold" Margin="0,0,16,0"/>
+                    
+                    <TextBlock Text="Progress:" Foreground="White" Margin="0,0,4,0"/>
+                    <TextBlock Text="{Binding CompletionRate}" Foreground="White" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

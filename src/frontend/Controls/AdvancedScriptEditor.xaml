@@ -1,0 +1,240 @@
+<UserControl x:Class="AetherVisor.Frontend.Controls.AdvancedScriptEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AetherVisor.Frontend.Controls"
+             Background="Black">
+    
+    <UserControl.Resources>
+        <!-- Theme Resources -->
+        <SolidColorBrush x:Key="EditorBackground" Color="#1E1E1E"/>
+        <SolidColorBrush x:Key="EditorForeground" Color="#D4D4D4"/>
+        <SolidColorBrush x:Key="LineNumberBackground" Color="#252526"/>
+        <SolidColorBrush x:Key="LineNumberForeground" Color="#858585"/>
+        <SolidColorBrush x:Key="SelectionBackground" Color="#264F78"/>
+        <SolidColorBrush x:Key="CurrentLineBackground" Color="#2A2D2E"/>
+        <SolidColorBrush x:Key="BracketMatchBackground" Color="#0E639C"/>
+        <SolidColorBrush x:Key="ErrorUnderline" Color="#F44747"/>
+        <SolidColorBrush x:Key="WarningUnderline" Color="#FFCC02"/>
+        
+        <!-- Syntax Highlighting Brushes -->
+        <SolidColorBrush x:Key="KeywordBrush" Color="#569CD6"/>
+        <SolidColorBrush x:Key="StringBrush" Color="#CE9178"/>
+        <SolidColorBrush x:Key="CommentBrush" Color="#6A9955"/>
+        <SolidColorBrush x:Key="NumberBrush" Color="#B5CEA8"/>
+        <SolidColorBrush x:Key="FunctionBrush" Color="#DCDCAA"/>
+        <SolidColorBrush x:Key="VariableBrush" Color="#9CDCFE"/>
+        
+        <!-- Autocomplete Popup Style -->
+        <Style x:Key="AutocompleteListBoxStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="#252526"/>
+            <Setter Property="Foreground" Value="#CCCCCC"/>
+            <Setter Property="BorderBrush" Value="#464647"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="MaxHeight" Value="200"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+        
+        <Style x:Key="AutocompleteListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}">
+                                <TextBlock Text="{Binding Icon}" FontFamily="Segoe MDL2 Assets" 
+                                          Foreground="#858585" Width="16" Margin="0,0,8,0"/>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Description}" FontSize="11" 
+                                              Foreground="#858585" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2A2D2E"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#094771"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Line Numbers and Folding -->
+        <Border Grid.Column="0" Background="{StaticResource LineNumberBackground}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"/> <!-- Folding -->
+                    <ColumnDefinition Width="*"/>  <!-- Line numbers -->
+                </Grid.ColumnDefinitions>
+                
+                <!-- Code Folding Column -->
+                <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Hidden" 
+                              HorizontalScrollBarVisibility="Disabled"
+                              x:Name="PART_FoldingScrollViewer">
+                    <Canvas x:Name="PART_FoldingCanvas" Background="Transparent"/>
+                </ScrollViewer>
+                
+                <!-- Line Numbers -->
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Hidden" 
+                              HorizontalScrollBarVisibility="Disabled"
+                              x:Name="PART_LineNumberScrollViewer">
+                    <TextBlock x:Name="PART_LineNumbers" 
+                               Foreground="{StaticResource LineNumberForeground}" 
+                               Margin="4,8,8,8" 
+                               FontFamily="Consolas" 
+                               FontSize="14"/>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+        
+        <!-- Main Editor Area -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Text Editor -->
+            <ScrollViewer x:Name="PART_ScrollViewer" 
+                          Grid.Row="0"
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Auto"
+                          Background="{StaticResource EditorBackground}"
+                          ScrollChanged="PART_ScrollViewer_ScrollChanged">
+                
+                <!-- Background layers for highlighting -->
+                <Grid>
+                    <!-- Current line highlighting -->
+                    <Canvas x:Name="PART_CurrentLineCanvas" Background="Transparent"/>
+                    
+                    <!-- Selection highlighting -->
+                    <Canvas x:Name="PART_SelectionCanvas" Background="Transparent"/>
+                    
+                    <!-- Bracket matching -->
+                    <Canvas x:Name="PART_BracketCanvas" Background="Transparent"/>
+                    
+                    <!-- Error/Warning underlining -->
+                    <Canvas x:Name="PART_ErrorCanvas" Background="Transparent"/>
+                    
+                    <!-- Main text editor -->
+                    <TextBox x:Name="PART_TextBox"
+                             Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}"
+                             AcceptsReturn="True" 
+                             AcceptsTab="True"
+                             FontFamily="Consolas" 
+                             FontSize="14"
+                             Background="Transparent" 
+                             Foreground="{StaticResource EditorForeground}" 
+                             BorderThickness="0"
+                             TextWrapping="NoWrap"
+                             VerticalScrollBarVisibility="Hidden"
+                             HorizontalScrollBarVisibility="Hidden"
+                             SelectionBrush="{StaticResource SelectionBackground}"
+                             CaretBrush="{StaticResource EditorForeground}"
+                             TextChanged="PART_TextBox_TextChanged"
+                             SelectionChanged="PART_TextBox_SelectionChanged"
+                             PreviewKeyDown="PART_TextBox_PreviewKeyDown"
+                             PreviewKeyUp="PART_TextBox_PreviewKeyUp"/>
+                </Grid>
+            </ScrollViewer>
+            
+            <!-- Autocomplete Popup -->
+            <Popup x:Name="PART_AutocompletePopup" 
+                   Grid.Row="0"
+                   Placement="Custom" 
+                   StaysOpen="False"
+                   AllowsTransparency="True">
+                <Border Background="#252526" BorderBrush="#464647" BorderThickness="1" 
+                        Effect="{DynamicResource {x:Static SystemParameters.DropShadowKey}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Suggestions List -->
+                        <ListBox x:Name="PART_AutocompleteListBox" 
+                                 Grid.Row="0"
+                                 Style="{StaticResource AutocompleteListBoxStyle}"
+                                 ItemContainerStyle="{StaticResource AutocompleteListBoxItemStyle}"
+                                 Width="300"
+                                 MouseDoubleClick="PART_AutocompleteListBox_MouseDoubleClick"/>
+                        
+                        <!-- Documentation Preview -->
+                        <Border Grid.Row="1" Background="#1E1E1E" BorderThickness="0,1,0,0" 
+                                BorderBrush="#464647" MaxHeight="100">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <TextBlock x:Name="PART_DocumentationText" 
+                                          Margin="8" 
+                                          Foreground="#CCCCCC" 
+                                          FontSize="11" 
+                                          TextWrapping="Wrap"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Popup>
+            
+            <!-- Find/Replace Panel -->
+            <Border x:Name="PART_FindPanel" 
+                    Grid.Row="1" 
+                    Background="#252526" 
+                    BorderThickness="0,1,0,0" 
+                    BorderBrush="#464647"
+                    Visibility="Collapsed">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0" Text="Find:" VerticalAlignment="Center" 
+                               Foreground="#CCCCCC" Margin="0,0,8,0"/>
+                    <TextBox x:Name="PART_FindTextBox" Grid.Column="1" 
+                             Background="#3C3C3C" Foreground="#CCCCCC" BorderBrush="#464647"/>
+                    
+                    <TextBlock Grid.Column="2" Text="Replace:" VerticalAlignment="Center" 
+                               Foreground="#CCCCCC" Margin="16,0,8,0"/>
+                    <TextBox x:Name="PART_ReplaceTextBox" Grid.Column="3" 
+                             Background="#3C3C3C" Foreground="#CCCCCC" BorderBrush="#464647"/>
+                    
+                    <StackPanel Grid.Column="5" Orientation="Horizontal">
+                        <Button Content="Find" Width="60" Margin="8,0,4,0" Click="FindNext_Click"/>
+                        <Button Content="Replace" Width="60" Margin="4,0" Click="Replace_Click"/>
+                        <Button Content="Replace All" Width="80" Margin="4,0" Click="ReplaceAll_Click"/>
+                        <Button Content="✕" Width="20" Margin="8,0,0,0" Click="CloseFindPanel_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <!-- Minimap (Optional) -->
+        <Border Grid.Column="2" x:Name="PART_Minimap" 
+                Width="120" 
+                Background="#252526" 
+                BorderThickness="1,0,0,0" 
+                BorderBrush="#464647"
+                Visibility="Collapsed">
+            <Canvas x:Name="PART_MinimapCanvas" Background="Transparent"/>
+        </Border>
+    </Grid>
+</UserControl>

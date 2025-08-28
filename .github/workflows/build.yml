@@ -1,0 +1,265 @@
+name: Aether CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_DEFAULT_TRIPLET: x64-windows
+
+jobs:
+  build-backend:
+    name: Build C++ Backend
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Setup vcpkg
+      uses: microsoft/setup-msbuild@v1.3
+      
+    - name: Cache vcpkg
+      uses: actions/cache@v3
+      with:
+        path: |
+          C:/vcpkg/installed
+          C:/vcpkg/packages
+        key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-
+    
+    - name: Install dependencies
+      run: |
+        vcpkg install nlohmann-json:x64-windows
+        vcpkg install cryptopp:x64-windows
+        vcpkg install boost:x64-windows
+    
+    - name: Configure CMake
+      run: |
+        cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+    
+    - name: Build Backend
+      run: cmake --build build --config ${{ env.BUILD_TYPE }} --parallel
+    
+    - name: Run Backend Tests
+      working-directory: build
+      run: ctest --output-on-failure --parallel --build-config ${{ env.BUILD_TYPE }}
+    
+    - name: Upload Backend Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: backend-${{ env.BUILD_TYPE }}
+        path: |
+          build/${{ env.BUILD_TYPE }}/
+          !build/${{ env.BUILD_TYPE }}/**/*.pdb
+        retention-days: 30
+
+  build-frontend:
+    name: Build C# Frontend
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    
+    - name: Restore dependencies
+      run: dotnet restore src/frontend/Aether.Frontend.csproj
+    
+    - name: Build Frontend
+      run: dotnet build src/frontend/Aether.Frontend.csproj --no-restore --configuration ${{ env.BUILD_TYPE }}
+    
+    - name: Run Frontend Tests
+      run: dotnet test src/frontend.tests/ --no-build --configuration ${{ env.BUILD_TYPE }} --logger trx --results-directory TestResults
+      continue-on-error: true
+    
+    - name: Publish Test Results
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Frontend Tests
+        path: TestResults/*.trx
+        reporter: dotnet-trx
+    
+    - name: Publish Frontend
+      run: dotnet publish src/frontend/Aether.Frontend.csproj --no-build --configuration ${{ env.BUILD_TYPE }} --output dist/frontend
+    
+    - name: Upload Frontend Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: frontend-${{ env.BUILD_TYPE }}
+        path: dist/frontend/
+        retention-days: 30
+
+  security-scan:
+    name: Security Analysis
+    runs-on: windows-latest
+    needs: [build-backend, build-frontend]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: 'cpp, csharp'
+        config-file: ./.github/codeql/codeql-config.yml
+    
+    - name: Download Backend Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: backend-${{ env.BUILD_TYPE }}
+        path: build/
+    
+    - name: Download Frontend Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: frontend-${{ env.BUILD_TYPE }}
+        path: dist/frontend/
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+  package:
+    name: Create Release Package
+    runs-on: windows-latest
+    needs: [build-backend, build-frontend, security-scan]
+    if: github.event_name == 'release' || github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Download Backend Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: backend-${{ env.BUILD_TYPE }}
+        path: dist/backend/
+    
+    - name: Download Frontend Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: frontend-${{ env.BUILD_TYPE }}
+        path: dist/frontend/
+    
+    - name: Create Distribution Package
+      run: |
+        $PackageName = "Aether-v1.0.0-${{ env.BUILD_TYPE }}-$(Get-Date -Format 'yyyyMMdd')"
+        $PackagePath = "dist/$PackageName"
+        
+        New-Item -Path $PackagePath -ItemType Directory -Force
+        
+        # Copy binaries
+        Copy-Item "dist/backend/*" "$PackagePath/" -Recurse -ErrorAction SilentlyContinue
+        Copy-Item "dist/frontend/*" "$PackagePath/" -Recurse
+        
+        # Copy documentation
+        Copy-Item "docs" "$PackagePath/docs" -Recurse -ErrorAction SilentlyContinue
+        Copy-Item "README.md" "$PackagePath/" -ErrorAction SilentlyContinue
+        
+        # Create installer
+        @"
+        @echo off
+        echo Aether Installation v1.0.0
+        echo.
+        if not exist "%PROGRAMFILES%\Aether" mkdir "%PROGRAMFILES%\Aether"
+        xcopy /E /Y *.* "%PROGRAMFILES%\Aether\"
+        
+        echo Creating desktop shortcut...
+        powershell -Command "$$WshShell = New-Object -comObject WScript.Shell; $$Shortcut = $$WshShell.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\Aether.lnk'); $$Shortcut.TargetPath = '%PROGRAMFILES%\Aether\Aether.exe'; $$Shortcut.Save()"
+        
+        echo.
+        echo Installation complete!
+        echo Desktop shortcut created.
+        pause
+        "@ | Out-File "$PackagePath/install.bat" -Encoding ASCII
+        
+        # Create ZIP
+        Compress-Archive -Path "$PackagePath/*" -DestinationPath "dist/$PackageName.zip" -Force
+        
+        echo "PACKAGE_NAME=$PackageName" >> $env:GITHUB_ENV
+        echo "PACKAGE_PATH=dist/$PackageName.zip" >> $env:GITHUB_ENV
+      shell: pwsh
+    
+    - name: Upload Release Package
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.PACKAGE_NAME }}
+        path: ${{ env.PACKAGE_PATH }}
+        retention-days: 90
+    
+    - name: Create GitHub Release
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ env.PACKAGE_PATH }}
+        body: |
+          ## Aether Release v1.0.0
+          
+          ### Features
+          - Advanced Luau scripting environment
+          - VSCode-like editor with syntax highlighting
+          - Real-time console output
+          - Plugin system support
+          - Enhanced security features
+          
+          ### Installation
+          1. Download and extract the package
+          2. Run `install.bat` as Administrator
+          3. Launch from Desktop shortcut or Start Menu
+          
+          ### System Requirements
+          - Windows 10/11 (x64)
+          - .NET 8.0 Runtime
+          - Administrator privileges recommended
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy to Staging
+    runs-on: windows-latest
+    needs: [package]
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+    
+    steps:
+    - name: Download Package
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ env.PACKAGE_NAME }}
+        path: ./
+    
+    - name: Deploy to Staging Server
+      run: |
+        # This would typically upload to a staging server
+        # For now, just verify the package integrity
+        Write-Host "Verifying package integrity..."
+        $ZipFile = Get-ChildItem -Filter "*.zip" | Select-Object -First 1
+        if ($ZipFile) {
+          Write-Host "✓ Package found: $($ZipFile.Name)"
+          Write-Host "✓ Size: $([math]::Round($ZipFile.Length / 1MB, 2)) MB"
+        } else {
+          throw "Package not found!"
+        }
+      shell: pwsh

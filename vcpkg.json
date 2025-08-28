@@ -1,0 +1,45 @@
+{
+  "name": "aether",
+  "version": "1.0.0",
+  "description": "Advanced Luau Scripting Environment",
+  "homepage": "https://github.com/aether-project/aether",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "nlohmann-json",
+      "version>=": "3.11.2"
+    },
+    {
+      "name": "cryptopp",
+      "version>=": "8.7.0"
+    },
+    {
+      "name": "boost-system",
+      "version>=": "1.82.0"
+    },
+    {
+      "name": "boost-filesystem",
+      "version>=": "1.82.0"
+    },
+    {
+      "name": "boost-thread",
+      "version>=": "1.82.0"
+    },
+    {
+      "name": "spdlog",
+      "version>=": "1.12.0"
+    },
+    {
+      "name": "catch2",
+      "version>=": "3.4.0",
+      "features": ["with-main"]
+    }
+  ],
+  "builtin-baseline": "3426db05b996481ca31e95fff3734cf23e0f51bc",
+  "overrides": [
+    {
+      "name": "cryptopp",
+      "version": "8.7.0"
+    }
+  ]
+}

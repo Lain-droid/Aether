@@ -1,0 +1,31 @@
+name: "Aether Security Analysis"
+
+disable-default-queries: false
+
+queries:
+  - name: security-and-quality
+    uses: security-and-quality
+  - name: security-extended
+    uses: security-extended
+
+paths:
+  - src/
+  - "!src/*/tests/"
+  - "!build/"
+  - "!dist/"
+
+paths-ignore:
+  - "**/*.md"
+  - "**/*.txt"
+  - "**/docs/"
+  - "**/.git/"
+
+# Custom queries for injection and memory safety
+query-filters:
+  - exclude:
+      id: cpp/unused-local-variable
+  - include:
+      tags:
+        - security
+        - correctness
+        - performance

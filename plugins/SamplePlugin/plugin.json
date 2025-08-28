@@ -1,0 +1,25 @@
+{
+  "id": "AetherVisor.Plugins.Sample",
+  "name": "Sample Plugin",
+  "version": "1.0.0",
+  "description": "A sample plugin demonstrating the Aether plugin system",
+  "author": "Aether Team",
+  "website": "https://github.com/aether-project/aether",
+  "icon": "🔌",
+  "minimumAppVersion": "1.0.0",
+  "dependencies": [],
+  "category": "Utilities",
+  "tags": ["sample", "demo", "utility"],
+  "permissions": [
+    "editor.read",
+    "editor.write",
+    "ui.notification",
+    "ui.menu",
+    "ui.sidebar"
+  ],
+  "entryPoint": "AetherVisor.Plugins.Sample.SamplePlugin",
+  "files": [
+    "AetherVisor.Plugins.Sample.dll",
+    "plugin.json"
+  ]
+}
