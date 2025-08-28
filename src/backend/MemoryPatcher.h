@@ -8,6 +8,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 using ByteType = BYTE;
+#undef ReportEvent
 #else
 using ByteType = std::uint8_t;
 using HANDLE = void*;

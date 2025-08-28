@@ -40,7 +40,7 @@ namespace AetherVisor {
              */
             static void SetMode(NetworkMode newMode);
 
-        private:
+        public:
             // --- Traffic Mimicry Internals ---
             struct TrafficProfile {
                 double avgPacketSize = 1024.0;
@@ -52,6 +52,7 @@ namespace AetherVisor {
             static TrafficProfile m_profile;
             static std::chrono::steady_clock::time_point m_lastSendTime;
             static std::vector<char> m_sendBuffer;
+        private:
         };
 
     } // namespace Payload
