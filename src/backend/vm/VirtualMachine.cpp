@@ -248,7 +248,7 @@ namespace AetherVisor {
 
         void VirtualMachine::PushValue(const VMValue& value) {
             if (!CheckStackOverflow(1)) {
-                ThrowException(VMDataType::INTEGER, XorS("Stack overflow"));
+                ThrowException(VMDataType::INT32, XorS("Stack overflow"));
                 return;
             }
             m_value_stack.push_back(value);
@@ -256,7 +256,7 @@ namespace AetherVisor {
 
         VMValue VirtualMachine::PopValue() {
             if (!CheckStackUnderflow(1)) {
-                ThrowException(VMDataType::INTEGER, XorS("Stack underflow"));
+                ThrowException(VMDataType::INT32, XorS("Stack underflow"));
                 return VMValue{};
             }
             VMValue value = m_value_stack.back();
@@ -682,7 +682,7 @@ namespace AetherVisor {
             
             int32_t value = *reinterpret_cast<const int32_t*>(&m_code_base[m_pc - 4]);
             VMValue vm_value;
-            vm_value.type = VMDataType::INTEGER;
+            vm_value.type = VMDataType::INT32;
             vm_value.int_value = value;
             PushValue(vm_value);
             return !HasPendingException();
@@ -704,26 +704,26 @@ namespace AetherVisor {
 
         bool VirtualMachine::ExecuteAdd() {
             if (!CheckStackUnderflow(2)) {
-                ThrowException(VMDataType::INTEGER, XorS("Stack underflow in ADD"));
+                ThrowException(VMDataType::INT32, XorS("Stack underflow in ADD"));
                 return false;
             }
             
             VMValue b = PopValue();
             VMValue a = PopValue();
             
-            if (a.type != VMDataType::INTEGER || b.type != VMDataType::INTEGER) {
-                ThrowException(VMDataType::INTEGER, XorS("Type mismatch in ADD"));
+            if (a.type != VMDataType::INT32 || b.type != VMDataType::INT32) {
+                ThrowException(VMDataType::INT32, XorS("Type mismatch in ADD"));
                 return false;
             }
             
             int32_t result;
             if (!SafeAdd(a.int_value, b.int_value, result)) {
-                ThrowException(VMDataType::INTEGER, XorS("Integer overflow in ADD"));
+                ThrowException(VMDataType::INT32, XorS("Integer overflow in ADD"));
                 return false;
             }
             
             VMValue vm_result;
-            vm_result.type = VMDataType::INTEGER;
+            vm_result.type = VMDataType::INT32;
             vm_result.int_value = result;
             PushValue(vm_result);
             return true;
@@ -791,7 +791,7 @@ namespace AetherVisor {
         bool VirtualMachine::ExecutePushConst() { return true; }
         bool VirtualMachine::ExecutePop() { 
             if (!CheckStackUnderflow(1)) {
-                ThrowException(VMDataType::INTEGER, XorS("Stack underflow in POP"));
+                ThrowException(VMDataType::INT32, XorS("Stack underflow in POP"));
                 return false;
             }
             PopValue();

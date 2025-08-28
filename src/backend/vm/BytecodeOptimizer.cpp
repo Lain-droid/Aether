@@ -135,11 +135,11 @@ namespace AetherVisor {
                         instructions[i-1].opcode == VMOpcode::PUSH_INT) {
                         
                         ConstantValue a, b;
-                        a.type = VMDataType::INTEGER;
+                        a.type = VMDataType::INT32;
                         a.int_val = static_cast<int32_t>(instructions[i-2].operands[0]);
                         a.is_known = true;
                         
-                        b.type = VMDataType::INTEGER;
+                        b.type = VMDataType::INT32;
                         b.int_val = static_cast<int32_t>(instructions[i-1].operands[0]);
                         b.is_known = true;
                         
@@ -458,7 +458,7 @@ namespace AetherVisor {
             for (const auto& inst : instructions) {
                 if (inst.opcode == VMOpcode::PUSH_INT && !inst.operands.empty()) {
                     ConstantValue value;
-                    value.type = VMDataType::INTEGER;
+                    value.type = VMDataType::INT32;
                     value.int_val = static_cast<int32_t>(inst.operands[0]);
                     value.is_known = true;
                     constants[inst.address] = value;
@@ -471,7 +471,7 @@ namespace AetherVisor {
 
         bool BytecodeOptimizer::CanFoldConstantOperation(VMOpcode opcode, const ConstantValue& a, const ConstantValue& b) {
             if (!a.is_known || !b.is_known) return false;
-            if (a.type != VMDataType::INTEGER || b.type != VMDataType::INTEGER) return false;
+            if (a.type != VMDataType::INT32 || b.type != VMDataType::INT32) return false;
             
             switch (opcode) {
                 case VMOpcode::ADD:
@@ -488,7 +488,7 @@ namespace AetherVisor {
 
         BytecodeOptimizer::ConstantValue BytecodeOptimizer::FoldConstantOperation(VMOpcode opcode, const ConstantValue& a, const ConstantValue& b) {
             ConstantValue result;
-            result.type = VMDataType::INTEGER;
+            result.type = VMDataType::INT32;
             result.is_known = true;
             
             switch (opcode) {
@@ -620,7 +620,7 @@ namespace AetherVisor {
                 case VMOpcode::PUSH_INT:
                     if (!instruction.operands.empty()) {
                         ConstantValue value;
-                        value.type = VMDataType::INTEGER;
+                        value.type = VMDataType::INT32;
                         value.int_val = static_cast<int32_t>(instruction.operands[0]);
                         value.is_known = true;
                         new_state.stack.push_back(value);
