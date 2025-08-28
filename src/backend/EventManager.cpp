@@ -1,5 +1,9 @@
 #include "EventManager.h"
 #include <stdexcept>
+#include <cstring>
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 // Size of a 32-bit relative JMP instruction
 constexpr size_t JMP_SIZE = 5;
@@ -37,7 +41,11 @@ namespace AetherVisor {
             memcpy(info.originalBytes.data(), targetFunc, JMP_SIZE);
 
             // 2. Allocate memory for the trampoline.
+            #ifdef _WIN32
             info.trampolineFunc = VirtualAlloc(nullptr, JMP_SIZE + JMP_SIZE, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+            #else
+            info.trampolineFunc = std::malloc(JMP_SIZE + JMP_SIZE);
+            #endif
             if (!info.trampolineFunc) {
                 return false;
             }
@@ -46,21 +54,25 @@ namespace AetherVisor {
             memcpy(info.trampolineFunc, info.originalBytes.data(), JMP_SIZE);
 
             // 4. Write a JMP from the trampoline back to the original function (after the hook).
-            BYTE* trampoline_jmp_addr = (BYTE*)info.trampolineFunc + JMP_SIZE;
-            DWORD_PTR relative_jmp = ((BYTE*)targetFunc + JMP_SIZE) - (trampoline_jmp_addr + JMP_SIZE);
+            std::uint8_t* trampoline_jmp_addr = (std::uint8_t*)info.trampolineFunc + JMP_SIZE;
+            std::uintptr_t relative_jmp = reinterpret_cast<std::uintptr_t>((std::uint8_t*)targetFunc + JMP_SIZE) - (reinterpret_cast<std::uintptr_t>(trampoline_jmp_addr) + JMP_SIZE);
             *(trampoline_jmp_addr) = 0xE9; // JMP opcode
-            *(DWORD_PTR*)(trampoline_jmp_addr + 1) = relative_jmp;
+            *(std::uint32_t*)(trampoline_jmp_addr + 1) = static_cast<std::uint32_t>(relative_jmp);
 
             // 5. Write the JMP from the target function to our detour.
+            #ifdef _WIN32
             DWORD oldProtect;
             VirtualProtect(targetFunc, JMP_SIZE, PAGE_EXECUTE_READWRITE, &oldProtect);
+            #endif
 
-            BYTE* target_jmp_addr = (BYTE*)targetFunc;
-            relative_jmp = ((BYTE*)detourFunc) - (target_jmp_addr + JMP_SIZE);
+            std::uint8_t* target_jmp_addr = (std::uint8_t*)targetFunc;
+            relative_jmp = reinterpret_cast<std::uintptr_t>((std::uint8_t*)detourFunc) - (reinterpret_cast<std::uintptr_t>(target_jmp_addr) + JMP_SIZE);
             *(target_jmp_addr) = 0xE9; // JMP opcode
-            *(DWORD_PTR*)(target_jmp_addr + 1) = relative_jmp;
+            *(std::uint32_t*)(target_jmp_addr + 1) = static_cast<std::uint32_t>(relative_jmp);
 
+            #ifdef _WIN32
             VirtualProtect(targetFunc, JMP_SIZE, oldProtect, &oldProtect);
+            #endif
 
             m_hooks[targetFunc] = info;
             return true;
@@ -74,30 +86,27 @@ namespace AetherVisor {
             auto& info = m_hooks.at(targetFunc);
 
             // Restore the original bytes to the function.
+            #ifdef _WIN32
             DWORD oldProtect;
             VirtualProtect(targetFunc, info.originalBytes.size(), PAGE_EXECUTE_READWRITE, &oldProtect);
-            memcpy(targetFunc, info.originalBytes.data(), info.originalBytes.size());
+            #endif
+            std::memcpy(targetFunc, info.originalBytes.data(), info.originalBytes.size());
+            #ifdef _WIN32
             VirtualProtect(targetFunc, info.originalBytes.size(), oldProtect, &oldProtect);
+            #endif
 
             // Free the trampoline memory.
+            #ifdef _WIN32
             VirtualFree(info.trampolineFunc, 0, MEM_RELEASE);
+            #else
+            std::free(info.trampolineFunc);
+            #endif
 
             m_hooks.erase(targetFunc);
             return true;
         }
 
-        template<typename T>
-        T EventManager::GetOriginal(void* targetFunc) {
-            auto it = m_hooks.find(targetFunc);
-            if (it != m_hooks.end()) {
-                return reinterpret_cast<T>(it->second.trampolineFunc);
-            }
-            return nullptr;
-        }
-
-        // Explicit template instantiations to avoid linker errors if GetOriginal is used in other cpp files.
-        template send_t EventManager::GetOriginal<send_t>(void* target);
-        template recv_t EventManager::GetOriginal<recv_t>(void* target);
+        // Note: explicit template instantiations removed for portability.
 
     } // namespace Payload
 } // namespace AetherVisor

@@ -8,10 +8,7 @@ if (MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-# Force x64
-if (NOT CMAKE_GENERATOR_PLATFORM)
-  set(CMAKE_GENERATOR_PLATFORM x64 CACHE STRING "" FORCE)
-endif()
+# Avoid forcing generator platform; respect host toolchain
 
 file(GLOB_RECURSE SRC
   *.cpp

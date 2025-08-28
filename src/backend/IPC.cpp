@@ -1,8 +1,10 @@
 #include "IPC.h"
 #include "ipc/Steganography.h"
-#include <Windows.h>
 #include <thread>
 #include <stdexcept>
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 namespace AetherVisor {
     namespace Backend {
@@ -33,6 +35,7 @@ namespace AetherVisor {
         }
 
 
+        #ifdef _WIN32
         void ServerLoop(HANDLE hPipe, IPC::ScriptExecutionCallback callback, bool* isRunning) {
             char buffer[4096];
             DWORD bytesRead;
@@ -53,6 +56,7 @@ namespace AetherVisor {
                 }
             }
         }
+        #endif
 
         IPC::IPC() {}
 
@@ -62,26 +66,31 @@ namespace AetherVisor {
 
         bool IPC::StartServer(ScriptExecutionCallback callback) {
             // Using a hardcoded name for simplicity. The original design mentioned a UUID.
+            #ifndef _WIN32
+            (void)callback;
+            return false; // Not supported on non-Windows in this build
+            #else
             LPCSTR pipeName = "\\\\.\\pipe\\AetherVisor_Session_Pipe";
-
             m_pipeHandle = CreateNamedPipeA(
                 pipeName,
                 PIPE_ACCESS_DUPLEX,
                 PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT,
                 1, 4096, 4096, 0, NULL);
-
             if (m_pipeHandle == INVALID_HANDLE_VALUE) {
                 return false;
             }
-
             m_isRunning = true;
             std::thread serverThread(ServerLoop, m_pipeHandle, callback, &m_isRunning);
             serverThread.detach();
-
             return true;
+            #endif
         }
 
         bool IPC::SendMessageToFrontend(const IpcMessage& message) {
+            #ifndef _WIN32
+            (void)message;
+            return false;
+            #else
             if (m_pipeHandle == INVALID_HANDLE_VALUE) return false;
 
             IPC::StegoPacket packet = PackMessage(message);
@@ -92,14 +101,19 @@ namespace AetherVisor {
                 return bytesWritten == buffer.size();
             }
             return false;
+            #endif
         }
 
         void IPC::StopServer() {
             m_isRunning = false;
+            #ifdef _WIN32
             if (m_pipeHandle != INVALID_HANDLE_VALUE) {
                 CloseHandle(m_pipeHandle);
                 m_pipeHandle = INVALID_HANDLE_VALUE;
             }
+            #else
+            m_pipeHandle = nullptr;
+            #endif
         }
 
     }

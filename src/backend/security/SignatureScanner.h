@@ -1,6 +1,12 @@
 #pragma once
 
+#ifdef _WIN32
 #include <Windows.h>
+using ByteType = BYTE;
+#else
+using HMODULE = void*;
+using ByteType = unsigned char;
+#endif
 #include <vector>
 
 namespace AetherVisor {
@@ -29,7 +35,7 @@ namespace AetherVisor {
             SignatureScanner() = default;
 
             // Helper to convert the string pattern to bytes and a mask.
-            static bool ParsePattern(const char* pattern, std::vector<BYTE>& outBytes, std::vector<bool>& outMask);
+            static bool ParsePattern(const char* pattern, std::vector<ByteType>& outBytes, std::vector<bool>& outMask);
         };
 
     } // namespace Security

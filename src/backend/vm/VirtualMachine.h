@@ -35,7 +35,7 @@ namespace AetherVisor {
             RUNNING,
             PAUSED,
             HALTED,
-            ERROR,
+            ERROR_STATE,
             TIMEOUT,
             MEMORY_LIMIT_EXCEEDED,
             STACK_OVERFLOW,
@@ -85,7 +85,7 @@ namespace AetherVisor {
             // State management
             VMState GetState() const { return m_state; }
             bool IsRunning() const { return m_state == VMState::RUNNING; }
-            bool HasError() const { return m_state == VMState::ERROR; }
+            bool HasError() const { return m_state == VMState::ERROR_STATE; }
             std::string GetLastError() const { return m_last_error; }
 
             // Stack operations with bounds checking

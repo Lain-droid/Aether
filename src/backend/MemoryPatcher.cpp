@@ -1,4 +1,5 @@
 #include "MemoryPatcher.h"
+#include <cstring>
 
 namespace AetherVisor {
     namespace Payload {
@@ -12,7 +13,7 @@ namespace AetherVisor {
             RevertAllPatches();
         }
 
-        bool MemoryPatcher::ApplyPatchConditionally(void* targetAddress, const std::vector<BYTE>& patchData, Backend::RiskLevel requiredLevel) {
+        bool MemoryPatcher::ApplyPatchConditionally(void* targetAddress, const std::vector<ByteType>& patchData, Backend::RiskLevel requiredLevel) {
             if (!targetAddress || patchData.empty()) {
                 return false;
             }
@@ -33,7 +34,7 @@ namespace AetherVisor {
             info.originalBytes.resize(patchData.size());
 
             // Read and save the original bytes before patching.
-            memcpy(info.originalBytes.data(), targetAddress, patchData.size());
+            std::memcpy(info.originalBytes.data(), targetAddress, patchData.size());
 
             // Apply the new patch.
             if (WriteMemory(targetAddress, patchData)) {
@@ -78,16 +79,22 @@ namespace AetherVisor {
             }
         }
 
-        bool MemoryPatcher::WriteMemory(void* address, const std::vector<BYTE>& data) {
+        bool MemoryPatcher::WriteMemory(void* address, const std::vector<ByteType>& data) {
             if (!address || data.empty()) return false;
 
+            #ifdef _WIN32
             DWORD oldProtect;
             if (VirtualProtect(address, data.size(), PAGE_EXECUTE_READWRITE, &oldProtect)) {
-                memcpy(address, data.data(), data.size());
+                std::memcpy(address, data.data(), data.size());
                 VirtualProtect(address, data.size(), oldProtect, &oldProtect);
                 return true;
             }
             return false;
+            #else
+            // Non-Windows fallback: directly write assuming address is writable.
+            std::memcpy(address, data.data(), data.size());
+            return true;
+            #endif
         }
 
     } // namespace Payload

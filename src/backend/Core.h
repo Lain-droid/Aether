@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef _WIN32
 #include <Windows.h>
+#else
+using HANDLE = void*;
+#endif
 #include <string>
 #include <functional>
 

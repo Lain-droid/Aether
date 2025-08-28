@@ -1,11 +1,13 @@
 #include "SignatureScanner.h"
 #include <sstream>
+#ifdef _WIN32
 #include <Psapi.h> // For GetModuleInformation
+#endif
 
 namespace AetherVisor {
     namespace Security {
 
-        bool SignatureScanner::ParsePattern(const char* pattern, std::vector<BYTE>& outBytes, std::vector<bool>& outMask) {
+        bool SignatureScanner::ParsePattern(const char* pattern, std::vector<ByteType>& outBytes, std::vector<bool>& outMask) {
             std::stringstream ss(pattern);
             std::string byteStr;
             while (ss >> byteStr) {
@@ -13,7 +15,7 @@ namespace AetherVisor {
                     outBytes.push_back(0);
                     outMask.push_back(true);
                 } else {
-                    outBytes.push_back(static_cast<BYTE>(std::stoi(byteStr, nullptr, 16)));
+                    outBytes.push_back(static_cast<ByteType>(std::stoi(byteStr, nullptr, 16)));
                     outMask.push_back(false);
                 }
             }
@@ -25,18 +27,22 @@ namespace AetherVisor {
                 return nullptr;
             }
 
+            #ifndef _WIN32
+            (void)moduleBase; (void)pattern;
+            return nullptr;
+            #else
             MODULEINFO moduleInfo;
             if (!GetModuleInformation(GetCurrentProcess(), moduleBase, &moduleInfo, sizeof(moduleInfo))) {
                 return nullptr;
             }
 
-            std::vector<BYTE> patternBytes;
+            std::vector<ByteType> patternBytes;
             std::vector<bool> patternMask;
             if (!ParsePattern(pattern, patternBytes, patternMask)) {
                 return nullptr;
             }
 
-            const BYTE* scanStart = reinterpret_cast<const BYTE*>(moduleBase);
+            const ByteType* scanStart = reinterpret_cast<const ByteType*>(moduleBase);
             const size_t scanSize = moduleInfo.SizeOfImage;
             const size_t patternSize = patternBytes.size();
 
@@ -51,11 +57,12 @@ namespace AetherVisor {
                     }
                 }
                 if (found) {
-                    return const_cast<BYTE*>(&scanStart[i]);
+                    return const_cast<ByteType*>(&scanStart[i]);
                 }
             }
 
             return nullptr;
+            #endif
         }
 
     } // namespace Security

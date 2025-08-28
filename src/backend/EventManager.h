@@ -1,10 +1,14 @@
 #pragma once
 
-#include <Windows.h>
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <functional>
 #include <vector>
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 namespace AetherVisor {
     namespace Payload {
@@ -14,7 +18,7 @@ namespace AetherVisor {
             void* targetFunc;               // The original function that is hooked.
             void* detourFunc;               // Our function that the target jumps to.
             void* trampolineFunc;           // Pointer to the executable trampoline block.
-            std::vector<BYTE> originalBytes;    // The original bytes overwritten at the target.
+            std::vector<std::uint8_t> originalBytes;    // The original bytes overwritten at the target.
         };
 
         /**

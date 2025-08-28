@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#endif
 #include "NetworkManager.h"
 #include "EventManager.h"
 #include "AIController.h"
@@ -7,17 +11,20 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
+#ifdef _WIN32
 typedef int (WSAAPI *send_t)(SOCKET s, const char* buf, int len, int flags);
 typedef int (WSAAPI *recv_t)(SOCKET s, char* buf, int len, int flags);
-
-send_t original_send = nullptr;
-recv_t original_recv = nullptr;
+static send_t original_send = nullptr;
+static recv_t original_recv = nullptr;
+static int WSAAPI Detour_Send(SOCKET s, const char* buf, int len, int flags);
+static int WSAAPI Detour_Recv(SOCKET s, char* buf, int len, int flags);
+#endif
 
 namespace AetherVisor {
     namespace Payload {
 
         // Initialize static members
-        NetworkMode NetworkManager::m_mode = NetworkMode::PASSTHROUGH;
+        NetworkMode NetworkManager::m_mode = NetworkMode::PASS_THROUGH;
         NetworkManager::TrafficProfile NetworkManager::m_profile;
         std::chrono::steady_clock::time_point NetworkManager::m_lastSendTime = std::chrono::steady_clock::now();
         std::vector<char> NetworkManager::m_sendBuffer;
@@ -30,6 +37,7 @@ namespace AetherVisor {
             }
         }
 
+        #ifdef _WIN32
         int WSAAPI Detour_Send(SOCKET s, const char* buf, int len, int flags) {
             Backend::AIController::GetInstance().ReportEvent(Backend::AIEventType::NETWORK_PACKET_SENT);
 
@@ -62,7 +70,7 @@ namespace AetherVisor {
                     }
                     return len; // Pretend we sent the data successfully
                 }
-                case NetworkMode::PASSTHROUGH:
+                case NetworkMode::PASS_THROUGH:
                 default: {
                     return original_send(s, buf, len, flags);
                 }
@@ -74,8 +82,12 @@ namespace AetherVisor {
             // Recv is typically just passed through, but could also be profiled.
             return original_recv(s, buf, len, flags);
         }
+        #endif
 
         bool NetworkManager::Install() {
+            #ifndef _WIN32
+            return false;
+            #else
             HMODULE hModule = GetModuleHandleA(XorS("ws2_32.dll"));
             if (!hModule) return false;
             const char* sendPattern = "8B FF 55 8B EC 83 EC ?? 53 56 57 8B 7D";
@@ -91,9 +103,13 @@ namespace AetherVisor {
                 return original_send && original_recv;
             }
             return false;
+            #endif
         }
 
         void NetworkManager::Uninstall() {
+            #ifndef _WIN32
+            return;
+            #else
             HMODULE hModule = GetModuleHandleA(XorS("ws2_32.dll"));
             if (!hModule) return;
             const char* sendPattern = "8B FF 55 8B EC 83 EC ?? 53 56 57 8B 7D";
@@ -103,6 +119,7 @@ namespace AetherVisor {
             auto& eventManager = EventManager::GetInstance();
             if (sendAddr) eventManager.Uninstall(sendAddr);
             if (recvAddr) eventManager.Uninstall(recvAddr);
+            #endif
         }
 
     }

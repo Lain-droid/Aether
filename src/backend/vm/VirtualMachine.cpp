@@ -175,7 +175,7 @@ namespace AetherVisor {
                     // Execute instruction
                     if (!ExecuteInstruction()) {
                         if (m_state == VMState::RUNNING) {
-                            SetState(VMState::ERROR);
+                            SetState(VMState::ERROR_STATE);
                         }
                         break;
                     }
@@ -198,7 +198,7 @@ namespace AetherVisor {
 
             } catch (const std::exception& e) {
                 SetError(XorS("Runtime exception: ") + e.what());
-                SetState(VMState::ERROR);
+                SetState(VMState::ERROR_STATE);
                 return false;
             }
 

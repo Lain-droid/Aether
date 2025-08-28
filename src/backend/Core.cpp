@@ -3,6 +3,9 @@
 #include "PolymorphicEngine.h"
 #include "vm/Compiler.h"
 #include "vm/VirtualMachine.h"
+#include "EventManager.h"
+#include "NetworkManager.h"
+#include "MemoryPatcher.h"
 #include "ipc/NamedPipeServer.h"
 #include <vector>
 #include <stdexcept>
@@ -107,9 +110,8 @@ namespace AetherVisor {
             std::vector<std::function<void()>> cleanupTasks;
 
             // Add standard cleanup tasks.
-            cleanupTasks.push_back([]{ Payload::EventManager::GetInstance().~EventManager(); });
-            cleanupTasks.push_back([]{ Payload::NetworkManager::Uninstall(); });
-            cleanupTasks.push_back([]{ Payload::MemoryPatcher::GetInstance().RevertAllPatches(); });
+            cleanupTasks.push_back([]{ AetherVisor::Payload::NetworkManager::Uninstall(); });
+            cleanupTasks.push_back([]{ AetherVisor::Payload::MemoryPatcher::GetInstance().RevertAllPatches(); });
 
             // Add more intensive tasks if risk is high.
             auto& ai = AIController::GetInstance();
@@ -146,7 +148,7 @@ namespace AetherVisor {
             }
             auto bytecode = compiler.GetBytecode(context);
             VirtualMachine vm;
-            vm.Load(bytecode);
+            vm.LoadBytecode(bytecode);
             vm.Run();
             return true;
         }

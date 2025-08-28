@@ -17,7 +17,7 @@ namespace AetherVisor {
             const std::array<T, sizeof...(S)>& str,
             std::integer_sequence<T, S...>,
             std::integer_sequence<K, S_KEY...>) {
-            return { (str[S] ^ std::array<K, sizeof...(S_KEY)>{S_KEY...}[S % sizeof...(S_KEY)])... };
+            return { static_cast<T>(str[S] ^ static_cast<T>(std::array<K, sizeof...(S_KEY)>{S_KEY...}[S % sizeof...(S_KEY)]))... };
         }
 
         template <typename T, std::size_t N, std::size_t K>
@@ -27,7 +27,8 @@ namespace AetherVisor {
                 : m_encrypted(xor_cypher(
                     [&]() { std::array<T, N> arr{}; for (size_t i = 0; i < N; ++i) arr[i] = str[i]; return arr; }(),
                     std::make_integer_sequence<T, N>(),
-                    std::make_integer_sequence<T, K>())) {}
+                    std::make_integer_sequence<T, K>()))
+                , key(key) {}
 
             const T* get() const {
                 for (size_t i = 0; i < N; ++i) {

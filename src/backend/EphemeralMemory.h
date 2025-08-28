@@ -1,7 +1,15 @@
 #pragma once
 
-#include <Windows.h>
+#include <cstddef>
+#include <cstdint>
 #include <vector>
+
+#ifdef _WIN32
+#include <Windows.h>
+using ByteType = BYTE;
+#else
+using ByteType = std::uint8_t;
+#endif
 
 namespace AetherVisor {
     namespace Payload {
@@ -33,14 +41,14 @@ namespace AetherVisor {
              * @param data The bytes to write.
              * @return True if the write was successful.
              */
-            bool Write(const std::vector<BYTE>& data);
+            bool Write(const std::vector<ByteType>& data);
 
             /**
              * @brief Reads data from the allocated memory block.
              * @param size The number of bytes to read.
              * @return A vector of bytes containing the data. An empty vector indicates failure.
              */
-            std::vector<BYTE> Read(size_t size) const;
+            std::vector<ByteType> Read(size_t size) const;
 
             /**
              * @brief Gets the base address of the allocated memory.

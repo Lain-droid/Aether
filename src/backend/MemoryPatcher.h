@@ -1,9 +1,17 @@
 #pragma once
 
 #include "AIController.h"
-#include <Windows.h>
+#include <cstdint>
 #include <vector>
 #include <unordered_map>
+
+#ifdef _WIN32
+#include <Windows.h>
+using ByteType = BYTE;
+#else
+using ByteType = std::uint8_t;
+using HANDLE = void*;
+#endif
 
 namespace AetherVisor {
     namespace Payload {
@@ -11,8 +19,8 @@ namespace AetherVisor {
         // Holds the information needed to apply or revert a memory patch.
         struct PatchInfo {
             void* targetAddress;
-            std::vector<BYTE> originalBytes;
-            std::vector<BYTE> patchBytes;
+            std::vector<ByteType> originalBytes;
+            std::vector<ByteType> patchBytes;
             bool isActive = false;
         };
 
@@ -36,7 +44,7 @@ namespace AetherVisor {
              * @param requiredLevel The maximum risk level at which this patch should be applied.
              * @return True if the patch was applied, false otherwise.
              */
-            bool ApplyPatchConditionally(void* targetAddress, const std::vector<BYTE>& patchData, Backend::RiskLevel requiredLevel);
+            bool ApplyPatchConditionally(void* targetAddress, const std::vector<ByteType>& patchData, Backend::RiskLevel requiredLevel);
 
             /**
              * @brief Reverts a patch at a specific address.
@@ -57,7 +65,7 @@ namespace AetherVisor {
             MemoryPatcher& operator=(const MemoryPatcher&) = delete;
 
             // Safely writes data to a process's memory.
-            bool WriteMemory(void* address, const std::vector<BYTE>& data);
+            bool WriteMemory(void* address, const std::vector<ByteType>& data);
 
             // A map to store information about our active patches.
             // Key: Pointer to the target address.

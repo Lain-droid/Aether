@@ -25,7 +25,7 @@ namespace AetherVisor {
         void* Hooks::m_originalWarnFunc = nullptr;
 
         // The callback to send data back to the frontend
-        static ConsoleOutputCallback g_consoleCallback = nullptr;
+        static Hooks::ConsoleOutputCallback g_consoleCallback = nullptr;
 
         // Our detour function for Roblox's 'print'
         void Detour_Print(const char* message) {
