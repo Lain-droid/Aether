@@ -22,24 +22,15 @@ jobs:
       - name: Configure (CMake - fresh build dir)
         run: |
           if exist build rmdir /s /q build
-          cmake -S . -B build -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON
         shell: cmd
 
-      - name: Build (CMake)
+      - name: Build (CMake/MSBuild)
         run: |
-          cmake --build build --config Release -- -k 0 > build\\build.log 2>&1
-          echo BUILD_EXIT_CODE=%ERRORLEVEL%>> %GITHUB_ENV%
+          cmake --build build --config Release -- /m
         shell: cmd
-        continue-on-error: true
 
-      - name: Fail if build failed
-        if: always()
-        run: |
-          echo BUILD_EXIT_CODE=%BUILD_EXIT_CODE%
-          if not "%BUILD_EXIT_CODE%"=="" (
-            if not "%BUILD_EXIT_CODE%"=="0" exit /b %BUILD_EXIT_CODE%
-          )
-        shell: cmd
+      # MSBuild step will fail the job automatically if errors occur
 
       - name: Archive build logs
         if: always()
