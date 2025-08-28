@@ -84,7 +84,7 @@ namespace AetherVisor.Frontend.Models
         public string FormattedRating => Rating > 0 ? $"{Rating:F1} ⭐ ({RatingCount})" : "No ratings";
         public string TagsText => Tags != null ? string.Join(", ", Tags) : "";
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

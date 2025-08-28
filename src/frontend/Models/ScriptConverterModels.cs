@@ -38,7 +38,7 @@ namespace AetherVisor.Frontend.Models
         public string WarningsText => string.Join("\n", Warnings);
         public string StatusText => Success ? "Conversion successful" : "Conversion failed";
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -115,7 +115,7 @@ namespace AetherVisor.Frontend.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

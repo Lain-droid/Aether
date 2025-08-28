@@ -346,12 +346,7 @@ namespace AetherVisor.Frontend.Models
             return $"{len:F2} {sizes[order]}";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 
     public enum MarketplaceItemType

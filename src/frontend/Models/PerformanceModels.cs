@@ -95,7 +95,7 @@ namespace AetherVisor.Frontend.Models
             return $"{len:F2} {sizes[order]}";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -158,7 +158,7 @@ namespace AetherVisor.Frontend.Models
 
         public string TimestampFormatted => Timestamp.ToString("HH:mm:ss");
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
