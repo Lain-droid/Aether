@@ -502,9 +502,9 @@ namespace AetherVisor {
             // Entropy calculation
             double entropy = 0.0;
             for (const auto& [byte, count] : byte_counts) {
-                double prob = static_cast<double>(count) / payload.size();
+                double prob = static_cast<double>(count) / static_cast<double>(payload.size());
                 if (prob > 0) {
-                    entropy -= prob * std::log2(prob);
+                    entropy -= prob * (std::log(prob) / std::log(2.0));
                 }
             }
             features.push_back(entropy);

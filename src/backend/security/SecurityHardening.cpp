@@ -217,7 +217,7 @@ namespace AetherVisor {
         bool MemoryProtection::EnableDEP() {
 #ifdef _WIN32
             typedef BOOL (WINAPI *SetProcessDEPPolicyFunc)(DWORD);
-            HMODULE kernel32 = GetModuleHandle(L"kernel32.dll");
+            HMODULE kernel32 = GetModuleHandleA("kernel32.dll");
             if (kernel32) {
                 SetProcessDEPPolicyFunc SetProcessDEPPolicy = 
                     (SetProcessDEPPolicyFunc)GetProcAddress(kernel32, "SetProcessDEPPolicy");
@@ -303,13 +303,8 @@ namespace AetherVisor {
             if (::IsDebuggerPresent()) return true;
             
             // Check PEB flag
-            bool peb_flag = false;
-            __asm {
-                mov eax, fs:[30h]    // PEB
-                mov al, [eax + 2h]   // BeingDebugged flag
-        mov peb_flag, al
-            }
-            if (peb_flag) return true;
+            // __asm not supported on x64 MSVC. Use IsDebuggerPresent/CheckRemoteDebuggerPresent already above.
+            // PEB check skipped in x64 build to maintain compatibility.
             
             // Check for remote debugger
             BOOL remote_debugger = FALSE;

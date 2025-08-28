@@ -47,25 +47,25 @@ namespace AetherVisor {
                     auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - NetworkManager::m_lastSendTime).count();
 
                     // Update running averages
-                    m_profile.packetCount++;
-                    m_profile.avgPacketIntervalMs = (m_profile.avgPacketIntervalMs * (m_profile.packetCount - 1) + elapsedMs) / m_profile.packetCount;
-                    m_profile.avgPacketSize = (m_profile.avgPacketSize * (m_profile.packetCount - 1) + len) / m_profile.packetCount;
+                    NetworkManager::m_profile.packetCount++;
+                    NetworkManager::m_profile.avgPacketIntervalMs = (NetworkManager::m_profile.avgPacketIntervalMs * (NetworkManager::m_profile.packetCount - 1) + static_cast<double>(elapsedMs)) / NetworkManager::m_profile.packetCount;
+                    NetworkManager::m_profile.avgPacketSize = (NetworkManager::m_profile.avgPacketSize * (NetworkManager::m_profile.packetCount - 1) + static_cast<double>(len)) / NetworkManager::m_profile.packetCount;
 
-                    m_lastSendTime = now;
+                    NetworkManager::m_lastSendTime = now;
                     return original_send(s, buf, len, flags);
                 }
                 case NetworkMode::MimickingMode: {
                     // Buffer the outgoing data
-                    m_sendBuffer.insert(m_sendBuffer.end(), buf, buf + len);
+                    NetworkManager::m_sendBuffer.insert(NetworkManager::m_sendBuffer.end(), buf, buf + len);
 
                     auto now = std::chrono::steady_clock::now();
                     auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - NetworkManager::m_lastSendTime).count();
 
                     // Send if buffer is full enough or enough time has passed
-                    if (m_sendBuffer.size() >= m_profile.avgPacketSize || elapsedMs >= m_profile.avgPacketIntervalMs) {
-                        int sent = original_send(s, m_sendBuffer.data(), m_sendBuffer.size(), flags);
-                        m_sendBuffer.clear();
-                        m_lastSendTime = now;
+                    if (NetworkManager::m_sendBuffer.size() >= static_cast<size_t>(NetworkManager::m_profile.avgPacketSize) || elapsedMs >= NetworkManager::m_profile.avgPacketIntervalMs) {
+                        int sent = original_send(s, NetworkManager::m_sendBuffer.data(), static_cast<int>(NetworkManager::m_sendBuffer.size()), flags);
+                        NetworkManager::m_sendBuffer.clear();
+                        NetworkManager::m_lastSendTime = now;
                         return sent;
                     }
                     return len; // Pretend we sent the data successfully

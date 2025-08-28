@@ -11,7 +11,20 @@
 namespace AetherVisor {
     namespace ML {
 
-        static double CalculateCodeEntropy(const CodeBlock& code);
+        static double CalculateCodeEntropy(const CodeBlock& code) {
+            if (code.binary_data.empty()) return 0.0;
+            std::array<size_t, 256> histogram{};
+            histogram.fill(0);
+            for (unsigned char b : code.binary_data) histogram[b]++;
+            double entropy = 0.0;
+            const double invLog2 = 1.0 / std::log(2.0);
+            for (size_t count : histogram) {
+                if (count == 0) continue;
+                double p = static_cast<double>(count) / static_cast<double>(code.binary_data.size());
+                entropy -= p * (std::log(p) * invLog2);
+            }
+            return entropy;
+        }
         // MetamorphicGenerator Implementation
         MetamorphicGenerator::MetamorphicGenerator() {
             // Initialize equivalence detection network
