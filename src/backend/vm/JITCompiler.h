@@ -6,6 +6,7 @@
 #include <map>
 #include <memory>
 #include <functional>
+#include <chrono>
 
 namespace AetherVisor {
     namespace VM {

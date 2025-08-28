@@ -125,7 +125,7 @@ namespace AetherVisor {
             }
 
             // Update entropy score
-            transformed.entropy_score = CalculateCodeEntropy(transformed);
+            transformed.entropy_score = CalculateCodeComplexity(transformed);
             
             return transformed;
         }
@@ -365,7 +365,7 @@ namespace AetherVisor {
                 }
             }
 
-            flattened.entropy_score = CalculateCodeEntropy(flattened);
+            flattened.entropy_score = CalculateCodeComplexity(flattened);
             return flattened;
         }
 
@@ -401,7 +401,7 @@ namespace AetherVisor {
                                            dead_seq.begin(), dead_seq.end());
             }
 
-            injected.entropy_score = CalculateCodeEntropy(injected);
+            injected.entropy_score = CalculateCodeComplexity(injected);
             return injected;
         }
 
@@ -438,7 +438,7 @@ namespace AetherVisor {
                 }
             }
 
-            obfuscated.entropy_score = CalculateCodeEntropy(obfuscated);
+            obfuscated.entropy_score = CalculateCodeComplexity(obfuscated);
             return obfuscated;
         }
 

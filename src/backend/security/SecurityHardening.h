@@ -16,7 +16,7 @@ namespace AetherVisor {
         // Forward declarations to satisfy template usage
         void SecureZeroMemory(void* ptr, size_t size);
         void* SecureMemcpy(void* dest, const void* src, size_t size);
-        void XorEncrypt(uint8_t* data, size_t size, uint8_t key = 0xAA);
+        void XorEncrypt(uint8_t* data, size_t size, uint8_t key);
 
         // Security vulnerability types
         enum class VulnerabilityType {

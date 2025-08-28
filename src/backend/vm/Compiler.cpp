@@ -8,6 +8,7 @@
 #include <cstring>
 #include <chrono>
 #include <random>
+#include <unordered_map>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -19,27 +20,7 @@
 namespace AetherVisor {
     namespace VM {
 
-        // VMValue implementation
-        VMValue::VMValue(const char* str) : type(VMDataType::STRING) {
-            if (str) {
-                size_t len = strlen(str);
-                data.string.data = new char[len + 1];
-                std::memcpy(data.string.data, str, len);
-                data.string.data[len] = '\0';
-                data.string.length = len;
-            } else {
-                data.string.data = nullptr;
-                data.string.length = 0;
-            }
-        }
-
-        VMValue::~VMValue() {
-            if (type == VMDataType::STRING && data.string.data) {
-                delete[] data.string.data;
-            } else if (type == VMDataType::ARRAY && data.array.elements) {
-                delete[] data.array.elements;
-            }
-        }
+        // VMValue special members are not defined here; see VMOpcodes.h structure
 
         // Scope implementation
         void Scope::DefineSymbol(const std::string& name, const Symbol& symbol) {
@@ -132,8 +113,7 @@ namespace AetherVisor {
                     InsertAntiAnalysis(context.bytecode);
                 }
 
-                // Phase 7: Final Optimization
-                BytecodeOptimizer::OptimizeBytecode(context.bytecode);
+                // Phase 7: Final Optimization (stubbed/no-op here)
 
                 context.errors = m_errors;
                 context.warnings = m_warnings;
@@ -256,7 +236,7 @@ namespace AetherVisor {
                                 case 'r': str += '\r'; break;
                                 case '\\': str += '\\'; break;
                                 case '"': str += '"'; break;
-                                case '\'\'': str += '\''; break;
+                                case '\'': str += '\''; break;
                                 case '0': str += '\0'; break;
                                 case 'x': // Hex escape \xHH
                                     if (pos + 2 < source.length()) {
@@ -464,19 +444,7 @@ namespace AetherVisor {
         void Compiler::EncryptConstants(CompilationContext& context) {}
         void Compiler::InsertAntiAnalysis(std::vector<uint8_t>& bytecode) {}
 
-        // BytecodeOptimizer stubs
-        void BytecodeOptimizer::OptimizeBytecode(std::vector<uint8_t>& bytecode) {}
-        void BytecodeOptimizer::EliminateDeadCode(std::vector<uint8_t>& bytecode) {}
-        void BytecodeOptimizer::OptimizeJumps(std::vector<uint8_t>& bytecode) {}
-        void BytecodeOptimizer::MergeInstructions(std::vector<uint8_t>& bytecode) {}
-        void BytecodeOptimizer::OptimizeConstants(std::vector<uint8_t>& bytecode) {}
-
-        // JITCompiler stubs
-        JITCompiler::JITCompiler() : m_code_buffer(nullptr), m_buffer_size(4096) {}
-        JITCompiler::~JITCompiler() {}
-        void* JITCompiler::CompileToNative(const std::vector<uint8_t>& bytecode) { return nullptr; }
-        void JITCompiler::ExecuteNative(void* native_code) {}
-        void JITCompiler::FreeNativeCode(void* native_code) {}
+        // Optimizer and JIT implementations are provided in their respective translation units
 
     } // namespace VM
 } // namespace AetherVisor
