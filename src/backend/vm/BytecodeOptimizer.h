@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <memory>
+#include <functional>
 
 namespace AetherVisor {
     namespace VM {

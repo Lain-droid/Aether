@@ -5,6 +5,8 @@
 #include <cmath>
 #include <numeric>
 #include <bitset>
+#include <map>
+#include <set>
 
 namespace AetherVisor {
     namespace ML {

@@ -292,6 +292,8 @@ src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o: \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/erase_if.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cstring \
   /usr/include/string.h /usr/include/strings.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cfloat \
+  /usr/lib/llvm-20/lib/clang/20/include/float.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/algorithm \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/ranges_algo.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/pstl/glue_algorithm_defs.h \
@@ -328,6 +330,33 @@ src/backend/CMakeFiles/aether_backend.dir/security/SecurityHardening.cpp.o: \
   /usr/include/x86_64-linux-gnu/bits/semaphore.h \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/mutex \
   /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/unique_lock.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/cmath \
+  /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-macros.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/specfun.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/gamma.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/special_function_util.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/bessel_function.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/beta_function.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/ell_integral.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/exp_integral.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/hypergeometric.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/legendre_function.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/modified_bessel_func.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/poly_hermite.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/poly_laguerre.tcc \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/tr1/riemann_zeta.tcc \
+  /workspace/src/backend/security/XorStr.h \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/utility \
+  /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/stl_relops.h \
   /usr/include/x86_64-linux-gnu/sys/mman.h \
   /usr/include/x86_64-linux-gnu/bits/mman.h \
   /usr/include/x86_64-linux-gnu/bits/mman-map-flags-generic.h \

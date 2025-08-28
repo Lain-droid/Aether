@@ -5,6 +5,8 @@
 #include <regex>
 #include <thread>
 #include <mutex>
+#include <cmath>
+#include "XorStr.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -28,25 +30,7 @@ namespace AetherVisor {
         static std::chrono::time_point<std::chrono::steady_clock> g_start_time;
         static uint32_t g_recursion_depth = 0;
 
-        // SecurityConfig implementation
-        SecurityConfig::SecurityConfig() {
-            enable_stack_guard = true;
-            enable_heap_protection = true;
-            enable_aslr = true;
-            enable_dep = true;
-            enable_control_flow_guard = true;
-            enable_safe_seh = true;
-            enable_memory_sanitizer = true;
-            enable_address_sanitizer = true;
-            enable_anti_debug = true;
-            enable_anti_vm = true;
-            enable_integrity_checks = true;
-            
-            max_string_length = 4096;
-            max_array_size = 1024 * 1024; // 1MB
-            max_recursion_depth = 100;
-            max_memory_allocation = 64 * 1024 * 1024; // 64MB
-        }
+        // SecurityConfig defaulted in header
 
         // InputValidator implementation
         bool InputValidator::IsValidInteger(const std::string& str, int32_t min_val, int32_t max_val) {
@@ -600,7 +584,7 @@ namespace AetherVisor {
             if (!ptr || size == 0) return;
             
 #ifdef _WIN32
-            SecureZeroMemory(ptr, size);
+            ::SecureZeroMemory(ptr, size);
 #else
             // Use volatile to prevent optimization
             volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
