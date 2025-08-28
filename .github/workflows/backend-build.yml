@@ -28,15 +28,30 @@ jobs:
       - name: Build (CMake)
         run: |
           cmake --build build --config Release -- -k 0 > build\\build.log 2>&1
+          echo BUILD_EXIT_CODE=%ERRORLEVEL%>> %GITHUB_ENV%
         shell: cmd
+        continue-on-error: true
 
       - name: Print build log (head & tail)
         if: always()
         run: |
-          echo --- BUILD LOG (HEAD) ---
-          powershell -Command "Get-Content build/build.log -TotalCount 200 | ForEach-Object { $_ }"
-          echo --- BUILD LOG (TAIL) ---
-          powershell -Command "Get-Content build/build.log -Tail 200 | ForEach-Object { $_ }"
+          if exist build\\build.log (
+            echo --- BUILD LOG (HEAD) ---
+            powershell -Command "Get-Content build/build.log -TotalCount 200 -ErrorAction SilentlyContinue | ForEach-Object { $_ }"
+            echo --- BUILD LOG (TAIL) ---
+            powershell -Command "Get-Content build/build.log -Tail 200 -ErrorAction SilentlyContinue | ForEach-Object { $_ }"
+          ) else (
+            echo build\\build.log not found
+          )
+
+      - name: Fail if build failed
+        if: always()
+        run: |
+          echo BUILD_EXIT_CODE=%BUILD_EXIT_CODE%
+          if not "%BUILD_EXIT_CODE%"=="" (
+            if not "%BUILD_EXIT_CODE%"=="0" exit /b %BUILD_EXIT_CODE%
+          )
+        shell: cmd
 
       - name: Archive build logs
         if: always()
