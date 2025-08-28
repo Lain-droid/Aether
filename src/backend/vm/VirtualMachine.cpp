@@ -662,7 +662,7 @@ namespace AetherVisor {
             int32_t value = *reinterpret_cast<const int32_t*>(&m_code_base[m_pc - 4]);
             VMValue vm_value;
             vm_value.type = VMDataType::INT32;
-            vm_value.int_value = value;
+            vm_value.data.i32 = value;
             PushValue(vm_value);
             return !HasPendingException();
         }
@@ -675,8 +675,8 @@ namespace AetherVisor {
             
             float value = *reinterpret_cast<const float*>(&m_code_base[m_pc - 4]);
             VMValue vm_value;
-            vm_value.type = VMDataType::FLOAT;
-            vm_value.float_value = value;
+            vm_value.type = VMDataType::FLOAT32;
+            vm_value.data.f32 = value;
             PushValue(vm_value);
             return !HasPendingException();
         }
@@ -765,9 +765,42 @@ namespace AetherVisor {
         }
 
         // Placeholder implementations for other instructions
-        bool VirtualMachine::ExecutePushDouble() { return true; }
-        bool VirtualMachine::ExecutePushString() { return true; }
-        bool VirtualMachine::ExecutePushConst() { return true; }
+        bool VirtualMachine::ExecutePushDouble() {
+            if (m_pc + 8 > m_code_size) {
+                SetError(XorS("Insufficient bytes for PUSH_DOUBLE operand"));
+                return false;
+            }
+            double value = *reinterpret_cast<const double*>(&m_code_base[m_pc - 8]);
+            VMValue vm_value;
+            vm_value.type = VMDataType::FLOAT64;
+            vm_value.data.f64 = value;
+            PushValue(vm_value);
+            return !HasPendingException();
+        }
+        bool VirtualMachine::ExecutePushString() {
+            // Simplified: assume null-terminated string pointer encoded in next 8 bytes
+            if (m_pc + 8 > m_code_size) {
+                SetError(XorS("Insufficient bytes for PUSH_STR operand"));
+                return false;
+            }
+            const char* strPtr = *reinterpret_cast<const char* const*>(&m_code_base[m_pc - 8]);
+            if (!strPtr) {
+                VMValue undef; PushValue(undef); return true;
+            }
+            size_t len = std::strlen(strPtr);
+            VMValue vm_value;
+            vm_value.type = VMDataType::STRING;
+            vm_value.data.string.data = const_cast<char*>(strPtr);
+            vm_value.data.string.length = len;
+            PushValue(vm_value);
+            return !HasPendingException();
+        }
+        bool VirtualMachine::ExecutePushConst() {
+            // Simplified: top of constants is pushed
+            if (m_constants.empty()) { VMValue undef; PushValue(undef); return true; }
+            PushValue(m_constants.back().value);
+            return !HasPendingException();
+        }
         bool VirtualMachine::ExecutePop() { 
             if (!CheckStackUnderflow(1)) {
                 ThrowException(VMDataType::INT32, XorS("Stack underflow in POP"));

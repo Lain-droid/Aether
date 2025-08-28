@@ -79,7 +79,9 @@ namespace AetherVisor {
                             std::wstring proc(w, w + len_wchars);
                             ok = m_on_inject(proc);
                             outMsg = ok ? "OK: Inject " : "ERR: Inject ";
-                            outMsg += std::string(proc.begin(), proc.end());
+                            // Best-effort narrow for logging
+                            outMsg.reserve(outMsg.size() + proc.size());
+                            for (wchar_t wc : proc) outMsg.push_back(static_cast<char>(wc & 0xFF));
                         }
                     } else if (op == 2 && m_on_execute) {
                         if (msg.size() > 1) {
