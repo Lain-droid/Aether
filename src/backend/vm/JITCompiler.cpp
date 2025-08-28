@@ -83,7 +83,7 @@ namespace AetherVisor {
                 }
 
                 // Generate machine code
-                CodeGenerator generator;
+                JITCompiler::CodeGenerator generator;
                 EmitPrologue(generator);
 
                 // Translate bytecode to machine code
@@ -111,7 +111,7 @@ namespace AetherVisor {
                     }
 
                     if (!TranslateInstruction(generator, opcode, operand1, operand2, operand3)) {
-                        SetError(result, XorS("Failed to translate instruction: ") + std::to_string(static_cast<int>(opcode)));
+                        SetError(result, std::string(XorS("Failed to translate instruction: ")) + std::to_string(static_cast<int>(opcode)));
                         return result;
                     }
                 }
@@ -151,7 +151,7 @@ namespace AetherVisor {
                 }
 
             } catch (const std::exception& e) {
-                SetError(result, XorS("Compilation exception: ") + e.what());
+                SetError(result, std::string(XorS("Compilation exception: ")) + e.what());
             }
 
             return result;
@@ -294,27 +294,27 @@ namespace AetherVisor {
         }
 
         // Code generation helpers
-        void CodeGenerator::EmitByte(uint8_t byte) {
+        void JITCompiler::CodeGenerator::EmitByte(uint8_t byte) {
             machine_code.push_back(byte);
         }
 
-        void CodeGenerator::EmitWord(uint16_t word) {
+        void JITCompiler::CodeGenerator::EmitWord(uint16_t word) {
             machine_code.push_back(word & 0xFF);
             machine_code.push_back((word >> 8) & 0xFF);
         }
 
-        void CodeGenerator::EmitDWord(uint32_t dword) {
+        void JITCompiler::CodeGenerator::EmitDWord(uint32_t dword) {
             machine_code.push_back(dword & 0xFF);
             machine_code.push_back((dword >> 8) & 0xFF);
             machine_code.push_back((dword >> 16) & 0xFF);
             machine_code.push_back((dword >> 24) & 0xFF);
         }
 
-        void CodeGenerator::EmitInstruction(const std::vector<uint8_t>& instruction) {
+        void JITCompiler::CodeGenerator::EmitInstruction(const std::vector<uint8_t>& instruction) {
             machine_code.insert(machine_code.end(), instruction.begin(), instruction.end());
         }
 
-        void CodeGenerator::ApplyRelocations() {
+        void JITCompiler::CodeGenerator::ApplyRelocations() {
             for (const auto& relocation : relocations) {
                 uint32_t offset = relocation.first;
                 uint32_t target = relocation.second;

@@ -163,7 +163,7 @@ namespace AetherVisor {
             
             void Encrypt() {
                 if (m_ptr && !m_encrypted) {
-                    XorEncrypt(reinterpret_cast<uint8_t*>(m_ptr), m_size * sizeof(T));
+                    XorEncrypt(reinterpret_cast<uint8_t*>(m_ptr), m_size * sizeof(T), 0xAA);
                     m_encrypted = true;
                     m_checksum = CalculateChecksum();
                 }
@@ -171,7 +171,7 @@ namespace AetherVisor {
             
             void Decrypt() {
                 if (m_ptr && m_encrypted) {
-                    XorEncrypt(reinterpret_cast<uint8_t*>(m_ptr), m_size * sizeof(T));
+                    XorEncrypt(reinterpret_cast<uint8_t*>(m_ptr), m_size * sizeof(T), 0xAA);
                     m_encrypted = false;
                     m_checksum = CalculateChecksum();
                 }
