@@ -32,18 +32,6 @@ jobs:
         shell: cmd
         continue-on-error: true
 
-      - name: Print build log (head & tail)
-        if: always()
-        run: |
-          if exist build\\build.log (
-            echo --- BUILD LOG (HEAD) ---
-            powershell -Command "Get-Content build/build.log -TotalCount 200 -ErrorAction SilentlyContinue | ForEach-Object { $_ }"
-            echo --- BUILD LOG (TAIL) ---
-            powershell -Command "Get-Content build/build.log -Tail 200 -ErrorAction SilentlyContinue | ForEach-Object { $_ }"
-          ) else (
-            echo build\\build.log not found
-          )
-
       - name: Fail if build failed
         if: always()
         run: |
