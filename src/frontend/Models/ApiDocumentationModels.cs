@@ -95,7 +95,7 @@ namespace AetherVisor.Frontend.Models
         public bool HasChildren => Children != null && Children.Any();
         public bool HasParameters => Parameters != null && Parameters.Any();
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -178,7 +178,7 @@ namespace AetherVisor.Frontend.Models
 
         public int ItemCount => Items?.Count ?? 0;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -232,7 +232,7 @@ namespace AetherVisor.Frontend.Models
         public string FormattedDownloads => Downloads >= 1000 ? $"{Downloads / 1000:F1}k" : Downloads.ToString();
         public string TagsText => string.Join(", ", Tags);
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -309,6 +309,13 @@ namespace AetherVisor.Frontend.Models
         public string FormattedDownloads => Downloads >= 1000 ? $"{Downloads / 1000:F1}k downloads" : $"{Downloads} downloads";
         public string FormattedFileSize => FormatFileSize(FileSize);
         public string TagsText => string.Join(", ", Tags);
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public string TypeIcon
         {

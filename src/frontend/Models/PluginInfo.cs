@@ -46,7 +46,7 @@ namespace AetherVisor.Frontend.Models
             Status = IsActive ? "Active" : (IsEnabled ? "Loaded" : "Disabled");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

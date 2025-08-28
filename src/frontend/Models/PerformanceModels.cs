@@ -28,7 +28,7 @@ namespace AetherVisor.Frontend.Models
             set { _category = value; OnPropertyChanged(nameof(Category)); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

@@ -106,7 +106,7 @@ namespace AetherVisor.Frontend.Controls
             
             _syntaxHighlighter = new LuauSyntaxHighlighter(this);
             _intelliSense = new LuauIntelliSense();
-            _foldingManager = new CodeFoldingManager(this);
+            _foldingManager = new CodeFoldingManager();
             _errorAnalyzer = new ErrorAnalyzer();
 
             InitializeEditor();
@@ -129,7 +129,7 @@ namespace AetherVisor.Frontend.Controls
             // Setup code folding
             if (EnableCodeFolding)
             {
-                _foldingManager.Initialize();
+                // Code folding will be initialized when text changes
             }
         }
 

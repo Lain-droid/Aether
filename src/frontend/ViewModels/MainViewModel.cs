@@ -13,7 +13,7 @@ namespace AetherVisor.Frontend.ViewModels
     // A base class for observable properties, essential for MVVM
     public abstract class ObservableObject : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -33,7 +33,7 @@ namespace AetherVisor.Frontend.ViewModels
 
         public bool CanExecute(object parameter) => _canExecute(parameter);
         public void Execute(object parameter) => _execute(parameter);
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
