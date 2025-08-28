@@ -31,6 +31,11 @@ namespace AetherVisor {
             // Executes a script payload through the VM/engine
             bool ExecuteScript(const std::string& script);
 
+            // AI Synchronization methods
+            void RegisterAllComponentsWithAI();
+            void SyncWithAI();
+            void ActivateEmergencyProtocols();
+
         private:
             Core() = default;
             ~Core() = default;
