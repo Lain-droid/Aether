@@ -1,0 +1,39 @@
+name: Frontend Windows Build (dotnet)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'src/frontend/**'
+      - '.github/workflows/frontend-build.yml'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        working-directory: src/frontend
+        run: dotnet restore
+
+      - name: Build (Release, win-x64)
+        working-directory: src/frontend
+        run: dotnet build -c Release -r win-x64
+
+      - name: Publish single file (self-contained)
+        working-directory: src/frontend
+        run: dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained true -o ../../build/frontend
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Aether-Frontend-win-x64
+          path: build/frontend/**
