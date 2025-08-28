@@ -128,6 +128,11 @@ namespace AetherVisor {
             void EnableSandboxMode(bool enable) { m_sandbox_mode = enable; }
             bool IsSandboxMode() const { return m_sandbox_mode; }
 
+            // Simple factory helpers
+            static std::unique_ptr<VirtualMachine> CreateSecureVM(const VMSecurityContext& context);
+            static std::unique_ptr<VirtualMachine> CreateSandboxedVM();
+            static std::unique_ptr<VirtualMachine> CreateMinimalVM();
+
         private:
             // VM state
             VMState m_state;

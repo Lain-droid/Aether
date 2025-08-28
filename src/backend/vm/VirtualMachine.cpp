@@ -696,14 +696,14 @@ namespace AetherVisor {
             }
             
             int32_t result;
-            if (!SafeAdd(a.int_value, b.int_value, result)) {
+            if (!SafeAdd(a.data.i32, b.data.i32, result)) {
                 ThrowException(VMDataType::INT32, XorS("Integer overflow in ADD"));
                 return false;
             }
             
             VMValue vm_result;
             vm_result.type = VMDataType::INT32;
-            vm_result.int_value = result;
+            vm_result.data.i32 = result;
             PushValue(vm_result);
             return true;
         }
@@ -901,7 +901,7 @@ namespace AetherVisor {
         }
 
         // VMFactory implementation
-        std::unique_ptr<VirtualMachine> VMFactory::CreateSecureVM(const VMSecurityContext& context) {
+        std::unique_ptr<VirtualMachine> VirtualMachine::CreateSecureVM(const VMSecurityContext& context) {
             auto vm = std::make_unique<VirtualMachine>();
             if (!vm->Initialize(context)) {
                 return nullptr;
@@ -909,7 +909,7 @@ namespace AetherVisor {
             return vm;
         }
 
-        std::unique_ptr<VirtualMachine> VMFactory::CreateSandboxedVM() {
+        std::unique_ptr<VirtualMachine> VirtualMachine::CreateSandboxedVM() {
             VMSecurityContext context;
             context.allow_native_calls = false;
             context.allow_memory_alloc = true;
@@ -921,10 +921,10 @@ namespace AetherVisor {
             context.max_memory_usage = 4 * 1024 * 1024; // 4MB
             context.max_stack_depth = 100;
             
-            return CreateSecureVM(context);
+            return VirtualMachine::CreateSecureVM(context);
         }
 
-        std::unique_ptr<VirtualMachine> VMFactory::CreateMinimalVM() {
+        std::unique_ptr<VirtualMachine> VirtualMachine::CreateMinimalVM() {
             VMSecurityContext context;
             context.allow_native_calls = false;
             context.allow_memory_alloc = false;
@@ -936,7 +936,7 @@ namespace AetherVisor {
             context.max_memory_usage = 1024 * 1024; // 1MB
             context.max_stack_depth = 50;
             
-            return CreateSecureVM(context);
+            return VirtualMachine::CreateSecureVM(context);
         }
 
     } // namespace VM
