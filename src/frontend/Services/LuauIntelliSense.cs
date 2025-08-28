@@ -358,8 +358,8 @@ namespace AetherVisor.Frontend.Services
                 .Where(s => s.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
                 .Select(service => new IntelliSenseItem
                 {
-                    Name = $'"{service}"',
-                    CompletionText = $'"{service}"',
+                    Name = $"\"{service}\"",
+                    CompletionText = $"\"{service}\"",
                     ItemType = IntelliSenseItemType.Service,
                     Description = $"Roblox service: {service}",
                     Documentation = GetServiceDocumentation(service),
