@@ -397,17 +397,17 @@ void AdvancedAntiDetection::EnableDebugPrivileges() {
 
 void AdvancedAntiDetection::InitializeSignatureMasking() {
     // Implement signature masking techniques
-    spdlog::debug("Initializing signature masking");
+    // Debug log removed
 }
 
 void AdvancedAntiDetection::SetupMemoryProtection() {
     // Implement memory protection
-    spdlog::debug("Setting up memory protection");
+    // Debug log removed
 }
 
 void AdvancedAntiDetection::InitializeTimingObfuscation() {
     // Implement timing obfuscation
-    spdlog::debug("Initializing timing obfuscation");
+    // Debug log removed
 }
 
 bool AdvancedAntiDetection::PolymorphicProcessRename() {

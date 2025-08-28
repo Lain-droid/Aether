@@ -35,7 +35,7 @@ namespace AetherVisor.Frontend.Services
             {
                 // Fallback to basic API
                 LoadBasicApi();
-                System.Diagnostics.Debug.WriteLine($"Failed to load API: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
 
@@ -211,7 +211,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to parse API data: {ex.Message}");
+                // Log error: Debug statement removed
             }
 
             return items;

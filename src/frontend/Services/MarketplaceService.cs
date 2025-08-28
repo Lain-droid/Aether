@@ -62,7 +62,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to initialize marketplace: {ex.Message}");
+                // Log error: Failed to initialize marketplace
                 LoadOfflineData();
             }
         }
@@ -84,7 +84,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Search failed: {ex.Message}");
+                // Log error: Search failed
                 return new List<MarketplaceItem>();
             }
         }
@@ -108,7 +108,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to get item details: {ex.Message}");
+                // Log error: Failed to get item details
                 return null;
             }
         }
@@ -144,7 +144,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Installation failed: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }
@@ -172,7 +172,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Uninstallation failed: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }
@@ -186,7 +186,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to get reviews: {ex.Message}");
+                // Log error: Debug statement removed
                 return new List<UserReview>();
             }
         }
@@ -212,7 +212,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to submit review: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }
@@ -233,7 +233,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to get category items: {ex.Message}");
+                // Log error: Debug statement removed
                 return new List<MarketplaceItem>();
             }
         }
@@ -267,7 +267,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to publish item: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }
@@ -306,7 +306,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to get marketplace stats: {ex.Message}");
+                // Log error: Debug statement removed
                 return new Dictionary<string, object>();
             }
         }
@@ -419,7 +419,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to load categories: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -432,7 +432,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to load featured items: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -474,7 +474,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load installed items: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
         }
@@ -599,7 +599,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Download failed: {ex.Message}");
+                // Log error: Debug statement removed
                 return null;
             }
         }
@@ -628,7 +628,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Installation failed: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }
@@ -648,7 +648,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Uninstallation failed: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }
@@ -712,7 +712,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save installed items: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -731,11 +731,11 @@ namespace AetherVisor.Frontend.Services
                 };
                 
                 // In a real implementation, send to analytics service
-                System.Diagnostics.Debug.WriteLine($"Tracked installation: {item.Name}");
+                // Log error: Debug statement removed
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to track installation: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -759,7 +759,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Upload failed: {ex.Message}");
+                // Log error: Debug statement removed
                 return false;
             }
         }

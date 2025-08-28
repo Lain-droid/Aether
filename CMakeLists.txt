@@ -70,6 +70,20 @@ else()
     message(WARNING "This project is designed for Windows. Skipping backend build on non-Windows platforms.")
 endif()
 
+# Frontend build
+if(WIN32)
+    find_program(DOTNET_EXECUTABLE NAMES dotnet)
+    if(DOTNET_EXECUTABLE)
+        add_custom_target(frontend ALL
+            COMMAND ${DOTNET_EXECUTABLE} build ${CMAKE_SOURCE_DIR}/src/frontend/Aether.Frontend.csproj --configuration Release
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Building C# Frontend"
+        )
+    else()
+        message(WARNING "dotnet not found - frontend will not be built")
+    endif()
+endif()
+
 # Optional: Add tests
 if(EXISTS "${CMAKE_SOURCE_DIR}/tests/CMakeLists.txt")
     add_subdirectory(tests)

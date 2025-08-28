@@ -557,7 +557,7 @@ namespace AetherVisor.Frontend.Services
         
         private void LogEvent(string message)
         {
-            System.Diagnostics.Debug.WriteLine($"[PerformanceMonitor] {DateTime.Now:HH:mm:ss} - {message}");
+            // Log error: Debug statement removed
         }
         
         #endregion

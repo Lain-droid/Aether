@@ -382,7 +382,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Error disposing plugin: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
 

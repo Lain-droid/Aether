@@ -437,7 +437,7 @@ void EncryptionManager::GenerateRSAKeyPair() {
         pImpl->rsaPrivateKey = CryptoPP::RSA::PrivateKey(params);
         pImpl->rsaPublicKey = CryptoPP::RSA::PublicKey(params);
         
-        spdlog::debug("RSA key pair generated successfully");
+        // Debug log removed
     }
     catch (const std::exception& ex) {
         spdlog::error("RSA key pair generation failed: {}", ex.what());

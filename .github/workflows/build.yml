@@ -38,16 +38,14 @@ jobs:
     
     - name: Install dependencies
       run: |
-        vcpkg install nlohmann-json:x64-windows
-        vcpkg install cryptopp:x64-windows
-        vcpkg install boost:x64-windows
+        vcpkg install --triplet=x64-windows
     
     - name: Configure CMake
       run: |
         cmake -B build -S . -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
     
     - name: Build Backend
-      run: cmake --build build --config ${{ env.BUILD_TYPE }} --parallel
+      run: cmake --build build --config ${{ env.BUILD_TYPE }} --parallel --target aether_backend
     
     - name: Run Backend Tests
       working-directory: build
@@ -87,7 +85,7 @@ jobs:
       run: dotnet restore src/frontend/Aether.Frontend.csproj
     
     - name: Build Frontend
-      run: dotnet build src/frontend/Aether.Frontend.csproj --no-restore --configuration ${{ env.BUILD_TYPE }}
+      run: dotnet build src/frontend/Aether.Frontend.csproj --no-restore --configuration ${{ env.BUILD_TYPE }} --output ./publish
     
     - name: Run Frontend Tests
       run: dotnet test src/frontend.tests/ --no-build --configuration ${{ env.BUILD_TYPE }} --logger trx --results-directory TestResults
@@ -98,6 +96,15 @@ jobs:
       if: success() || failure()
       with:
         name: Frontend Tests
+        
+    - name: Upload Frontend Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: frontend-${{ env.BUILD_TYPE }}
+        path: |
+          publish/
+          !publish/**/*.pdb
+        retention-days: 30
         path: TestResults/*.trx
         reporter: dotnet-trx
     

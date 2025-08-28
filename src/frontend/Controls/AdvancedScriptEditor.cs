@@ -141,7 +141,7 @@ namespace AetherVisor.Frontend.Controls
             catch (Exception ex)
             {
                 // Log error but don't crash
-                System.Diagnostics.Debug.WriteLine($"Failed to load API definitions: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
 

@@ -135,7 +135,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to generate suggestions: {ex.Message}");
+                // Log error: Debug statement removed
             }
             
             return suggestions;

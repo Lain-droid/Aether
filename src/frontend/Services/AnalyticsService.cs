@@ -303,7 +303,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save analytics events: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -339,7 +339,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save session data: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -371,7 +371,7 @@ namespace AetherVisor.Frontend.Services
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"Failed to load events from {filePath}: {ex.Message}");
+                        // Log error: Debug statement removed
                     }
                 }
                 
@@ -404,7 +404,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load sessions from {file}: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
             

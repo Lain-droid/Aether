@@ -56,7 +56,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to initialize API documentation: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -214,7 +214,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to load Roblox API documentation: {ex.Message}");
+                // Log error: Debug statement removed
                 await LoadFallbackRobloxDocumentation();
             }
         }
@@ -276,7 +276,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to parse Roblox API data: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -437,7 +437,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load custom documentation: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
             
@@ -586,7 +586,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load favorites: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
         }
@@ -616,7 +616,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load recently viewed: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
         }
@@ -636,7 +636,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save favorites: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -677,7 +677,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save recently viewed: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         

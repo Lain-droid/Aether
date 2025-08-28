@@ -314,7 +314,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load tutorial from {file}: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
         }
@@ -576,7 +576,7 @@ namespace AetherVisor.Frontend.Services
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Failed to load user progress: {ex.Message}");
+                    // Log error: Debug statement removed
                 }
             }
         }
@@ -595,7 +595,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save user progress: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         
@@ -613,7 +613,7 @@ namespace AetherVisor.Frontend.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Failed to save custom tutorial: {ex.Message}");
+                // Log error: Debug statement removed
             }
         }
         

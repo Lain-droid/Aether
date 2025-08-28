@@ -122,7 +122,7 @@ SecurityReport SecurityAudit::GenerateReport() {
 
 void SecurityAudit::AddAuditRule(const AuditRule& rule) {
     pImpl->auditRules.push_back(rule);
-    spdlog::debug("Added audit rule: {}", rule.name);
+    // Debug log removed
 }
 
 void SecurityAudit::RemoveAuditRule(const std::string& ruleName) {
@@ -131,7 +131,7 @@ void SecurityAudit::RemoveAuditRule(const std::string& ruleName) {
     
     if (it != pImpl->auditRules.end()) {
         pImpl->auditRules.erase(it, pImpl->auditRules.end());
-        spdlog::debug("Removed audit rule: {}", ruleName);
+        // Debug log removed
     }
 }
 
@@ -203,7 +203,7 @@ DWORD WINAPI SecurityAudit::MonitoringThreadProc(LPVOID lpParam) {
 }
 
 DWORD SecurityAudit::MonitoringLoop() {
-    spdlog::debug("Security monitoring loop started");
+    // Debug log removed
     
     while (pImpl->isMonitoring) {
         try {
@@ -227,7 +227,7 @@ DWORD SecurityAudit::MonitoringLoop() {
         }
     }
     
-    spdlog::debug("Security monitoring loop ended");
+    // Debug log removed
     return 0;
 }
 
@@ -318,7 +318,7 @@ void SecurityAudit::MonitorRegistry() {
     // For now, we'll just log that monitoring is active
     static bool registryMonitorLogged = false;
     if (!registryMonitorLogged) {
-        spdlog::debug("Registry monitoring active for {} keys", criticalKeys.size());
+        // Debug log removed
         registryMonitorLogged = true;
     }
 }
@@ -328,7 +328,7 @@ void SecurityAudit::MonitorNetwork() {
     // This would require network monitoring implementation
     static bool networkMonitorLogged = false;
     if (!networkMonitorLogged) {
-        spdlog::debug("Network monitoring active");
+        // Debug log removed
         networkMonitorLogged = true;
     }
 }
@@ -488,7 +488,7 @@ std::vector<std::string> SecurityAudit::GenerateRecommendations(const SecurityRe
 
 void SecurityAudit::LoadAuditRules() {
     // Load audit rules from configuration
-    spdlog::debug("Loading audit rules");
+    // Debug log removed
 }
 
 void SecurityAudit::LoadTrustedProcesses() {
@@ -504,7 +504,7 @@ void SecurityAudit::LoadTrustedProcesses() {
         "processhacker.exe", "procmon.exe", "wireshark.exe"
     };
     
-    spdlog::debug("Loaded {} trusted and {} suspicious processes",
+    // Debug log removed
                  pImpl->trustedProcesses.size(), pImpl->suspiciousProcesses.size());
 }
 
@@ -517,7 +517,7 @@ void SecurityAudit::SetupDefaultRules() {
     rule.action = AuditAction::Alert | AuditAction::Log;
     AddAuditRule(rule);
     
-    spdlog::debug("Setup default audit rules");
+    // Debug log removed
 }
 
 void SecurityAudit::ProcessAuditRules(const SecurityEvent& event) {
