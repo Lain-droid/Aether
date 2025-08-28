@@ -144,6 +144,11 @@ namespace AetherVisor {
             return transformed;
         }
 
+        // Stub private methods referenced by header but not defined here
+        CodeBlock NeuralObfuscator::ApplyRegisterRandomization(const CodeBlock& code) { return code; }
+        CodeBlock NeuralObfuscator::EncryptConstants(const CodeBlock& code) { return code; }
+        double NeuralObfuscator::PredictPerformanceImpact(const CodeBlock& original, const CodeBlock& transformed) { return 0.0; }
+
         std::vector<double> MetamorphicGenerator::ExtractInstructionFeatures(
             const std::vector<unsigned char>& instructions) {
             std::vector<double> features;

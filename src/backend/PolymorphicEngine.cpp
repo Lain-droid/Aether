@@ -486,6 +486,21 @@ namespace AetherVisor {
             return noise;
         }
 
+        // Stub implementations to resolve unresolved externals; real logic can be added iteratively
+        void PolymorphicEngine::AdaptiveNopInsertion(std::vector<unsigned char>& payload) { AppendNopSled(payload); }
+        void PolymorphicEngine::ContextAwarePermutation(std::vector<unsigned char>& payload) {}
+        void PolymorphicEngine::SemanticPreservingTransformation(std::vector<unsigned char>& payload) {}
+        std::vector<PolymorphicEngine::MutationGenome> PolymorphicEngine::CreateInitialPopulation(int size) { return {}; }
+        PolymorphicEngine::MutationGenome PolymorphicEngine::Crossover(const MutationGenome& parent1, const MutationGenome& parent2) { return parent1; }
+        void PolymorphicEngine::Mutate(MutationGenome& genome, double mutation_rate) {}
+        double PolymorphicEngine::EvaluateFitness(const MutationGenome& genome, const std::vector<unsigned char>& payload) { return 0.0; }
+        double PolymorphicEngine::CalculateSignatureSimilarity(const std::vector<unsigned char>& payload1, const std::vector<unsigned char>& payload2) { return 0.0; }
+        void PolymorphicEngine::ApplyControlFlowObfuscation(std::vector<unsigned char>& payload) {}
+        void PolymorphicEngine::PerformDataObfuscation(std::vector<unsigned char>& payload) {}
+        void PolymorphicEngine::InsertOpaquePredicates(std::vector<unsigned char>& payload) {}
+        void PolymorphicEngine::CreateVirtualMachine(std::vector<unsigned char>& payload) {}
+        void PolymorphicEngine::ImplementAntiML(std::vector<unsigned char>& payload) {}
+
         std::vector<double> PolymorphicEngine::ExtractPayloadFeatures(const std::vector<unsigned char>& payload) {
             std::vector<double> features;
             
