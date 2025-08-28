@@ -182,7 +182,7 @@ namespace AetherVisor.Frontend.Controls
             editor.PART_Minimap.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void PART_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void PART_TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             if (!_isUpdatingText)
             {
