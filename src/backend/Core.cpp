@@ -39,6 +39,12 @@ namespace AetherVisor {
         }
 
         static AetherVisor::IPC::NamedPipeServer g_pipe;
+        
+        // In this user-mode build there is no kernel driver. Provide a safe
+        // placeholder so cleanup code remains explicit and future-proof.
+        static void UnloadDriverIfPresent() {
+            // No-op: there is no driver loaded in the user-mode architecture.
+        }
 
         bool Core::Initialize() {
             if (m_initialized) return true;
@@ -129,7 +135,8 @@ namespace AetherVisor {
                 task();
             }
 
-            // TODO: Unload driver. This should typically be the very last step.
+            // Explicitly unload any driver if present (no-op in user-mode build).
+            UnloadDriverIfPresent();
 
             m_targetProcess = nullptr;
             g_pipe.Stop();
