@@ -436,7 +436,7 @@ namespace AetherVisor {
                 case VMOpcode::PUSH_INT: return ExecutePushInt();
                 case VMOpcode::PUSH_FLOAT: return ExecutePushFloat();
                 case VMOpcode::PUSH_DOUBLE: return ExecutePushDouble();
-                case VMOpcode::PUSH_STRING: return ExecutePushString();
+                case VMOpcode::PUSH_STR: return ExecutePushString();
                 case VMOpcode::PUSH_CONST: return ExecutePushConst();
                 case VMOpcode::POP: return ExecutePop();
                 case VMOpcode::DUP: return ExecuteDup();
