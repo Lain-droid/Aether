@@ -30,6 +30,14 @@ jobs:
           cmake --build build --config Release -- -k 0 > build\\build.log 2>&1
         shell: cmd
 
+      - name: Print build log (head & tail)
+        if: always()
+        run: |
+          echo --- BUILD LOG (HEAD) ---
+          powershell -Command "Get-Content build/build.log -TotalCount 200 | ForEach-Object { $_ }"
+          echo --- BUILD LOG (TAIL) ---
+          powershell -Command "Get-Content build/build.log -Tail 200 | ForEach-Object { $_ }"
+
       - name: Archive build logs
         if: always()
         run: |
