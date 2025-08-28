@@ -39,20 +39,35 @@ namespace AetherVisor {
         }
 
         bool EphemeralMemory::Write(const std::vector<ByteType>& data) {
-            if (!m_address || data.size() > m_size) {
+            if (!m_address || data.empty() || data.size() > m_size) {
                 return false;
             }
-            std::memcpy(m_address, data.data(), data.size());
-            return true;
+            
+            // Bounds checking to prevent buffer overflow
+            if (data.size() > m_size) {
+                return false;
+            }
+            
+            try {
+                std::memcpy(m_address, data.data(), data.size());
+                return true;
+            } catch (const std::exception&) {
+                return false;
+            }
         }
 
         std::vector<ByteType> EphemeralMemory::Read(size_t size) const {
-            if (!m_address || size > m_size) {
+            if (!m_address || size == 0 || size > m_size) {
                 return {}; // Return empty vector on failure
             }
-            std::vector<ByteType> buffer(size);
-            std::memcpy(buffer.data(), m_address, size);
-            return buffer;
+            
+            try {
+                std::vector<ByteType> buffer(size);
+                std::memcpy(buffer.data(), m_address, size);
+                return buffer;
+            } catch (const std::exception&) {
+                return {}; // Return empty vector on exception
+            }
         }
 
         void* EphemeralMemory::GetAddress() const {

@@ -1,0 +1,142 @@
+name: "Aether Advanced Security Analysis"
+
+disable-default-queries: false
+
+queries:
+  - name: security-and-quality
+    uses: security-and-quality
+  - name: security-extended
+    uses: security-extended
+  - name: critical-security
+    uses: ./.github/codeql/custom-security-queries.ql
+
+paths:
+  - src/backend/
+  - src/frontend/
+  - "!src/*/tests/"
+  - "!build/"
+  - "!dist/"
+  - "!artifacts/"
+
+paths-ignore:
+  - "**/*.md"
+  - "**/*.txt"
+  - "**/docs/"
+  - "**/.git/"
+  - "**/node_modules/"
+  - "**/packages/"
+
+# Advanced security query configuration
+query-filters:
+  # Include all security-related queries
+  - include:
+      tags:
+        - security
+        - correctness
+        - performance
+        - maintainability
+  
+  # Include specific vulnerability types
+  - include:
+      id:
+        - cpp/buffer-overflow
+        - cpp/integer-overflow
+        - cpp/use-after-free
+        - cpp/double-free
+        - cpp/null-pointer-dereference
+        - cpp/uninitialized-local
+        - cpp/memory-leak
+        - cpp/infinite-loop
+        - cpp/stack-overflow
+        - cpp/format-string-injection
+        - cpp/sql-injection
+        - cpp/command-injection
+        - cpp/path-injection
+        - cpp/weak-cryptographic-algorithm
+        - cpp/insufficient-key-size
+        - cpp/hardcoded-credentials
+        - cpp/cleartext-storage-sensitive-information
+        - cpp/cleartext-transmission
+        - cpp/insecure-randomness
+        - cpp/time-of-check-time-of-use
+        - cpp/race-condition
+        - cpp/deadlock
+        - cpp/incorrect-pointer-scaling
+        - cpp/signed-overflow-check
+        - cpp/unsigned-overflow-check
+        - cpp/comparison-with-wider-type
+        - cpp/comparison-of-narrow-type
+        - cpp/unreachable-code
+        - cpp/unused-variable
+        - cpp/unused-parameter
+        - cpp/missing-return
+        - cpp/inconsistent-direction-array-indexing
+        - cpp/suspicious-allocation-size
+        - cpp/suspicious-sizeof
+        - cpp/wrong-type-format-argument
+        - cpp/non-https-url
+        - cpp/world-writable-file-creation
+        - cpp/unsafe-strncat
+        - cpp/potentially-dangerous-function
+        - cpp/unsafe-use-of-this
+        - cpp/virtual-call-in-constructor
+        - cpp/abstract-to-concrete-cast
+        - cpp/suspicious-call-to-strncat
+        - cpp/suspicious-call-to-memset
+        - cpp/potentially-dangerous-function
+        - cpp/ptr-arithmetic-on-wrong-type
+  
+  # Exclude noise/false positives
+  - exclude:
+      id:
+        - cpp/unused-local-variable
+        - cpp/short-global-name
+        - cpp/long-parameter-list
+  
+  # C# Security queries
+  - include:
+      id:
+        - cs/sql-injection
+        - cs/xml-injection
+        - cs/xpath-injection
+        - cs/ldap-injection
+        - cs/command-injection
+        - cs/code-injection
+        - cs/reflected-xss
+        - cs/stored-xss
+        - cs/unvalidated-url-redirection
+        - cs/path-injection
+        - cs/zipslip
+        - cs/weak-crypto
+        - cs/inadequate-rsa-padding
+        - cs/static-initialization-vector
+        - cs/hard-coded-symmetric-encryption-key
+        - cs/empty-password-in-configuration-file
+        - cs/password-in-configuration-file
+        - cs/hardcoded-connection-string-credentials
+        - cs/insecure-sql-connection
+        - cs/trust-boundary-violation
+        - cs/web/missing-function-level-access-control
+        - cs/web/debug-binary
+        - cs/information-exposure-through-exception
+        - cs/stack-trace-exposure
+        - cs/missing-ssl-certificate-validation
+        - cs/httpclient-certificate-not-validated
+        - cs/insecure-direct-object-reference
+
+# Custom packs for enhanced security
+packs:
+  - microsoft/codeql-coding-standards/cpp-cert
+  - microsoft/codeql-coding-standards/cpp-autosar
+  - github/codeql/security-experimental
+
+# Database configuration for thorough analysis
+database:
+  finalize-database: true
+  run-queries-timeout: 7200  # 2 hours for thorough analysis
+
+# Advanced analysis features
+features:
+  - security-experimental
+  - dataflow-experimental
+  - performance-experimental
