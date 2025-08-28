@@ -1,6 +1,14 @@
 #pragma once
 
+#ifdef _WIN32
 #include <windows.h>
+#else
+// Linux/Unix compatibility
+typedef struct {
+    int x;
+    int y;
+} POINT;
+#endif
 #include <vector>
 #include <chrono>
 #include <random>

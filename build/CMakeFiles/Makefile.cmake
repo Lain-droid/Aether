@@ -42,7 +42,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/workspace/CMakeLists.txt"
   "CMakeFiles/3.31.6/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.31.6/CMakeSystem.cmake"
-  "/workspace/src/backend/CMakeLists.txt"
   "/workspace/tests/CMakeLists.txt"
   )
 
@@ -55,11 +54,9 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "src/backend/CMakeFiles/CMakeDirectoryInformation.cmake"
   "tests/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "src/backend/CMakeFiles/aether_backend.dir/DependInfo.cmake"
   )

@@ -261,7 +261,7 @@ namespace AetherVisor {
                 }
                 
                 // Create offspring through crossover and mutation
-                while (next_generation.size() < population_size) {
+                while (next_generation.size() < static_cast<size_t>(population_size)) {
                     // Tournament selection
                     int parent1_idx = gen() % elite_count;
                     int parent2_idx = gen() % elite_count;
@@ -377,7 +377,7 @@ namespace AetherVisor {
                         
                         // Use evasion optimizer to select best equivalent
                         ML::Matrix feature_matrix(1, std::min(features.size(), size_t(40)));
-                        for (size_t j = 0; j < feature_matrix.getCols(); ++j) {
+                        for (size_t j = 0; j < static_cast<size_t>(feature_matrix.getCols()); ++j) {
                             feature_matrix.at(0, j) = (j < features.size()) ? features[j] : 0.0;
                         }
                         
@@ -426,7 +426,7 @@ namespace AetherVisor {
                 
                 // Use neural network to select most appropriate junk
                 ML::Matrix context_matrix(1, std::min(context_features.size(), size_t(40)));
-                for (size_t j = 0; j < context_matrix.getCols(); ++j) {
+                for (size_t j = 0; j < static_cast<size_t>(context_matrix.getCols()); ++j) {
                     context_matrix.at(0, j) = (j < context_features.size()) ? context_features[j] : 0.0;
                 }
                 
@@ -488,18 +488,18 @@ namespace AetherVisor {
 
         // Stub implementations to resolve unresolved externals; real logic can be added iteratively
         void PolymorphicEngine::AdaptiveNopInsertion(std::vector<unsigned char>& payload) { AppendNopSled(payload); }
-        void PolymorphicEngine::ContextAwarePermutation(std::vector<unsigned char>& payload) {}
-        void PolymorphicEngine::SemanticPreservingTransformation(std::vector<unsigned char>& payload) {}
-        std::vector<PolymorphicEngine::MutationGenome> PolymorphicEngine::CreateInitialPopulation(int size) { return {}; }
-        PolymorphicEngine::MutationGenome PolymorphicEngine::Crossover(const MutationGenome& parent1, const MutationGenome& parent2) { return parent1; }
-        void PolymorphicEngine::Mutate(MutationGenome& genome, double mutation_rate) {}
-        double PolymorphicEngine::EvaluateFitness(const MutationGenome& genome, const std::vector<unsigned char>& payload) { return 0.0; }
-        double PolymorphicEngine::CalculateSignatureSimilarity(const std::vector<unsigned char>& payload1, const std::vector<unsigned char>& payload2) { return 0.0; }
-        void PolymorphicEngine::ApplyControlFlowObfuscation(std::vector<unsigned char>& payload) {}
-        void PolymorphicEngine::PerformDataObfuscation(std::vector<unsigned char>& payload) {}
-        void PolymorphicEngine::InsertOpaquePredicates(std::vector<unsigned char>& payload) {}
-        void PolymorphicEngine::CreateVirtualMachine(std::vector<unsigned char>& payload) {}
-        void PolymorphicEngine::ImplementAntiML(std::vector<unsigned char>& payload) {}
+        void PolymorphicEngine::ContextAwarePermutation(std::vector<unsigned char>& payload) { (void)payload; }
+        void PolymorphicEngine::SemanticPreservingTransformation(std::vector<unsigned char>& payload) { (void)payload; }
+        std::vector<PolymorphicEngine::MutationGenome> PolymorphicEngine::CreateInitialPopulation(int size) { (void)size; return {}; }
+        PolymorphicEngine::MutationGenome PolymorphicEngine::Crossover(const MutationGenome& parent1, const MutationGenome& parent2) { (void)parent2; return parent1; }
+        void PolymorphicEngine::Mutate(MutationGenome& genome, double mutation_rate) { (void)genome; (void)mutation_rate; }
+        double PolymorphicEngine::EvaluateFitness(const MutationGenome& genome, const std::vector<unsigned char>& payload) { (void)genome; (void)payload; return 0.0; }
+        double PolymorphicEngine::CalculateSignatureSimilarity(const std::vector<unsigned char>& payload1, const std::vector<unsigned char>& payload2) { (void)payload1; (void)payload2; return 0.0; }
+        void PolymorphicEngine::ApplyControlFlowObfuscation(std::vector<unsigned char>& payload) { (void)payload; }
+        void PolymorphicEngine::PerformDataObfuscation(std::vector<unsigned char>& payload) { (void)payload; }
+        void PolymorphicEngine::InsertOpaquePredicates(std::vector<unsigned char>& payload) { (void)payload; }
+        void PolymorphicEngine::CreateVirtualMachine(std::vector<unsigned char>& payload) { (void)payload; }
+        void PolymorphicEngine::ImplementAntiML(std::vector<unsigned char>& payload) { (void)payload; }
 
         std::vector<double> PolymorphicEngine::ExtractPayloadFeatures(const std::vector<unsigned char>& payload) {
             std::vector<double> features;
