@@ -2,6 +2,9 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#ifdef ReportEvent
+#undef ReportEvent
+#endif
 #else
 using HANDLE = void*;
 #endif

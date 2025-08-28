@@ -478,7 +478,8 @@ namespace AetherVisor {
             for (int i = 0; i < length; ++i) {
                 // Simulate quantum superposition collapse
                 double amplitude = quantum_dist(gen);
-                double phase = std::uniform_real_distribution<>(0.0, 2.0 * M_PI)(gen);
+                const double two_pi = 2.0 * 3.14159265358979323846;
+                double phase = std::uniform_real_distribution<>(0.0, two_pi)(gen);
                 noise[i] = amplitude * std::cos(phase);
             }
             

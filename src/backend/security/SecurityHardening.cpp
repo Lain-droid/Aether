@@ -355,7 +355,7 @@ namespace AetherVisor {
             };
             
             for (const auto& file : vm_files) {
-                if (GetFileAttributes(file) != INVALID_FILE_ATTRIBUTES) {
+                if (GetFileAttributesW(file) != INVALID_FILE_ATTRIBUTES) {
                     return true;
                 }
             }
@@ -369,7 +369,7 @@ namespace AetherVisor {
             };
             
             for (const auto& vm_key : vm_keys) {
-                if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, vm_key, 0, KEY_READ, &key) == ERROR_SUCCESS) {
+                if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, vm_key, 0, KEY_READ, &key) == ERROR_SUCCESS) {
                     RegCloseKey(key);
                     return true;
                 }
