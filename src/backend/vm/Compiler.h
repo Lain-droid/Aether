@@ -148,31 +148,83 @@ namespace AetherVisor {
             CompilationContext();
         };
 
-        // Advanced compiler with full language support
+        // AI-Enhanced compiler with adaptive intelligence and evasion capabilities
         class Compiler {
         public:
+            enum class CompilationStrategy {
+                PERFORMANCE,    // Optimize for speed
+                STEALTH,       // Optimize for evasion
+                ADAPTIVE,      // AI-guided optimization
+                PARANOID       // Maximum security and obfuscation
+            };
+
+            struct CompilerMetrics {
+                uint64_t totalCompilations = 0;
+                uint64_t aiOptimizations = 0;
+                uint64_t evasionTransforms = 0;
+                std::chrono::milliseconds avgCompileTime{0};
+                double obfuscationStrength = 0.0;
+                uint32_t detectionAttempts = 0;
+            };
+
             Compiler();
             ~Compiler() = default;
 
-            // Main compilation interface
+            // AI-enhanced initialization
+            bool InitializeWithAI(std::shared_ptr<Backend::AIController> aiController);
+
+            // AI-guided compilation interface
+            bool CompileWithAI(const std::string& source_code, CompilationContext& context, 
+                              CompilationStrategy strategy = CompilationStrategy::ADAPTIVE);
             bool Compile(const std::string& source_code, CompilationContext& context);
             std::vector<uint8_t> GetBytecode(const CompilationContext& context);
             
-            // Individual compilation phases
+            // AI-enhanced compilation phases
+            std::vector<Token> TokenizeWithObfuscation(const std::string& source);
+            std::unique_ptr<ASTNode> ParseWithAI(const std::vector<Token>& tokens);
+            bool AnalyzeWithThreatAssessment(ASTNode* ast, CompilationContext& context);
+            bool GenerateWithEvasion(ASTNode* ast, CompilationContext& context);
+            
+            // Traditional phases (now AI-enhanced internally)
             std::vector<Token> Tokenize(const std::string& source);
             std::unique_ptr<ASTNode> Parse(const std::vector<Token>& tokens);
             bool Analyze(ASTNode* ast, CompilationContext& context);
             bool Generate(ASTNode* ast, CompilationContext& context);
             
-            // Optimization passes
+            // AI-guided optimization passes
+            void OptimizeWithAI(ASTNode* ast, CompilationContext& context);
             void OptimizeConstantFolding(ASTNode* ast);
             void OptimizeDeadCodeElimination(ASTNode* ast);
             void OptimizeInlining(ASTNode* ast, CompilationContext& context);
             
-            // Security features
+            // Advanced AI security features
+            void ApplyAIObfuscation(std::vector<uint8_t>& bytecode);
+            void ApplyPolymorphicTransformation(std::vector<uint8_t>& bytecode);
+            void InsertAIAntiAnalysis(std::vector<uint8_t>& bytecode);
+            void ApplyAdaptiveEncryption(CompilationContext& context);
+            
+            // Traditional security (enhanced)
             void ApplyObfuscation(std::vector<uint8_t>& bytecode);
             void EncryptConstants(CompilationContext& context);
             void InsertAntiAnalysis(std::vector<uint8_t>& bytecode);
+            
+            // AI synchronization and adaptation
+            void SyncWithAI();
+            void AdaptCompilationStrategy();
+            void ProcessThreatFeedback();
+            void UpdateAIModel();
+            
+            // Advanced evasion techniques
+            void ApplySignatureBreaking(std::vector<uint8_t>& bytecode);
+            void InsertDecoyCode(std::vector<uint8_t>& bytecode);
+            void ApplyTimingObfuscation(std::vector<uint8_t>& bytecode);
+            void GeneratePolymorphicVariants(CompilationContext& context, int variants = 5);
+            
+            // Metrics and monitoring
+            CompilerMetrics GetMetrics() const { return m_metrics; }
+            void ResetMetrics();
+            bool IsCompilationCompromised() const;
+            double CalculateEvasionScore() const;
             
             // Error handling
             const std::vector<std::string>& GetErrors() const { return m_errors; }
@@ -182,6 +234,19 @@ namespace AetherVisor {
         private:
             std::vector<std::string> m_errors;
             std::vector<std::string> m_warnings;
+            
+            // AI integration
+            std::shared_ptr<Backend::AIController> m_aiController;
+            CompilationStrategy m_currentStrategy = CompilationStrategy::ADAPTIVE;
+            CompilerMetrics m_metrics;
+            std::chrono::steady_clock::time_point m_lastAISync;
+            std::mutex m_compilerMutex;
+            
+            // AI-enhanced internal state
+            std::vector<std::vector<uint8_t>> m_polymorphicVariants;
+            std::map<std::string, double> m_threatSignatures;
+            std::vector<uint8_t> m_currentObfuscationKey;
+            bool m_isCompromised = false;
             
             // Lexical analysis
             bool IsAlpha(char c);

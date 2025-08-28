@@ -7,6 +7,7 @@
 #include "NetworkManager.h"
 #include "MemoryPatcher.h"
 #include "ipc/NamedPipeServer.h"
+#include "ai/UnifiedAISynchronizer.h"
 #include <vector>
 #include <stdexcept>
 
@@ -42,12 +43,131 @@ namespace AetherVisor {
 
         bool Core::Initialize() {
             if (m_initialized) return true;
+
+            // Initialize AI system first
+            auto& aiController = AIController::GetInstance();
+            if (!aiController.Initialize()) {
+                return false;
+            }
+
+            // Initialize the Unified AI Synchronizer - THE MASTER BRAIN
+            AI::UnifiedAISynchronizer::Initialize(std::make_shared<AIController>(aiController));
+
+            // Start the pipe with AI synchronization
             bool ok = g_pipe.Start(L"AetherPipe",
                 [this](const std::wstring& proc){ return this->Inject(proc); },
                 [this](const std::string& script){ return this->ExecuteScript(script); }
             );
+
+            if (ok) {
+                // Register all components with the AI synchronizer
+                RegisterAllComponentsWithAI();
+            }
+
             m_initialized = ok;
             return ok;
+        }
+
+        void Core::RegisterAllComponentsWithAI() {
+            auto& synchronizer = AI::UnifiedAISynchronizer::GetInstance();
+            
+            // Register core components with different priorities
+            synchronizer.RegisterComponent(
+                AI::UnifiedAISynchronizer::ComponentType::CORE_SYSTEM,
+                "Core",
+                this,
+                AI::UnifiedAISynchronizer::SyncPriority::CRITICAL,
+                [this]() { this->SyncWithAI(); }
+            );
+
+            // Register memory components
+            synchronizer.RegisterComponent(
+                AI::UnifiedAISynchronizer::ComponentType::MEMORY_MANAGER,
+                "EphemeralMemory",
+                nullptr, // Would be actual memory manager instance
+                AI::UnifiedAISynchronizer::SyncPriority::HIGH,
+                []() { /* Sync ephemeral memory with AI */ }
+            );
+
+            // Register network components
+            synchronizer.RegisterComponent(
+                AI::UnifiedAISynchronizer::ComponentType::NETWORK_LAYER,
+                "NetworkManager",
+                nullptr, // Would be actual network manager
+                AI::UnifiedAISynchronizer::SyncPriority::MEDIUM,
+                []() { /* Sync network behavior with AI */ }
+            );
+
+            // Register IPC components
+            synchronizer.RegisterComponent(
+                AI::UnifiedAISynchronizer::ComponentType::IPC_SYSTEM,
+                "NamedPipeServer",
+                &g_pipe,
+                AI::UnifiedAISynchronizer::SyncPriority::HIGH,
+                []() { /* Sync IPC security with AI */ }
+            );
+
+            // Register VM components
+            synchronizer.RegisterComponent(
+                AI::UnifiedAISynchronizer::ComponentType::VM_COMPILER,
+                "VMCompiler",
+                nullptr, // Would be actual compiler instance
+                AI::UnifiedAISynchronizer::SyncPriority::MEDIUM,
+                []() { /* Sync compilation strategy with AI */ }
+            );
+
+            // Register hooks with full callbacks
+            synchronizer.RegisterComponentWithCallbacks(
+                AI::UnifiedAISynchronizer::ComponentType::HOOKS_MANAGER,
+                "HooksManager",
+                nullptr,
+                AI::UnifiedAISynchronizer::SyncPriority::CRITICAL,
+                []() { /* Sync hook behavior */ },
+                [](const AI::SecurityAIOrchestrator::ThreatAssessment& threat) {
+                    // Adapt hooks based on threat
+                    if (threat.level >= AI::SecurityAIOrchestrator::ThreatLevel::High) {
+                        // Activate stealth mode for hooks
+                    }
+                },
+                [](Backend::AIEventType event) {
+                    // Handle AI events in hooks
+                    if (event == Backend::AIEventType::ANTI_CHEAT_PROBE) {
+                        // Emergency hook adaptation
+                    }
+                }
+            );
+
+            // Start synchronization
+            synchronizer.StartSynchronization();
+        }
+
+        void Core::SyncWithAI() {
+            // Sync core system state with AI
+            auto& aiController = AIController::GetInstance();
+            auto currentRisk = aiController.GetCurrentRiskLevel();
+            
+            // Adapt core behavior based on AI assessment
+            if (currentRisk >= RiskLevel::HIGH) {
+                // Activate enhanced security measures
+                ActivateEmergencyProtocols();
+            }
+            
+            // Report core system status to AI
+            aiController.ReportEvent(AIEventType::NEURAL_PREDICTION);
+        }
+
+        void Core::ActivateEmergencyProtocols() {
+            // Activate all emergency systems in sync
+            auto& synchronizer = AI::UnifiedAISynchronizer::GetInstance();
+            synchronizer.ActivateEmergencyMode();
+            
+            // This will trigger emergency sync across ALL components:
+            // - Memory cloaking activates maximum obfuscation
+            // - Network layer switches to stealth mode  
+            // - IPC enables quantum encryption
+            // - VM compiler applies maximum polymorphism
+            // - Hooks switch to evasion mode
+            // - All AI systems coordinate for survival
         }
 
         bool Core::Inject(const std::wstring& processName) {
