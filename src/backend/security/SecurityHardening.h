@@ -13,6 +13,11 @@
 namespace AetherVisor {
     namespace Security {
 
+        // Forward declarations to satisfy template usage
+        void SecureZeroMemory(void* ptr, size_t size);
+        void* SecureMemcpy(void* dest, const void* src, size_t size);
+        void XorEncrypt(uint8_t* data, size_t size, uint8_t key = 0xAA);
+
         // Security vulnerability types
         enum class VulnerabilityType {
             BUFFER_OVERFLOW,
