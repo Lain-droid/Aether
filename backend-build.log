@@ -5,311 +5,20 @@ MSBuild version 17.14.19+164abd434 for .NET Framework
   AIController.cpp
   Core.cpp
   EphemeralMemory.cpp
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(38,13): error C2143: syntax error: missing '}' before 'constant' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(38,13): error C2059: syntax error: 'constant' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(43,9): error C2143: syntax error: missing ';' before '}' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(50,23): error C2143: syntax error: missing ';' before '*' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(50,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(50,33): error C2238: unexpected token(s) preceding ';' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(57,24): error C3646: 'exception_type': unknown override specifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(57,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(67,29): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(67,52): error C2143: syntax error: missing ',' before '&' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(68,37): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(68,60): error C2143: syntax error: missing ',' before '&' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(69,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(69,36): error C2143: syntax error: missing ';' before '&' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(69,65): error C2334: unexpected token(s) preceding '{'; skipping apparent function body [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,88): error C2143: syntax error: missing ')' before 'const' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,80): error C3861: 'VMValue': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,88): error C2059: syntax error: 'const' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,106): error C2065: 'VMValue': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,99): error C2923: 'std::vector': 'VMValue' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,106):
-      see declaration of 'VMValue'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,99): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(72,116): error C2947: expecting '>' to terminate template-argument-list, found '>' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(86,21): error C3646: 'GetState': unknown override specifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(86,29): error C2059: syntax error: '(' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(86,38): error C2334: unexpected token(s) preceding '{'; skipping apparent function body [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(92,28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(92,41): error C2143: syntax error: missing ',' before '&' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(93,21): error C3646: 'PopValue': unknown override specifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(93,29): error C2059: syntax error: '(' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(93,31): error C2238: unexpected token(s) preceding ';' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(94,21): error C3646: 'PeekValue': unknown override specifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(94,30): error C2059: syntax error: '(' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(94,55): error C2238: unexpected token(s) preceding ';' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(106,74): error C2065: 'VMValue': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(106,67): error C2923: 'std::vector': 'VMValue' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(106,74):
-      see declaration of 'VMValue'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(106,67): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(106,84): error C2955: 'std::vector': use of class template requires template argument list [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(106,90): error C2061: syntax error: identifier 'VMValue' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(107,80): error C2065: 'VMValue': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(107,73): error C2923: 'std::vector': 'VMValue' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(107,80):
-      see declaration of 'VMValue'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(107,73): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(107,90): error C2955: 'std::vector': use of class template requires template argument list [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(107,96): error C2061: syntax error: identifier 'VMValue' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(110,33): error C2061: syntax error: identifier 'VMDataType' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(132,21): error C3646: 'm_state': unknown override specifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(132,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(133,13): error C2327: 'AetherVisor::VirtualMachine::VMSecurityContext': is not a type name, static, or enumerator [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(133,13):
-      see declaration of 'AetherVisor::VirtualMachine::VMSecurityContext'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(133,31): error C3646: 'm_security_context': unknown override specifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(133,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(145,25): error C2065: 'VMValue': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(145,18): error C2923: 'std::vector': 'VMValue' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(145,25):
-      see declaration of 'VMValue'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(145,18): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(145,34): error C2955: 'std::vector': use of class template requires template argument list [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,57): error C2143: syntax error: missing ')' before 'const' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,49): error C3861: 'VMValue': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,57): error C2059: syntax error: 'const' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,75): error C2065: 'VMValue': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,68): error C2923: 'std::vector': 'VMValue' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,75):
-      see declaration of 'VMValue'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,68): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(157,85): error C2947: expecting '>' to terminate template-argument-list, found '>>' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(161,25): error C2065: 'VMConstant': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(161,18): error C2923: 'std::vector': 'VMConstant' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(161,25):
-      see declaration of 'VMConstant'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(161,18): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(161,37): error C2955: 'std::vector': use of class template requires template argument list [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(162,25): error C2065: 'VMValue': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(162,18): error C2923: 'std::vector': 'VMValue' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(162,25):
-      see declaration of 'VMValue'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(162,18): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(162,34): error C2955: 'std::vector': use of class template requires template argument list [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(163,25): error C2065: 'VMFunction': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(163,18): error C2923: 'std::vector': 'VMFunction' is not a valid template type argument for parameter '_Ty' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(163,25):
-      see declaration of 'VMFunction'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(163,18): error C2976: 'std::vector': too few template arguments [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(163,37): error C2955: 'std::vector': use of class template requires template argument list [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\vector(442,7):
-      see declaration of 'std::vector'
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(176,36): error C2061: syntax error: identifier 'VMOpcode' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(206,23): error C2143: syntax error: missing ';' before '*' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(206,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(206,62): error C2238: unexpected token(s) preceding ';' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(207,39): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(207,55): error C2143: syntax error: missing ',' before '*' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(210,38): error C2061: syntax error: identifier 'VMOpcode' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(217,27): error C2061: syntax error: identifier 'VMState' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(218,31): error C2061: syntax error: identifier 'VMState' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(87,45): error C2065: 'm_state': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(87,56): error C2653: 'VMState': is not a class or namespace name [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(87,65): error C2065: 'RUNNING': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(88,44): error C2065: 'm_state': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(88,44): error C1003: error count exceeds 100; stopping compilation [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-  (compiling source file '../../../src/backend/Core.cpp')
-  
   EventManager.cpp
+D:\a\Aether\Aether\src\backend\Core.cpp(110,40): error C2653: 'Payload': is not a class or namespace name [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\Core.cpp(110,77): error C2300: 'AetherVisor::Backend::Core': class does not have a destructor called '~EventManager' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\Core.cpp(111,40): error C2653: 'Payload': is not a class or namespace name [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\Core.cpp(111,65): error C3861: 'Uninstall': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\Core.cpp(112,40): error C2653: 'Payload': is not a class or namespace name [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\Core.cpp(112,78): error C2039: 'RevertAllPatches': is not a member of 'AetherVisor::Backend::Core' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+      D:\a\Aether\Aether\src\backend\Core.h(10,15):
+      see declaration of 'AetherVisor::Backend::Core'
+  
+D:\a\Aether\Aether\src\backend\Core.cpp(149,16): error C2039: 'Load': is not a member of 'AetherVisor::VM::VirtualMachine' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+      D:\a\Aether\Aether\src\backend\vm\VirtualMachine.h(61,15):
+      see declaration of 'AetherVisor::VM::VirtualMachine'
+  
 D:\a\Aether\Aether\src\backend\security\XorStr.h(30,58): error C2530: 'AetherVisor::Security::XorStr<char,37,9>::key': references must be initialized [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
   (compiling source file '../../../src/backend/EphemeralMemory.cpp')
       D:\a\Aether\Aether\src\backend\security\XorStr.h(30,58):
@@ -1594,7 +1303,11 @@ D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(161,95): error C2039: 'GetI
   
 D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(161,95): error C3861: 'GetInstance': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
 D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(162,29): error C2065: 'hardening': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(178,47): error C2838: 'ERROR': illegal qualified name in member declaration [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(178,47): error C2065: 'ERROR': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
 D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(200,54): error C2110: '+': cannot add two pointers [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(201,35): error C2838: 'ERROR': illegal qualified name in member declaration [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(201,35): error C2065: 'ERROR': undeclared identifier [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
 C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\utility(473,10): error C2079: 'std::pair<const uint32_t,AetherVisor::Security::SecurePtr<uint8_t>>::second' uses undefined class 'AetherVisor::Security::SecurePtr<uint8_t>' [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
   (compiling source file '../../../src/backend/vm/VirtualMachine.cpp')
       C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\include\utility(473,10):
@@ -1695,9 +1408,5 @@ D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(508,50): error C3861: 'Exec
 D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(510,50): error C3861: 'ExecuteArrayNew': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
 D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(511,50): error C3861: 'ExecuteArrayGet': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
 D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(512,50): error C3861: 'ExecuteArraySet': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(513,50): error C3861: 'ExecuteArrayLength': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(515,51): error C3861: 'ExecuteStringConcat': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(516,48): error C3861: 'ExecuteStringLength': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(517,51): error C3861: 'ExecuteStringSubstring': identifier not found [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
-D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(517,51): error C1003: error count exceeds 100; stopping compilation [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
+D:\a\Aether\Aether\src\backend\vm\VirtualMachine.cpp(512,50): error C1003: error count exceeds 100; stopping compilation [D:\a\Aether\Aether\build\src\backend\aether_backend.vcxproj]
   Generating Code...
