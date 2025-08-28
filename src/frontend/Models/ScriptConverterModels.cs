@@ -291,4 +291,24 @@ namespace AetherVisor.Frontend.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+    public class ConversionRule
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Pattern { get; set; } = string.Empty;
+        public string Replacement { get; set; } = string.Empty;
+        public bool IsEnabled { get; set; } = true;
+        public int Priority { get; set; } = 0;
+        public ConversionRuleType Type { get; set; } = ConversionRuleType.Syntax;
+    }
+
+    public enum ConversionRuleType
+    {
+        Syntax,
+        API,
+        Performance,
+        Style,
+        Custom
+    }
 }

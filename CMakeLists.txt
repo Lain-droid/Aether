@@ -64,11 +64,7 @@ endif()
 include_directories(src/backend)
 
 # Add subdirectories
-if(WIN32)
-    add_subdirectory(src/backend)
-else()
-    message(WARNING "This project is designed for Windows. Skipping backend build on non-Windows platforms.")
-endif()
+add_subdirectory(src/backend)
 
 # Frontend build
 if(WIN32)
@@ -90,10 +86,8 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/tests/CMakeLists.txt")
 endif()
 
 # Installation
-if(WIN32)
-    install(TARGETS aether_backend 
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-    )
-endif()
+install(TARGETS aether_backend 
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)

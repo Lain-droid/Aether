@@ -61,7 +61,7 @@ namespace AetherVisor.Frontend.Services
             _errorHistory = new List<ErrorInfo>();
         }
 
-        public void HandleError(Exception exception, ErrorCategory category, string context = null)
+        public void HandleError(Exception exception, ErrorCategory category, string? context = null)
         {
             var errorInfo = new ErrorInfo
             {
@@ -78,7 +78,7 @@ namespace AetherVisor.Frontend.Services
             HandleErrorInternal(errorInfo, context);
         }
 
-        public void HandleError(string message, ErrorSeverity severity, ErrorCategory category, string details = null)
+        public void HandleError(string message, ErrorSeverity severity, ErrorCategory category, string? details = null)
         {
             var errorInfo = new ErrorInfo
             {
@@ -94,7 +94,7 @@ namespace AetherVisor.Frontend.Services
             HandleErrorInternal(errorInfo);
         }
 
-        private void HandleErrorInternal(ErrorInfo errorInfo, string context = null)
+        private void HandleErrorInternal(ErrorInfo errorInfo, string? context = null)
         {
             // Log the error
             var logMessage = $"[{errorInfo.Category}] {errorInfo.Message}";
