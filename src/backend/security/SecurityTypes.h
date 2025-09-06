@@ -11,7 +11,9 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
-// Additional PEB structures for stealth techniques
+// Forward declarations for PEB structures if not already defined
+#ifndef _PEB_LDR_DATA_DEFINED
+#define _PEB_LDR_DATA_DEFINED
 typedef struct _PEB_LDR_DATA {
     ULONG Length;
     BOOLEAN Initialized;
@@ -20,7 +22,10 @@ typedef struct _PEB_LDR_DATA {
     LIST_ENTRY InMemoryOrderModuleList;
     LIST_ENTRY InInitializationOrderModuleList;
 } PEB_LDR_DATA, *PPEB_LDR_DATA;
+#endif
 
+#ifndef _LDR_DATA_TABLE_ENTRY_DEFINED  
+#define _LDR_DATA_TABLE_ENTRY_DEFINED
 typedef struct _LDR_DATA_TABLE_ENTRY {
     LIST_ENTRY InLoadOrderLinks;
     LIST_ENTRY InMemoryOrderLinks;
@@ -31,6 +36,7 @@ typedef struct _LDR_DATA_TABLE_ENTRY {
     UNICODE_STRING FullDllName;
     UNICODE_STRING BaseDllName;
 } LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
+#endif
 
 using ByteType = BYTE;
 #else
