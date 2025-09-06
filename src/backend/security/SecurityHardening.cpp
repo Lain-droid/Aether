@@ -449,7 +449,7 @@ namespace AetherVisor {
             
             SecurityEvent event(SecurityEventType::DEBUGGER_DETECTED, "Critical security violation detected");
             event.type = type;
-            event.timestamp = std::chrono::steady_clock::now();
+            event.timestamp = std::chrono::system_clock::now();
             event.description = description;
             event.memory_address = address;
             event.data_size = size;

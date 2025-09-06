@@ -2,14 +2,14 @@
 #include "../security/SecurityTypes.h"
 #include <intrin.h>
 
-// External assembly function declarations
-extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args) {
-    (void)syscallNumber; (void)args;
-    return 0xC0000001L;
-}
-
 namespace AetherVisor {
 namespace Security {
+
+// Simple stub implementation
+NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* arguments) {
+    (void)syscallNumber; (void)arguments;
+    return 0xC0000001L;
+}
 
 std::unordered_map<DWORD, SyscallEntry> SyscallEvasion::m_syscallTable;
 bool SyscallEvasion::m_initialized = false;
