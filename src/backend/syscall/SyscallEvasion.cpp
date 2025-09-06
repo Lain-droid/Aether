@@ -1,3 +1,6 @@
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #include "SyscallEvasion.h"
 #include "../security/SecurityTypes.h"
 #include <intrin.h>

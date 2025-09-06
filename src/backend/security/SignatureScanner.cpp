@@ -1,3 +1,6 @@
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
 #include "SignatureScanner.h"
 #include "SecurityTypes.h"
 #include <sstream>
