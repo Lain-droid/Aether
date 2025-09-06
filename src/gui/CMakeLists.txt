@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 3.20)
+project(aether_gui)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# GUI source files
+set(GUI_SOURCES
+    AetherGUI.cpp
+)
+
+# Create GUI DLL
+add_library(aether_gui SHARED ${GUI_SOURCES})
+
+# Include directories
+target_include_directories(aether_gui PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+# Link libraries
+target_link_libraries(aether_gui PRIVATE 
+    comctl32
+    user32
+    gdi32
+    wininet
+    ole32
+    oleaut32
+)
+
+# Set output name
+set_target_properties(aether_gui PROPERTIES
+    OUTPUT_NAME "AetherGUI"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Release"
+)
