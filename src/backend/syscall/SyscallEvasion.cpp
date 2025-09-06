@@ -39,7 +39,7 @@ NTSTATUS SyscallEvasion::HellsGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
 #ifdef _WIN64
     try {
         // Use internal stub function
-        return ExecuteSyscall(syscallNumber, arguments);
+        return ExecuteSyscall(syscallNumber, nullptr);
     }
     catch (...) {
         return 0xC0000001L;
@@ -62,7 +62,7 @@ NTSTATUS SyscallEvasion::HalosGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
             //__asm {
                 // Use external assembly function for x64
                 
-                return ExecuteSyscall(cleanSyscall, arguments);
+                return ExecuteSyscall(cleanSyscall, nullptr);
             }
             catch (...) {
                 return 0xC0000001L;
@@ -266,3 +266,4 @@ void AntiCheatEvasion::RandomizeTimings() {
 
 }
 }
+#endif
