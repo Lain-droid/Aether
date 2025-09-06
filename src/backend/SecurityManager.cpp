@@ -48,7 +48,7 @@ bool SecurityManager::InitializeAllSecurity() {
         
         return success;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
@@ -60,7 +60,7 @@ void SecurityManager::StartSecurityMonitoring() {
         m_monitoring.store(true);
         m_monitorThread = std::thread(&SecurityManager::SecurityMonitoringThread, this);
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 

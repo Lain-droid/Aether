@@ -1,5 +1,16 @@
 #include "MemoryProtection.h"
+#include "../security/SecurityTypes.h"
 #include <intrin.h>
+#include <windows.h>
+#include <winternl.h>
+
+#ifndef NT_SUCCESS
+#define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
+#endif
+
+#ifndef ProcessDebugObjectHandle
+#define ProcessDebugObjectHandle 30
+#endif
 
 namespace AetherVisor {
 namespace Security {
