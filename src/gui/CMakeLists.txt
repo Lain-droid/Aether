@@ -4,9 +4,9 @@ project(aether_gui)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# GUI source files
+# VSCode-like GUI source files
 set(GUI_SOURCES
-    AetherGUI.cpp
+    VSCodeGUI.cpp
 )
 
 # Create GUI DLL
@@ -17,12 +17,11 @@ target_include_directories(aether_gui PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Link libraries
+# Link libraries for VSCode-like interface
 target_link_libraries(aether_gui PRIVATE 
     comctl32
     user32
     gdi32
-    wininet
     ole32
     oleaut32
 )

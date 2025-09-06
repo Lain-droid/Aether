@@ -1,0 +1,312 @@
+ Volume in drive D is Temporary Storage
+ Volume Serial Number is CCA6-4134
+
+ Directory of D:\a\Aether\Aether\build
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM             3,140 Aether.sln
+09/06/2025  04:53 PM            38,692 ALL_BUILD.vcxproj
+09/06/2025  04:53 PM               273 ALL_BUILD.vcxproj.filters
+09/06/2025  04:54 PM                35 backend_build_summary.txt
+09/06/2025  04:53 PM            13,113 CMakeCache.txt
+09/06/2025  04:54 PM    <DIR>          CMakeFiles
+09/06/2025  04:53 PM             2,041 cmake_install.cmake
+09/06/2025  04:53 PM    <DIR>          Release
+09/06/2025  04:53 PM    <DIR>          src
+09/06/2025  04:54 PM                 0 tree.txt
+09/06/2025  04:53 PM    <DIR>          x64
+09/06/2025  04:53 PM            39,214 ZERO_CHECK.vcxproj
+09/06/2025  04:53 PM               516 ZERO_CHECK.vcxproj.filters
+               9 File(s)         97,024 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:53 PM    <DIR>          3.31.6
+09/06/2025  04:53 PM                86 cmake.check_cache
+09/06/2025  04:53 PM            10,199 CMakeConfigureLog.yaml
+09/06/2025  04:53 PM    <DIR>          CMakeScratch
+09/06/2025  04:53 PM    <DIR>          d536f756b04a67ab1c89eba0e32034e5
+09/06/2025  04:54 PM                55 generate.stamp
+09/06/2025  04:53 PM             7,241 generate.stamp.depend
+09/06/2025  04:53 PM               116 generate.stamp.list
+09/06/2025  04:53 PM    <DIR>          pkgRedirects
+09/06/2025  04:53 PM               234 TargetDirectories.txt
+               6 File(s)         17,931 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:53 PM             6,509 CMakeCXXCompiler.cmake
+09/06/2025  04:53 PM            53,248 CMakeDetermineCompilerABI_CXX.bin
+09/06/2025  04:53 PM               276 CMakeRCCompiler.cmake
+09/06/2025  04:53 PM               395 CMakeSystem.cmake
+09/06/2025  04:53 PM    <DIR>          CompilerIdCXX
+09/06/2025  04:53 PM    <DIR>          VCTargetsPath
+09/06/2025  04:53 PM                84 VCTargetsPath.txt
+09/06/2025  04:53 PM             1,255 VCTargetsPath.vcxproj
+09/06/2025  04:53 PM    <DIR>          x64
+               6 File(s)         61,767 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\CompilerIdCXX
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM            29,376 CMakeCXXCompilerId.cpp
+09/06/2025  04:53 PM            15,360 CompilerIdCXX.exe
+09/06/2025  04:53 PM             2,806 CompilerIdCXX.vcxproj
+09/06/2025  04:53 PM    <DIR>          Debug
+09/06/2025  04:53 PM    <DIR>          tmp
+               3 File(s)         47,542 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\CompilerIdCXX\Debug
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM             2,357 CMakeCXXCompilerId.obj
+09/06/2025  04:53 PM               317 CompilerIdCXX.exe.recipe
+09/06/2025  04:53 PM    <DIR>          CompilerIdCXX.tlog
+               2 File(s)          2,674 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\CompilerIdCXX\Debug\CompilerIdCXX.tlog
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM               700 CL.command.1.tlog
+09/06/2025  04:53 PM               167 Cl.items.tlog
+09/06/2025  04:53 PM               556 CL.read.1.tlog
+09/06/2025  04:53 PM               340 CL.write.1.tlog
+09/06/2025  04:53 PM               186 CompilerIdCXX.lastbuildstate
+09/06/2025  04:53 PM             1,016 link.command.1.tlog
+09/06/2025  04:53 PM             3,338 link.read.1.tlog
+09/06/2025  04:53 PM                88 link.secondary.1.tlog
+09/06/2025  04:53 PM               330 link.write.1.tlog
+               9 File(s)          6,721 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\CompilerIdCXX\tmp
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\VCTargetsPath
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM    <DIR>          x64
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\VCTargetsPath\x64
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM    <DIR>          Debug
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\VCTargetsPath\x64\Debug
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM               309 VCTargetsPath.recipe
+09/06/2025  04:53 PM    <DIR>          VCTargetsPath.tlog
+               1 File(s)            309 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\VCTargetsPath\x64\Debug\VCTargetsPath.tlog
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM               172 VCTargetsPath.lastbuildstate
+               1 File(s)            172 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\x64
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM    <DIR>          Debug
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\3.31.6\x64\Debug
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\CMakeScratch
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\d536f756b04a67ab1c89eba0e32034e5
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+01/01/2001  12:00 AM                24 generate.stamp.rule
+               1 File(s)             24 bytes
+
+ Directory of D:\a\Aether\Aether\build\CMakeFiles\pkgRedirects
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\Release
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:54 PM            26,112 aether_backend.dll
+               1 File(s)         26,112 bytes
+
+ Directory of D:\a\Aether\Aether\build\src
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:54 PM    <DIR>          backend
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\src\backend
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM    <DIR>          aether_backend.dir
+09/06/2025  04:53 PM             3,135 aether_backend.sln
+09/06/2025  04:53 PM            25,161 aether_backend.vcxproj
+09/06/2025  04:53 PM             4,083 aether_backend.vcxproj.filters
+09/06/2025  04:53 PM            10,588 ALL_BUILD.vcxproj
+09/06/2025  04:53 PM               285 ALL_BUILD.vcxproj.filters
+09/06/2025  04:53 PM    <DIR>          CMakeFiles
+09/06/2025  04:53 PM             1,296 cmake_install.cmake
+09/06/2025  04:54 PM    <DIR>          Release
+               6 File(s)         44,548 bytes
+
+ Directory of D:\a\Aether\Aether\build\src\backend\aether_backend.dir
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:54 PM    <DIR>          Release
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\src\backend\aether_backend.dir\Release
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:54 PM               413 aether_backend.dll.recipe
+09/06/2025  04:54 PM    <DIR>          aether_backend.tlog
+09/06/2025  04:54 PM           129,543 AIController.obj
+09/06/2025  04:54 PM            66,370 AntiDetection.obj
+09/06/2025  04:54 PM           165,591 BehavioralCloner.obj
+09/06/2025  04:54 PM           309,265 BytecodeOptimizer.obj
+09/06/2025  04:54 PM           272,821 Compiler.obj
+09/06/2025  04:54 PM           108,284 Core.obj
+09/06/2025  04:54 PM            36,167 EphemeralMemory.obj
+09/06/2025  04:54 PM            64,914 EventManager.obj
+09/06/2025  04:54 PM            36,287 Hooks.obj
+09/06/2025  04:54 PM            48,388 IPC.obj
+09/06/2025  04:54 PM           205,386 JITCompiler.obj
+09/06/2025  04:54 PM            72,356 MemoryPatcher.obj
+09/06/2025  04:54 PM            41,106 MemoryProtection.obj
+09/06/2025  04:54 PM           147,494 MLPrimitives.obj
+09/06/2025  04:54 PM            51,544 NamedPipeServer.obj
+09/06/2025  04:54 PM            41,724 NetworkManager.obj
+09/06/2025  04:54 PM           433,270 NeuralObfuscator.obj
+09/06/2025  04:54 PM           395,917 PatternDetector.obj
+09/06/2025  04:54 PM           320,659 PolymorphicEngine.obj
+09/06/2025  04:54 PM            41,076 SecurityAudit.obj
+09/06/2025  04:54 PM           188,196 SecurityHardening.obj
+09/06/2025  04:54 PM            33,369 SecurityManager.obj
+09/06/2025  04:54 PM            92,305 SignatureScanner.obj
+09/06/2025  04:54 PM            81,421 StealthTechniques.obj
+09/06/2025  04:54 PM            19,657 Steganography.obj
+09/06/2025  04:54 PM            80,035 SyscallEvasion.obj
+09/06/2025  04:54 PM           286,000 VirtualMachine.obj
+              28 File(s)      3,769,558 bytes
+
+ Directory of D:\a\Aether\Aether\build\src\backend\aether_backend.dir\Release\aether_backend.tlog
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:54 PM               168 aether_backend.lastbuildstate
+09/06/2025  04:54 PM             7,328 CL.3312.write.1.tlog
+09/06/2025  04:54 PM            29,056 CL.command.1.tlog
+09/06/2025  04:54 PM             3,661 Cl.items.tlog
+09/06/2025  04:54 PM         1,127,560 CL.read.1.tlog
+09/06/2025  04:53 PM               401 CustomBuild.command.1.tlog
+09/06/2025  04:53 PM                48 CustomBuild.read.1.tlog
+09/06/2025  04:53 PM               112 CustomBuild.write.1.tlog
+09/06/2025  04:54 PM             7,932 link.command.1.tlog
+09/06/2025  04:54 PM            12,106 link.read.1.tlog
+09/06/2025  04:54 PM             2,218 link.secondary.1.tlog
+09/06/2025  04:54 PM             4,544 link.write.1.tlog
+              12 File(s)      1,195,134 bytes
+
+ Directory of D:\a\Aether\Aether\build\src\backend\CMakeFiles
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:53 PM                55 generate.stamp
+09/06/2025  04:53 PM               103 generate.stamp.depend
+               2 File(s)            158 bytes
+
+ Directory of D:\a\Aether\Aether\build\src\backend\Release
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\x64
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:53 PM    <DIR>          Release
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\x64\Release
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:54 PM    <DIR>          ALL_BUILD
+09/06/2025  04:53 PM    <DIR>          ZERO_CHECK
+               0 File(s)              0 bytes
+
+ Directory of D:\a\Aether\Aether\build\x64\Release\ALL_BUILD
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:54 PM               531 ALL_BUILD.recipe
+09/06/2025  04:54 PM    <DIR>          ALL_BUILD.tlog
+               1 File(s)            531 bytes
+
+ Directory of D:\a\Aether\Aether\build\x64\Release\ALL_BUILD\ALL_BUILD.tlog
+
+09/06/2025  04:54 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:54 PM               156 ALL_BUILD.lastbuildstate
+09/06/2025  04:54 PM               377 CustomBuild.command.1.tlog
+09/06/2025  04:54 PM             7,186 CustomBuild.read.1.tlog
+09/06/2025  04:54 PM                88 CustomBuild.write.1.tlog
+               4 File(s)          7,807 bytes
+
+ Directory of D:\a\Aether\Aether\build\x64\Release\ZERO_CHECK
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:54 PM    <DIR>          ..
+09/06/2025  04:53 PM               290 ZERO_CHECK.recipe
+09/06/2025  04:53 PM    <DIR>          ZERO_CHECK.tlog
+               1 File(s)            290 bytes
+
+ Directory of D:\a\Aether\Aether\build\x64\Release\ZERO_CHECK\ZERO_CHECK.tlog
+
+09/06/2025  04:53 PM    <DIR>          .
+09/06/2025  04:53 PM    <DIR>          ..
+09/06/2025  04:53 PM               467 CustomBuild.command.1.tlog
+09/06/2025  04:53 PM             7,323 CustomBuild.read.1.tlog
+09/06/2025  04:53 PM               207 CustomBuild.write.1.tlog
+09/06/2025  04:53 PM               156 ZERO_CHECK.lastbuildstate
+               4 File(s)          8,153 bytes
+
+     Total Files Listed:
+              97 File(s)      5,286,455 bytes
+              89 Dir(s)  157,844,733,952 bytes free

@@ -1,0 +1,10 @@
+^D:\A\AETHER\AETHER\BUILD\CMAKEFILES\D536F756B04A67AB1C89EBA0E32034E5\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/a/Aether/Aether -BD:/a/Aether/Aether/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/a/Aether/Aether/build/Aether.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
