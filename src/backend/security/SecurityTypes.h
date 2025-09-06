@@ -10,6 +10,28 @@
 #include <psapi.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+
+// Additional PEB structures for stealth techniques
+typedef struct _PEB_LDR_DATA {
+    ULONG Length;
+    BOOLEAN Initialized;
+    PVOID SsHandle;
+    LIST_ENTRY InLoadOrderModuleList;
+    LIST_ENTRY InMemoryOrderModuleList;
+    LIST_ENTRY InInitializationOrderModuleList;
+} PEB_LDR_DATA, *PPEB_LDR_DATA;
+
+typedef struct _LDR_DATA_TABLE_ENTRY {
+    LIST_ENTRY InLoadOrderLinks;
+    LIST_ENTRY InMemoryOrderLinks;
+    LIST_ENTRY InInitializationOrderLinks;
+    PVOID DllBase;
+    PVOID EntryPoint;
+    ULONG SizeOfImage;
+    UNICODE_STRING FullDllName;
+    UNICODE_STRING BaseDllName;
+} LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
+
 using ByteType = BYTE;
 #else
 using ByteType = unsigned char;
@@ -33,8 +55,16 @@ namespace AetherVisor::Security {
         std::chrono::system_clock::time_point timestamp;
         uint32_t severity;
         
+        // Additional fields for compatibility
+        std::string description;
+        void* memory_address = nullptr;
+        size_t data_size = 0;
+        uint32_t thread_id = 0;
+        uint32_t process_id = 0;
+        
         SecurityEvent(SecurityEventType t, const std::string& msg, uint32_t sev = 5)
-            : type(t), message(msg), timestamp(std::chrono::system_clock::now()), severity(sev) {}
+            : type(t), message(msg), timestamp(std::chrono::system_clock::now()), severity(sev), 
+              description(msg), thread_id(GetCurrentThreadId()), process_id(GetCurrentProcessId()) {}
     };
     
     struct SecurityConfig {

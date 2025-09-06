@@ -235,7 +235,7 @@ bool AntiDebug::IsDebuggerPresent() {
         }
         
         HANDLE debugObject = NULL;
-        NTSTATUS status = NtQueryInformationProcess(GetCurrentProcess(), ProcessDebugObjectHandle, &debugObject, sizeof(debugObject), NULL);
+        NTSTATUS status = NtQueryInformationProcess(GetCurrentProcess(), (PROCESSINFOCLASS)ProcessDebugObjectHandle, &debugObject, sizeof(debugObject), NULL);
         if (NT_SUCCESS(status) && debugObject) return true;
         
         return false;

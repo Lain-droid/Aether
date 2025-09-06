@@ -13,32 +13,32 @@ std::vector<BYTE> SignatureEvasion::m_originalSignatures;
 std::vector<BYTE> SignatureEvasion::m_mutatedSignatures;
 
 bool HyperionEvasion::Initialize() {
-    __try {
+    try {
         if (DetectHyperion()) {
             BypassHyperionChecks();
             SpoofRobloxMetrics();
         }
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 bool HyperionEvasion::DetectHyperion() {
-    __try {
+    try {
         HMODULE roblox = GetModuleHandleA("RobloxPlayerBeta.exe");
         if (!roblox) return false;
         
         return ScanForHyperionSignatures();
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 bool HyperionEvasion::ScanForHyperionSignatures() {
-    __try {
+    try {
         MODULEINFO modInfo = {};
         HMODULE roblox = GetModuleHandleA("RobloxPlayerBeta.exe");
         if (!GetModuleInformation(GetCurrentProcess(), roblox, &modInfo, sizeof(modInfo))) {
@@ -74,13 +74,13 @@ bool HyperionEvasion::ScanForHyperionSignatures() {
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 void HyperionEvasion::BypassHyperionChecks() {
-    __try {
+    try {
         HMODULE ntdll = GetModuleHandleA("ntdll.dll");
         if (!ntdll) return;
         
@@ -104,12 +104,12 @@ void HyperionEvasion::BypassHyperionChecks() {
             }
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void HyperionEvasion::SpoofRobloxMetrics() {
-    __try {
+    try {
         HMODULE kernel32 = GetModuleHandleA("kernel32.dll");
         if (!kernel32) return;
         
@@ -133,7 +133,7 @@ void HyperionEvasion::SpoofRobloxMetrics() {
             }
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
@@ -142,17 +142,17 @@ bool BehaviorMimicry::Initialize() {
 }
 
 void BehaviorMimicry::MimicLegitimateUser() {
-    __try {
+    try {
         SimulateMouseMovement();
         RandomizeActionTimings();
         SimulateKeystrokes();
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void BehaviorMimicry::SimulateMouseMovement() {
-    __try {
+    try {
         static std::random_device rd;
         static std::mt19937 gen(rd());
         static std::uniform_int_distribution<> dis(-5, 5);
@@ -165,12 +165,12 @@ void BehaviorMimicry::SimulateMouseMovement() {
             SetCursorPos(cursor.x + deltaX, cursor.y + deltaY);
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void BehaviorMimicry::SimulateKeystrokes() {
-    __try {
+    try {
         static std::random_device rd;
         static std::mt19937 gen(rd());
         static std::uniform_int_distribution<> keyDis(0x41, 0x5A);
@@ -182,19 +182,19 @@ void BehaviorMimicry::SimulateKeystrokes() {
             keybd_event(vk, 0, KEYEVENTF_KEYUP, 0);
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void BehaviorMimicry::RandomizeActionTimings() {
-    __try {
+    try {
         static std::random_device rd;
         static std::mt19937 gen(rd());
         static std::uniform_int_distribution<> timeDis(10, 100);
         
         Sleep(timeDis(gen));
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
@@ -203,7 +203,7 @@ bool SignatureEvasion::Initialize() {
 }
 
 void SignatureEvasion::MutateSignatures() {
-    __try {
+    try {
         if (m_originalSignatures.empty()) return;
         
         m_mutatedSignatures = m_originalSignatures;
@@ -222,12 +222,12 @@ void SignatureEvasion::MutateSignatures() {
             }
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void SignatureEvasion::PolymorphicTransformation() {
-    __try {
+    try {
         HMODULE currentModule = GetModuleHandleA(NULL);
         if (!currentModule) return;
         
@@ -259,12 +259,12 @@ void SignatureEvasion::PolymorphicTransformation() {
             }
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 bool SignatureEvasion::AvoidKnownPatterns() {
-    __try {
+    try {
         const BYTE knownPattern1[] = {0x55, 0x8B, 0xEC, 0x83, 0xEC};
         const BYTE knownPattern2[] = {0x48, 0x89, 0x5C, 0x24, 0x08};
         const BYTE knownPattern3[] = {0x40, 0x53, 0x48, 0x83, 0xEC, 0x20};
@@ -319,7 +319,7 @@ bool SignatureEvasion::AvoidKnownPatterns() {
         
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }

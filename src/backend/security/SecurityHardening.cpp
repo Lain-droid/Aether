@@ -576,7 +576,7 @@ namespace AetherVisor {
         }
 
         // Utility functions
-        void SecureZeroMemory(void* ptr, size_t size) {
+        void RtlSecureZeroMemory(void* ptr, size_t size) {
             if (!ptr || size == 0) return;
             
 #ifdef _WIN32
