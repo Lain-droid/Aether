@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SecurityTypes.h"
 #include <vector>
 #include <string>
 #include <memory>
@@ -38,25 +39,10 @@ namespace AetherVisor {
             DENIAL_OF_SERVICE
         };
 
-        // Security hardening configuration
-        struct SecurityConfig {
-            bool enable_stack_guard;
-            bool enable_heap_protection;
-            bool enable_aslr;
-            bool enable_dep;
-            bool enable_control_flow_guard;
-            bool enable_safe_seh;
-            bool enable_memory_sanitizer;
-            bool enable_address_sanitizer;
-            bool enable_anti_debug;
-            bool enable_anti_vm;
-            bool enable_integrity_checks;
-            
-            uint32_t max_string_length;
-            uint32_t max_array_size;
-            uint32_t max_recursion_depth;
-            uint32_t max_memory_allocation;
-            uint32_t max_execution_time;
+        // Forward declarations
+        struct SecurityConfig;
+        struct SecurityEvent;
+        enum class SecurityEventType;
             
             SecurityConfig() : enable_stack_guard(true), enable_heap_protection(true),
                              enable_aslr(true), enable_dep(true), enable_control_flow_guard(true),
@@ -342,28 +328,6 @@ namespace AetherVisor {
             static bool IsRecursionLimitExceeded();
             
             static void ResetCounters();
-        };
-
-        // Security event logging
-        enum class SecurityEventType {
-            BUFFER_OVERFLOW_ATTEMPT,
-            DEBUGGER_DETECTED,
-            VM_DETECTED,
-            MEMORY_CORRUPTION,
-            INJECTION_ATTEMPT,
-            INTEGRITY_VIOLATION,
-            RESOURCE_LIMIT_EXCEEDED,
-            SUSPICIOUS_ACTIVITY
-        };
-
-        struct SecurityEvent {
-            SecurityEventType type;
-            std::chrono::time_point<std::chrono::steady_clock> timestamp;
-            std::string description;
-            void* memory_address;
-            size_t data_size;
-            uint32_t thread_id;
-            uint32_t process_id;
         };
 
         class SecurityLogger {

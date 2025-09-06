@@ -6,6 +6,10 @@
 
 #ifdef _WIN32
 #include <Windows.h>
+#include <winternl.h>
+#include <psapi.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 using ByteType = BYTE;
 #else
 using ByteType = unsigned char;

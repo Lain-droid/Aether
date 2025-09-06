@@ -17,7 +17,7 @@ SecurityManager& SecurityManager::GetInstance() {
 bool SecurityManager::InitializeAllSecurity() {
     if (m_initialized.load()) return true;
     
-    __try {
+    try {
         bool success = true;
         
         if (SecurityConfig::IsSyscallEvasionEnabled()) {
@@ -54,7 +54,7 @@ bool SecurityManager::InitializeAllSecurity() {
 }
 
 void SecurityManager::StartSecurityMonitoring() {
-    __try {
+    try {
         if (m_monitoring.load()) return;
         
         m_monitoring.store(true);
