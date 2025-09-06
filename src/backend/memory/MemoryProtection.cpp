@@ -12,6 +12,9 @@
 #define ProcessDebugObjectHandle 30
 #endif
 
+// Link ntdll for NtQueryInformationProcess
+#pragma comment(lib, "ntdll.lib")
+
 namespace AetherVisor {
 namespace Security {
 
