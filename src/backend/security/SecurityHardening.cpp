@@ -1,4 +1,5 @@
 #include "SecurityHardening.h"
+#include "SecurityTypes.h"
 #include <cstring>
 #include <cstdlib>
 #include <algorithm>

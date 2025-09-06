@@ -1,4 +1,7 @@
 #include "BytecodeOptimizer.h"
+#include "../security/SecurityTypes.h"
+#include "../security/XorStr.h"
+#include "VMOpcodes.h"
 #include <algorithm>
 #include <chrono>
 #include <unordered_set>

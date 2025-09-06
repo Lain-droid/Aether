@@ -1,4 +1,5 @@
 #include "SignatureScanner.h"
+#include "SecurityTypes.h"
 #include <sstream>
 #ifdef _WIN32
 #include <Psapi.h> // For GetModuleInformation

@@ -1,4 +1,7 @@
 #include "JITCompiler.h"
+#include "../security/SecurityTypes.h"
+#include "../security/XorStr.h"
+#include "VMOpcodes.h"
 #include <chrono>
 #include <cstring>
 #include <algorithm>
