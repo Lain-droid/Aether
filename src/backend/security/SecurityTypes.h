@@ -10,34 +10,6 @@
 #include <psapi.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
-
-// Forward declarations for PEB structures if not already defined
-#ifndef _PEB_LDR_DATA_DEFINED
-#define _PEB_LDR_DATA_DEFINED
-typedef struct _PEB_LDR_DATA {
-    ULONG Length;
-    BOOLEAN Initialized;
-    PVOID SsHandle;
-    LIST_ENTRY InLoadOrderModuleList;
-    LIST_ENTRY InMemoryOrderModuleList;
-    LIST_ENTRY InInitializationOrderModuleList;
-} PEB_LDR_DATA, *PPEB_LDR_DATA;
-#endif
-
-#ifndef _LDR_DATA_TABLE_ENTRY_DEFINED  
-#define _LDR_DATA_TABLE_ENTRY_DEFINED
-typedef struct _LDR_DATA_TABLE_ENTRY {
-    LIST_ENTRY InLoadOrderLinks;
-    LIST_ENTRY InMemoryOrderLinks;
-    LIST_ENTRY InInitializationOrderLinks;
-    PVOID DllBase;
-    PVOID EntryPoint;
-    ULONG SizeOfImage;
-    UNICODE_STRING FullDllName;
-    UNICODE_STRING BaseDllName;
-} LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
-#endif
-
 using ByteType = BYTE;
 #else
 using ByteType = unsigned char;

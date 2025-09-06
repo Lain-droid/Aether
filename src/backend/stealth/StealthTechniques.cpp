@@ -1,6 +1,11 @@
 #include "StealthTechniques.h"
+#include "../security/SecurityTypes.h"
 #include <TlHelp32.h>
 #include <intrin.h>
+
+#ifdef _WIN32
+#pragma comment(lib, "ws2_32.lib")
+#endif
 
 namespace AetherVisor {
 namespace Security {

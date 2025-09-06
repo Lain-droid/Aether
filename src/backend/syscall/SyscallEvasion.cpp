@@ -1,5 +1,15 @@
 #include "SyscallEvasion.h"
+#include "../security/SecurityTypes.h"
 #include <intrin.h>
+
+// External assembly function declarations
+extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
+
+// Dummy implementation for missing external function
+extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args) {
+    (void)syscallNumber; (void)args;
+    return 0xC0000001L; // STATUS_UNSUCCESSFUL
+}
 
 namespace AetherVisor {
 namespace Security {
