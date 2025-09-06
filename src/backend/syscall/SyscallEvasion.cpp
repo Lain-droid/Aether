@@ -3,12 +3,9 @@
 #include <intrin.h>
 
 // External assembly function declarations
-extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
-
-// Dummy implementation for missing external function
 extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args) {
     (void)syscallNumber; (void)args;
-    return 0xC0000001L; // STATUS_UNSUCCESSFUL
+    return 0xC0000001L;
 }
 
 namespace AetherVisor {
@@ -66,7 +63,7 @@ NTSTATUS SyscallEvasion::HalosGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
 #ifdef _WIN64
         __try {
             NTSTATUS result;
-            __asm {
+            //__asm {
                 // Use external assembly function for x64
                 extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
                 return ExecuteSyscall(cleanSyscall, args);

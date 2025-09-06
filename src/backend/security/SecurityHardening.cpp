@@ -447,7 +447,7 @@ namespace AetherVisor {
                                             void* address, size_t size) {
             std::lock_guard<std::mutex> lock(g_security_mutex);
             
-            SecurityEvent event;
+            SecurityEvent event(SecurityEventType::DEBUGGER_DETECTED, "Critical security violation detected");
             event.type = type;
             event.timestamp = std::chrono::steady_clock::now();
             event.description = description;
@@ -576,7 +576,7 @@ namespace AetherVisor {
         }
 
         // Utility functions
-        void RtlSecureZeroMemory(void* ptr, size_t size) {
+        static void RtlSecureZeroMemory(void* ptr, size_t size) {
             if (!ptr || size == 0) return;
             
 #ifdef _WIN32
