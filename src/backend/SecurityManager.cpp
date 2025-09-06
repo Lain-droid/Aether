@@ -17,101 +17,130 @@ SecurityManager& SecurityManager::GetInstance() {
 bool SecurityManager::InitializeAllSecurity() {
     if (m_initialized.load()) return true;
     
-    bool success = true;
-    
-    if (SecurityConfig::IsSyscallEvasionEnabled()) {
-        success &= SyscallEvasion::Initialize();
+    __try {
+        bool success = true;
+        
+        if (SecurityConfig::IsSyscallEvasionEnabled()) {
+            success &= SyscallEvasion::Initialize();
+        }
+        
+        if (SecurityConfig::IsMemoryProtectionEnabled()) {
+            success &= MemoryProtection::Initialize();
+            success &= AntiDebug::Initialize();
+        }
+        
+        if (SecurityConfig::IsStealthModeEnabled()) {
+            success &= ProcessStealth::Initialize();
+            success &= NetworkStealth::Initialize();
+            success &= CodeObfuscation::Initialize();
+        }
+        
+        if (SecurityConfig::IsAntiDetectionEnabled()) {
+            success &= AntiDetect::HyperionEvasion::Initialize();
+            success &= AntiDetect::BehaviorMimicry::Initialize();
+            success &= AntiDetect::SignatureEvasion::Initialize();
+        }
+        
+        if (success) {
+            m_initialized.store(true);
+            StartSecurityMonitoring();
+        }
+        
+        return success;
     }
-    
-    if (SecurityConfig::IsMemoryProtectionEnabled()) {
-        success &= MemoryProtection::Initialize();
-        success &= AntiDebug::Initialize();
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        return false;
     }
-    
-    if (SecurityConfig::IsStealthModeEnabled()) {
-        success &= ProcessStealth::Initialize();
-        success &= NetworkStealth::Initialize();
-        success &= CodeObfuscation::Initialize();
-    }
-    
-    if (SecurityConfig::IsAntiDetectionEnabled()) {
-        success &= AntiDetect::HyperionEvasion::Initialize();
-        success &= AntiDetect::BehaviorMimicry::Initialize();
-        success &= AntiDetect::SignatureEvasion::Initialize();
-    }
-    
-    if (success) {
-        m_initialized.store(true);
-        StartSecurityMonitoring();
-    }
-    
-    return success;
 }
 
 void SecurityManager::StartSecurityMonitoring() {
-    if (m_monitoring.load()) return;
-    
-    m_monitoring.store(true);
-    m_monitorThread = std::thread(&SecurityManager::SecurityMonitoringThread, this);
+    __try {
+        if (m_monitoring.load()) return;
+        
+        m_monitoring.store(true);
+        m_monitorThread = std::thread(&SecurityManager::SecurityMonitoringThread, this);
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+    }
 }
 
 void SecurityManager::StopSecurityMonitoring() {
-    if (!m_monitoring.load()) return;
-    
-    m_monitoring.store(false);
-    if (m_monitorThread.joinable()) {
-        m_monitorThread.join();
+    __try {
+        if (!m_monitoring.load()) return;
+        
+        m_monitoring.store(false);
+        if (m_monitorThread.joinable()) {
+            m_monitorThread.join();
+        }
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
     }
 }
 
 void SecurityManager::SecurityMonitoringThread() {
-    while (m_monitoring.load()) {
-        PerformSecurityChecks();
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    __try {
+        while (m_monitoring.load()) {
+            PerformSecurityChecks();
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        m_compromised.store(true);
     }
 }
 
 void SecurityManager::PerformSecurityChecks() {
-    if (AntiDebug::IsDebuggerPresent() || 
-        AntiDebug::DetectRemoteDebugger() || 
-        AntiDebug::CheckDebuggerTiming()) {
+    __try {
+        if (AntiDebug::IsDebuggerPresent() || 
+            AntiDebug::DetectRemoteDebugger() || 
+            AntiDebug::CheckDebuggerTiming() ||
+            AntiDebug::DetectHardwareBreakpoints()) {
+            m_compromised.store(true);
+            EmergencyShutdown();
+            return;
+        }
+        
+        if (EnvironmentDetection::DetectVirtualMachine() || 
+            EnvironmentDetection::DetectAnalysisTools()) {
+            m_compromised.store(true);
+            EmergencyShutdown();
+            return;
+        }
+        
+        if (MemoryProtection::DetectMemoryScanning()) {
+            ProcessStealth::MaskProcessMemory();
+        }
+        
+        if (NetworkStealth::DetectNetworkMonitoring()) {
+            NetworkStealth::GenerateRealisticTraffic();
+        }
+        
+        if (AntiDetect::HyperionEvasion::DetectHyperion()) {
+            AntiDetect::HyperionEvasion::BypassHyperionChecks();
+            AntiDetect::BehaviorMimicry::MimicLegitimateUser();
+        }
+        
+        AntiDetect::SignatureEvasion::MutateSignatures();
+        AntiDetect::SignatureEvasion::PolymorphicTransformation();
+        AntiDetect::SignatureEvasion::AvoidKnownPatterns();
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
         m_compromised.store(true);
-        EmergencyShutdown();
-        return;
     }
-    
-    if (EnvironmentDetection::DetectVirtualMachine() || 
-        EnvironmentDetection::DetectAnalysisTools()) {
-        m_compromised.store(true);
-        EmergencyShutdown();
-        return;
-    }
-    
-    if (MemoryProtection::DetectMemoryScanning()) {
-        ProcessStealth::MaskProcessMemory();
-    }
-    
-    if (NetworkStealth::DetectNetworkMonitoring()) {
-        NetworkStealth::GenerateRealisticTraffic();
-    }
-    
-    if (AntiDetect::HyperionEvasion::DetectHyperion()) {
-        AntiDetect::HyperionEvasion::BypassHyperionChecks();
-        AntiDetect::BehaviorMimicry::MimicLegitimateUser();
-    }
-    
-    AntiDetect::SignatureEvasion::MutateSignatures();
-    AntiDetect::SignatureEvasion::PolymorphicTransformation();
 }
 
 void SecurityManager::RunPeriodicChecks() {
-    static auto lastCheck = std::chrono::steady_clock::now();
-    auto now = std::chrono::steady_clock::now();
-    
-    if (std::chrono::duration_cast<std::chrono::seconds>(now - lastCheck).count() >= 10) {
-        PerformSecurityChecks();
-        lastCheck = now;
+    __try {
+        static auto lastCheck = std::chrono::steady_clock::now();
+        auto now = std::chrono::steady_clock::now();
+        
+        if (std::chrono::duration_cast<std::chrono::seconds>(now - lastCheck).count() >= 10) {
+            PerformSecurityChecks();
+            lastCheck = now;
+        }
+    }
+    __except(EXCEPTION_EXECUTE_HANDLER) {
     }
 }
 
@@ -124,17 +153,26 @@ bool SecurityManager::IsCompromised() const {
 }
 
 void SecurityManager::EmergencyShutdown() {
-    m_monitoring.store(false);
-    
-    for (void* region : CodeObfuscation::m_mutatedRegions) {
-        VirtualFree(region, 0, MEM_RELEASE);
+    __try {
+        m_monitoring.store(false);
+        
+        for (void* region : CodeObfuscation::m_mutatedRegions) {
+            if (region && !IsBadWritePtr(region, 1)) {
+                VirtualFree(region, 0, MEM_RELEASE);
+            }
+        }
+        
+        for (void* region : MemoryProtection::m_hiddenRegions) {
+            if (region) {
+                MemoryProtection::FreeStealthMemory(region);
+            }
+        }
+        
+        ExitProcess(0);
     }
-    
-    for (void* region : MemoryProtection::m_hiddenRegions) {
-        MemoryProtection::FreeStealthMemory(region);
+    __except(EXCEPTION_EXECUTE_HANDLER) {
+        ExitProcess(1);
     }
-    
-    ExitProcess(0);
 }
 
 bool SecurityConfig::LoadConfig() {
