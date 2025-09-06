@@ -6,6 +6,7 @@ namespace AetherVisor {
 namespace Security {
 
 class MemoryProtection {
+    friend class SecurityManager;
 public:
     static bool Initialize();
     

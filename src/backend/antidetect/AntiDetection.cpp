@@ -1,6 +1,10 @@
 #include "AntiDetection.h"
+#include "../security/SecurityTypes.h"
 #include <random>
 #include <chrono>
+#include <windows.h>
+#include <psapi.h>
+#include <tlhelp32.h>
 
 namespace AetherVisor {
 namespace AntiDetect {

@@ -38,6 +38,7 @@ private:
 };
 
 class CodeObfuscation {
+    friend class SecurityManager;
 public:
     static bool Initialize();
     
