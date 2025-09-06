@@ -21,7 +21,10 @@ namespace AetherVisor::Security {
         MEMORY_CORRUPTION,
         INJECTION_ATTEMPT,
         RESOURCE_LIMIT_EXCEEDED,
-        INTEGRITY_VIOLATION
+        INTEGRITY_VIOLATION,
+        BUFFER_OVERFLOW_ATTEMPT,
+        VM_DETECTED,
+        SUSPICIOUS_ACTIVITY
     };
     
     struct SecurityEvent {
@@ -39,7 +42,19 @@ namespace AetherVisor::Security {
         bool enable_heap_protection = true;
         bool enable_anti_debug = true;
         bool enable_integrity_checks = true;
+        bool enable_aslr = true;
+        bool enable_dep = true;
+        bool enable_control_flow_guard = true;
+        bool enable_safe_seh = true;
+        bool enable_memory_sanitizer = true;
+        bool enable_address_sanitizer = true;
+        bool enable_anti_vm = true;
         uint32_t max_memory_mb = 512;
+        uint32_t max_string_length = 4096;
+        uint32_t max_array_size = 1048576;
+        uint32_t max_recursion_depth = 1000;
+        uint32_t max_memory_allocation = 1073741824;
+        uint32_t max_execution_time = 30000;
     };
     
     struct OptimizationStats {

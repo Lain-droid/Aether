@@ -40,19 +40,8 @@ namespace AetherVisor {
         };
 
         // Forward declarations
-        struct SecurityConfig;
         struct SecurityEvent;
         enum class SecurityEventType;
-            
-            SecurityConfig() : enable_stack_guard(true), enable_heap_protection(true),
-                             enable_aslr(true), enable_dep(true), enable_control_flow_guard(true),
-                             enable_safe_seh(true), enable_memory_sanitizer(true),
-                             enable_address_sanitizer(true), enable_anti_debug(true),
-                             enable_anti_vm(true), enable_integrity_checks(true),
-                             max_string_length(4096), max_array_size(1048576),
-                             max_recursion_depth(1000), max_memory_allocation(1073741824),
-                             max_execution_time(30000) {}
-        };
 
         // Safe memory management wrapper
         template<typename T>
