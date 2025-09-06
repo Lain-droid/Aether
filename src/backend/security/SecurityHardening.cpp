@@ -483,7 +483,7 @@ namespace AetherVisor {
         bool SecurityLogger::HasCriticalEvents() {
             std::lock_guard<std::mutex> lock(g_security_mutex);
             
-            auto recent_time = std::chrono::steady_clock::now() - std::chrono::minutes(5);
+            auto recent_time = std::chrono::system_clock::now() - std::chrono::minutes(5);
             
             return std::any_of(g_security_events.begin(), g_security_events.end(),
                 [recent_time](const SecurityEvent& event) {
@@ -576,19 +576,6 @@ namespace AetherVisor {
         }
 
         // Utility functions
-        static void RtlSecureZeroMemory(void* ptr, size_t size) {
-            if (!ptr || size == 0) return;
-            
-#ifdef _WIN32
-            ::SecureZeroMemory(ptr, size);
-#else
-            // Use volatile to prevent optimization
-            volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
-            for (size_t i = 0; i < size; ++i) {
-                p[i] = 0;
-            }
-#endif
-        }
 
         void* SecureMemcpy(void* dest, const void* src, size_t size) {
             if (!dest || !src || size == 0) return dest;

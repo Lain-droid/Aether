@@ -18,12 +18,12 @@ bool AntiCheatEvasion::m_active = false;
 bool SyscallEvasion::Initialize() {
     if (m_initialized) return true;
     
-    __try {
+    try {
         if (!BuildSyscallTable()) return false;
         m_initialized = true;
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
@@ -37,17 +37,13 @@ NTSTATUS SyscallEvasion::HellsGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
     DWORD syscallNumber = it->second.number;
     
 #ifdef _WIN64
-    __try {
-        // Use external assembly function for x64
-        extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
-        return ExecuteSyscall(syscallNumber, args);
+    try {
+        // Use internal stub function
+        return ExecuteSyscall(syscallNumber, arguments);
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return 0xC0000001L;
     }
-#else
-    return 0xC0000001L;
-#endif
 }
 
 NTSTATUS SyscallEvasion::HalosGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg3, PVOID arg4) {
@@ -61,14 +57,14 @@ NTSTATUS SyscallEvasion::HalosGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
         if (cleanSyscall == 0) return 0xC0000001L;
         
 #ifdef _WIN64
-        __try {
+        try {
             NTSTATUS result;
             //__asm {
                 // Use external assembly function for x64
-                extern "C" NTSTATUS ExecuteSyscall(DWORD syscallNumber, void* args);
-                return ExecuteSyscall(cleanSyscall, args);
+                
+                return ExecuteSyscall(cleanSyscall, arguments);
             }
-            __except(EXCEPTION_EXECUTE_HANDLER) {
+            catch (...) {
                 return 0xC0000001L;
             }
 #endif
@@ -78,7 +74,7 @@ NTSTATUS SyscallEvasion::HalosGate(DWORD hash, PVOID arg1, PVOID arg2, PVOID arg
 }
 
 bool SyscallEvasion::IsHooked(PVOID function) {
-    __try {
+    try {
         if (!function || IsBadReadPtr(function, 8)) return false;
         
         BYTE* func = (BYTE*)function;
@@ -90,7 +86,7 @@ bool SyscallEvasion::IsHooked(PVOID function) {
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return true;
     }
 }
@@ -106,7 +102,7 @@ DWORD SyscallEvasion::HashFunction(const char* str) {
 }
 
 bool SyscallEvasion::BuildSyscallTable() {
-    __try {
+    try {
         HMODULE ntdll = GetModuleHandleA("ntdll.dll");
         if (!ntdll) return false;
         
@@ -149,13 +145,13 @@ bool SyscallEvasion::BuildSyscallTable() {
         
         return !m_syscallTable.empty();
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 DWORD SyscallEvasion::FindNearbyCleanSyscall(PVOID hookedFunc) {
-    __try {
+    try {
         BYTE* base = (BYTE*)hookedFunc;
         
         for (int offset = -0x20; offset <= 0x20; offset += 0x10) {
@@ -171,7 +167,7 @@ DWORD SyscallEvasion::FindNearbyCleanSyscall(PVOID hookedFunc) {
         
         return 0;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return 0;
     }
 }
@@ -179,19 +175,19 @@ DWORD SyscallEvasion::FindNearbyCleanSyscall(PVOID hookedFunc) {
 bool AntiCheatEvasion::Initialize() {
     if (m_active) return true;
     
-    __try {
+    try {
         DisableETW();
         BypassAMSI();
         m_active = true;
         return true;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 void AntiCheatEvasion::DisableETW() {
-    __try {
+    try {
         HMODULE ntdll = GetModuleHandleA("ntdll.dll");
         if (!ntdll) return;
         
@@ -204,12 +200,12 @@ void AntiCheatEvasion::DisableETW() {
             }
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 void AntiCheatEvasion::BypassAMSI() {
-    __try {
+    try {
         HMODULE amsi = LoadLibraryA("amsi.dll");
         if (!amsi) return;
         
@@ -223,12 +219,12 @@ void AntiCheatEvasion::BypassAMSI() {
             }
         }
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
 bool AntiCheatEvasion::DetectHyperion() {
-    __try {
+    try {
         HMODULE roblox = GetModuleHandleA("RobloxPlayerBeta.exe");
         if (!roblox) return false;
         
@@ -254,17 +250,17 @@ bool AntiCheatEvasion::DetectHyperion() {
         
         return false;
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
         return false;
     }
 }
 
 void AntiCheatEvasion::RandomizeTimings() {
-    __try {
+    try {
         DWORD randomDelay = (GetTickCount() % 50) + 10;
         Sleep(randomDelay);
     }
-    __except(EXCEPTION_EXECUTE_HANDLER) {
+    catch (...) {
     }
 }
 
