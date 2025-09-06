@@ -4,7 +4,6 @@
 #include <wininet.h>
 #include <string>
 #include <vector>
-#include <json/json.h>
 
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(lib, "wininet.lib")
@@ -94,7 +93,6 @@ class ScriptHub {
 private:
     HWND m_hListView;
     HWND m_hSearchBox;
-    std::vector<Json::Value> m_scripts;
     
     std::string HttpGet(const std::string& url) {
         HINTERNET hInternet = InternetOpenA("Aether/1.0", INTERNET_OPEN_TYPE_DIRECT, nullptr, nullptr, 0);
@@ -170,11 +168,8 @@ public:
         }
         
         try {
-            Json::Value root;
-            Json::Reader reader;
             
             if (reader.parse(response, root)) {
-                Json::Value scripts = root["result"]["scripts"];
                 
                 for (const auto& script : scripts) {
                     AddScriptToList(script);
@@ -212,7 +207,6 @@ public:
         }
     }
     
-    void AddScriptToList(const Json::Value& script) {
         int index = ListView_GetItemCount(m_hListView);
         
         LVITEMW item = {};
