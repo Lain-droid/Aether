@@ -6,6 +6,8 @@ on:
     branches: [ main, master ]
     paths:
       - 'src/backend/**'
+      - 'src/gui/**'
+      - 'src/setup/**'
       - 'CMakeLists.txt'
       - '.github/workflows/backend-build.yml'
 
