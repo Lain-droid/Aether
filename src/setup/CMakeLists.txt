@@ -4,6 +4,9 @@ project(aether_setup)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Static runtime linking to reduce dependencies
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 # Setup source files
 set(SETUP_SOURCES
     SetupWizard.cpp
@@ -11,6 +14,11 @@ set(SETUP_SOURCES
 
 # Create Setup EXE
 add_executable(aether_setup WIN32 ${SETUP_SOURCES})
+
+# Static linking flags
+if(MSVC)
+    target_compile_options(aether_setup PRIVATE /MT)
+endif()
 
 # Include directories
 target_include_directories(aether_setup PRIVATE 

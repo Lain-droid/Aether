@@ -4,10 +4,13 @@ project(aether_backend LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Static runtime linking to reduce dependencies
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 if (MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
   add_definitions(-DNOMINMAX -DWIN32_LEAN_AND_MEAN)
-  add_compile_options(/MP /EHsc /bigobj)
+  add_compile_options(/MP /EHsc /bigobj /MT)
 endif()
 
 # Avoid forcing generator platform; respect host toolchain
