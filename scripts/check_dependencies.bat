@@ -1,46 +1,58 @@
 @echo off
-echo Checking Aether Dependencies...
+title Aether Dependency Checker
+color 07
+
+echo Aether System Compatibility Check
+echo ================================
 echo.
 
-REM Check for Visual C++ Redistributable
-echo [1/4] Checking Visual C++ Redistributable...
+REM Check Visual C++ Redistributable
+echo Checking Visual C++ Runtime...
 reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64" >nul 2>&1
 if %errorlevel% equ 0 (
-    echo ✓ Visual C++ Redistributable found
+    echo [OK] Visual C++ Runtime detected
 ) else (
-    echo ✗ Visual C++ Redistributable missing
-    echo   Downloading vc_redist.x64.exe...
-    powershell -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile 'vc_redist.x64.exe'"
-    echo   Installing...
-    vc_redist.x64.exe /quiet /norestart
-    del vc_redist.x64.exe
-)
-
-REM Check for Universal CRT
-echo [2/4] Checking Universal CRT...
-if exist "%SystemRoot%\System32\ucrtbase.dll" (
-    echo ✓ Universal CRT found
-) else (
-    echo ✗ Universal CRT missing - Windows Update required
-)
-
-REM Check for RichEdit
-echo [3/4] Checking RichEdit library...
-if exist "%SystemRoot%\System32\riched20.dll" (
-    echo ✓ RichEdit library found
-) else (
-    echo ✗ RichEdit library missing
-)
-
-REM Check for Common Controls
-echo [4/4] Checking Common Controls...
-if exist "%SystemRoot%\System32\comctl32.dll" (
-    echo ✓ Common Controls found
-) else (
-    echo ✗ Common Controls missing
+    echo [MISSING] Visual C++ Redistributable required
+    echo.
+    echo Installing Microsoft Visual C++ Redistributable...
+    
+    REM Silent download with error handling
+    powershell -WindowStyle Hidden -Command "try { Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile 'vc_redist.x64.exe' -UseBasicParsing } catch { exit 1 }" >nul 2>&1
+    
+    if exist "vc_redist.x64.exe" (
+        echo Installing runtime components...
+        vc_redist.x64.exe /quiet /norestart
+        if %errorlevel% equ 0 (
+            echo [OK] Runtime installed successfully
+        ) else (
+            echo [ERROR] Installation failed - manual installation required
+        )
+        del "vc_redist.x64.exe" >nul 2>&1
+    ) else (
+        echo [ERROR] Download failed - check internet connection
+        echo Manual download: https://aka.ms/vs/17/release/vc_redist.x64.exe
+    )
 )
 
 echo.
-echo Dependency check complete!
-echo Ready to run Aether.
-pause
+echo Checking system libraries...
+
+REM Check Universal CRT
+if exist "%SystemRoot%\System32\ucrtbase.dll" (
+    echo [OK] Universal CRT available
+) else (
+    echo [WARNING] Universal CRT missing - Windows Update recommended
+)
+
+REM Check Common Controls
+if exist "%SystemRoot%\System32\comctl32.dll" (
+    echo [OK] Common Controls available
+) else (
+    echo [ERROR] Common Controls missing - system corruption detected
+)
+
+echo.
+echo System check complete.
+echo Aether is ready to run.
+echo.
+pause >nul
