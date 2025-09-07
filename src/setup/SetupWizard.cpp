@@ -174,7 +174,7 @@ LRESULT CALLBACK SetupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
             SendMessage(g_hInstallBtn, WM_SETFONT, (WPARAM)g_hLargeFont, TRUE);
             
             // Progress bar
-            g_hProgressBar = CreateWindowExW(0, PROGRESS_CLASS, nullptr,
+            g_hProgressBar = CreateWindowExW(0, PROGRESS_CLASSW, nullptr,
                 WS_CHILD | WS_VISIBLE | PBS_SMOOTH,
                 80, 280, 360, 20,
                 hwnd, nullptr, GetModuleHandle(nullptr), nullptr);
