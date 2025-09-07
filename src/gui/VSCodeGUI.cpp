@@ -3,15 +3,11 @@
 #endif
 #include <windows.h>
 #include <commctrl.h>
-#include <richedit.h>
-#include <wininet.h>
 #include <string>
-#include <vector>
 
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "gdi32.lib")
-#pragma comment(lib, "wininet.lib")
 
 namespace AetherGUI {
 
@@ -21,6 +17,8 @@ const COLORREF COLOR_WHITE = RGB(255, 255, 255);
 const COLORREF COLOR_BLUE = RGB(86, 156, 214);
 
 HWND g_hMainWindow = nullptr;
+HWND g_hInjectBtn = nullptr;
+HWND g_hStatusText = nullptr;
 
 void DrawTetrisLogo(HDC hdc, int x, int y) {
     HBRUSH hBrush = CreateSolidBrush(COLOR_BLUE);
@@ -35,12 +33,50 @@ void DrawTetrisLogo(HDC hdc, int x, int y) {
     DeleteObject(hBrush);
 }
 
+// Injection function (calls backend)
+bool PerformInjection() {
+    // Load backend DLL
+    HMODULE hBackend = LoadLibraryA("aether_backend.dll");
+    if (!hBackend) return false;
+    
+    // Get injection function
+    typedef bool (*InjectFunc)();
+    InjectFunc inject = (InjectFunc)GetProcAddress(hBackend, "InjectIntoRoblox");
+    if (!inject) {
+        FreeLibrary(hBackend);
+        return false;
+    }
+    
+    bool result = inject();
+    FreeLibrary(hBackend);
+    return result;
+}
+
 LRESULT CALLBACK VSCodeWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
         case WM_CREATE: {
-            // Simple GUI elements
-            CreateWindowExW(0, L"BUTTON", L"Execute", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-                10, 50, 100, 30, hwnd, (HMENU)1001, GetModuleHandle(nullptr), nullptr);
+            g_hInjectBtn = CreateWindowExW(0, L"BUTTON", L"Inject",
+                WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+                50, 100, 100, 40, hwnd, (HMENU)1001, GetModuleHandle(nullptr), nullptr);
+                
+            g_hStatusText = CreateWindowExW(0, L"STATIC", L"Ready",
+                WS_CHILD | WS_VISIBLE | SS_LEFT,
+                50, 160, 300, 25, hwnd, nullptr, GetModuleHandle(nullptr), nullptr);
+            break;
+        }
+        
+        case WM_COMMAND: {
+            if (LOWORD(wParam) == 1001) {
+                SetWindowTextW(g_hStatusText, L"Injecting...");
+                EnableWindow(g_hInjectBtn, FALSE);
+                
+                if (PerformInjection()) {
+                    SetWindowTextW(g_hStatusText, L"Injection successful");
+                } else {
+                    SetWindowTextW(g_hStatusText, L"Injection failed");
+                    EnableWindow(g_hInjectBtn, TRUE);
+                }
+            }
             break;
         }
         
@@ -52,11 +88,11 @@ LRESULT CALLBACK VSCodeWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
             FillRect(hdc, &ps.rcPaint, hBrush);
             DeleteObject(hBrush);
             
-            DrawTetrisLogo(hdc, 10, 5);
+            DrawTetrisLogo(hdc, 20, 20);
             
             SetTextColor(hdc, COLOR_WHITE);
             SetBkMode(hdc, TRANSPARENT);
-            TextOutW(hdc, 30, 8, L"Aether ScriptBlox", 17);
+            TextOutW(hdc, 50, 25, L"Aether", 6);
             
             EndPaint(hwnd, &ps);
             break;
@@ -85,7 +121,7 @@ extern "C" {
         RegisterClassExW(&wc);
         
         g_hMainWindow = CreateWindowExW(0, L"AetherVSCode", L"Aether",
-            WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 600,
+            WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 500, 300,
             nullptr, nullptr, hInstance, nullptr);
             
         if (g_hMainWindow) {
@@ -106,4 +142,3 @@ extern "C" {
 }
 
 }
-// Force workflow trigger
