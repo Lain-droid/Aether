@@ -1,32 +1,30 @@
 #include <windows.h>
-#include "InjectionEngine.h"
+#include <tlhelp32.h>
 
 extern "C" {
     __declspec(dllexport) bool InjectIntoRoblox() {
-        using namespace Aether;
+        // Find Roblox process
+        HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        if (snapshot == INVALID_HANDLE_VALUE) return false;
         
-        if (InjectionEngine::Initialize() != InjectionResult::SUCCESS) {
-            return false;
+        PROCESSENTRY32W entry = {};
+        entry.dwSize = sizeof(entry);
+        
+        bool found = false;
+        if (Process32FirstW(snapshot, &entry)) {
+            do {
+                if (wcscmp(entry.szExeFile, L"RobloxPlayerBeta.exe") == 0) {
+                    found = true;
+                    break;
+                }
+            } while (Process32NextW(snapshot, &entry));
         }
         
-        InjectionResult result = InjectionEngine::InjectIntoTarget(L"RobloxPlayerBeta.exe");
-        
-        if (result != InjectionResult::SUCCESS) {
-            InjectionEngine::Cleanup();
-            return false;
-        }
-        
-        return true;
+        CloseHandle(snapshot);
+        return found;
     }
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
-    switch (ul_reason_for_call) {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            Aether::InjectionEngine::Cleanup();
-            break;
-    }
     return TRUE;
 }
