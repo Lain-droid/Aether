@@ -1,6 +1,5 @@
 #include "InjectionEngine.h"
 #include <windows.h>
-#include <winternl.h>
 #include <tlhelp32.h>
 #include <vector>
 #include <atomic>
@@ -80,7 +79,6 @@ public:
     }
 };
 
-// Public API
 InjectionResult InjectionEngine::Initialize() {
     return StealthInjector::Initialize();
 }
